@@ -1,18 +1,22 @@
 {
-  "name": "natural-search",
+  "name": "@ecodev/natural-search",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "dev": "ng serve --port 5323",
+    "sandbox": "ng serve --port 5323 --open",
     "prod": "ng-packagr -p ng-package.json",
-    "prod:watch": "ng-packagr -p ng-package.json; gulp watch",
+    "dev": "ng-packagr -p ng-package.json; gulp watch",
+    "publish": "npm publish dist --access public",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
   "private": false,
   "peerDependencies": {
+    "@angular/common": "^5.2.0"
+  },
+  "devDependencies": {
     "@angular/animations": "^5.2.0",
     "@angular/common": "^5.2.0",
     "@angular/compiler": "^5.2.0",
@@ -24,9 +28,7 @@
     "@angular/router": "^5.2.0",
     "core-js": "^2.4.1",
     "rxjs": "^5.5.6",
-    "zone.js": "^0.8.19"
-  },
-  "devDependencies": {
+    "zone.js": "^0.8.19",
     "@angular/cli": "1.6.5",
     "@angular/compiler-cli": "^5.2.0",
     "@angular/language-service": "^5.2.0",

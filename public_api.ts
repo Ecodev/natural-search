@@ -1,1 +1,1 @@
-export * from './src/app/modules/natural-search/natural-search.module';
+export * from './src/natural-search-module/natural-search.module';

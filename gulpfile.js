@@ -9,8 +9,8 @@ gulp.task('build', shell.task(['npm run prod']));
 gulp.task('watch', function () {
 
     var watch = [
-        'src/app/modules/**/*',
-        '!**/*.spec.ts'
+        'src/**/*',
+        '!src/**/*.spec.ts'
     ];
 
     gulp.watch(watch, ['build']);
