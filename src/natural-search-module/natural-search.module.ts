@@ -1,15 +1,17 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {NaturalSearchComponent} from './natural-search/natural-search.component';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { NaturalSearchComponent } from './natural-search/natural-search.component';
 
 @NgModule({
     imports: [
-        CommonModule
+        CommonModule,
     ],
-    declarations: [NaturalSearchComponent],
+    declarations: [
+        NaturalSearchComponent,
+    ],
     exports: [
-        NaturalSearchComponent
-    ]
+        NaturalSearchComponent,
+    ],
 })
 export class NaturalSearchModule {
 }

@@ -3275,6 +3275,13 @@ graceful-fs@~1.2.0:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-1.2.3.tgz#15a4806a57547cb2d2dbf27f42e89a8c3451b364"
 
+gulp-flatten@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/gulp-flatten/-/gulp-flatten-0.4.0.tgz#d9ac819416c30fd5dfb3dea9da79c83a1bcd61d1"
+  dependencies:
+    plugin-error "^0.1.2"
+    through2 "^2.0.0"
+
 gulp-shell@^0.6.5:
   version "0.6.5"
   resolved "https://registry.yarnpkg.com/gulp-shell/-/gulp-shell-0.6.5.tgz#f07b204ad8ad1c2659f7a1b6d76efa16d416a759"
