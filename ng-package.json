@@ -1,7 +1,8 @@
 {
     "$schema": "./node_modules/ng-packagr/ng-package.schema.json",
+    "deleteDestPath": false,
     "lib": {
-        "entryFile": "public_api.ts"
-
-    }
+        "entryFile": "lib/public_api.ts"
+    },
+    "dest": "node_modules/@ecodev/natural-search"
 }

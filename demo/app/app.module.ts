@@ -2,15 +2,15 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { NaturalSearchComponent } from '../../src/natural-search-module/natural-search/natural-search.component';
+import { NaturalSearchModule } from '@ecodev/natural-search';
 
 @NgModule({
     declarations: [
         AppComponent,
-        NaturalSearchComponent,
     ],
     imports: [
         BrowserModule,
+        NaturalSearchModule,
     ],
     providers: [],
     bootstrap: [AppComponent],

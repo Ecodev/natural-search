@@ -1,0 +1,8 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "paths": {
+            "@ecodev/natural-search": ["node_modules/@ecodev/natural-search"]
+        }
+    }
+}
