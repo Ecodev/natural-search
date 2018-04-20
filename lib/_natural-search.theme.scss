@@ -1,0 +1,5 @@
+@import 'natural-input/natural-input.theme';
+
+@mixin natural-search($theme) {
+    @include natural-input($theme);
+}

@@ -2,13 +2,11 @@
 
 var gulp = require('gulp');
 var shell = require('gulp-shell');
-var flatten = require('gulp-flatten');
 
 gulp.task('build', shell.task(['npm run prod']));
 
 gulp.task('copy:themes', function () {
-    return gulp.src(['lib/**/*.theme.scss'])
-               .pipe(flatten())
+    return gulp.src(['lib/**/_*.theme.scss'])
                .pipe(gulp.dest('node_modules/@ecodev/natural-search/theming'));
 });
 

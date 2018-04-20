@@ -1,2 +1,18 @@
-<h1>Natural Search</h1>
-<natural-search></natural-search>
+<div fxFlex fxFlexFill fxLayout="column">
+
+    <mat-sidenav-container #navContainer fxFlex fxLayout="column">
+        <mat-sidenav id="menu" align="start" mode="side" [opened]="true" class="menuMinimized">
+            <mat-nav-list>
+                <a mat-list-item (click)="themeService.toggle()">
+                    <mat-icon mat-list-icon>invert_colors</mat-icon>
+                </a>
+            </mat-nav-list>
+        </mat-sidenav>
+
+        <div style="padding:20px;">
+            <natural-search></natural-search>
+        </div>
+
+    </mat-sidenav-container>
+
+</div>
