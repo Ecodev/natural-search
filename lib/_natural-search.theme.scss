@@ -1,5 +1,7 @@
 @import 'natural-input/natural-input.theme';
+@import 'natural-search/natural-search.theme';
 
-@mixin natural-search($theme) {
+@mixin natural-search-theme($theme) {
     @include natural-input($theme);
+    @include natural-search($theme);
 }

@@ -1,13 +1,12 @@
 @import '~@angular/material/theming';
-@import '~@ecodev/natural-search/theming/natural-search.theme';
-@import '~material-design-icons/iconfont/material-icons.css';
-
+@import '../lib/natural-search.theme';
+@import url(https://fonts.googleapis.com/icon?family=Material+Icons);
 
 @include mat-core();
 
 // Include components themes
 @mixin components-theme($theme) {
-    @include natural-search($theme);
+    @include natural-search-theme($theme);
 }
 
 $theme-primary: mat-palette($mat-cyan);
@@ -18,7 +17,6 @@ $dark-theme: mat-dark-theme($theme-primary, $theme-accent, $theme-warn);
 
 $baseColorLight: mat-color(map-get($light-theme, foreground), base);
 $baseColorDark: mat-color(map-get($dark-theme, foreground), base);
-
 
 @include angular-material-theme($light-theme);
 
@@ -38,10 +36,6 @@ $baseColorDark: mat-color(map-get($dark-theme, foreground), base);
         background: mat-color(map-get($dark-theme, primary));
     }
 }
-
-
-
-
 
 body {
     margin: 0;
