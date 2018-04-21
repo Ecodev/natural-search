@@ -30,12 +30,12 @@ module.exports = function(config) {
         logLevel: config.LOG_INFO,
         autoWatch: true,
         browsers: ['Chrome'],
-        // customLaunchers: {
-        //     ChromeHeadlessCustom: {
-        //         base: 'ChromeHeadless',
-        //         flags: ['--no-sandbox'],
-        //     },
-        // },
+        customLaunchers: {
+            ChromeHeadlessCustom: {
+                base: 'ChromeHeadless',
+                flags: ['--no-sandbox'],
+            },
+        },
         singleRun: false,
         browserNoActivityTimeout: 600000, // Wait 10 minutes before assuming browser crashed
         browserDisconnectTolerance: 10,
