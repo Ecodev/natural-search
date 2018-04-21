@@ -25,7 +25,7 @@ module.exports = function(config) {
             environment: 'dev'
         },
         reporters: ['progress', 'kjhtml'],
-        port: 7890,
+        port: 9876,
         colors: true,
         logLevel: config.LOG_INFO,
         autoWatch: true,
@@ -36,6 +36,9 @@ module.exports = function(config) {
         //         flags: ['--no-sandbox'],
         //     },
         // },
-        singleRun: false
+        singleRun: false,
+        browserNoActivityTimeout: 600000, // Wait 10 minutes before assuming browser crashed
+        browserDisconnectTolerance: 10,
+        browserDisconnectTimeout : 500000
     });
 };
