@@ -44,3 +44,4 @@ Thumbs.db
 
 .ng_pkg_build
 dist.tgz
+lib/material-background-foreground.scss
