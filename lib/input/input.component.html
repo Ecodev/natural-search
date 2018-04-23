@@ -1,0 +1,13 @@
+<div fxLayout="row" fxLayoutAlign="start stretch" #field matRipple>
+    <div style="position:relative;top:10px;"></div>
+    <mat-form-field>
+        <!--<mat-icon matPrefix>search</mat-icon>-->
+        <input #input matInput type="text" [formControl]="formCtrl" [placeholder]="placeholder" [readonly]="readonly"  (blur)="launchRipple()">
+        <button mat-icon-button matSuffix >
+            <mat-icon>close</mat-icon>
+        </button>
+    </mat-form-field>
+
+</div>
+
+<natural-dropdown #dropdown>asdfasdasdf</natural-dropdown>

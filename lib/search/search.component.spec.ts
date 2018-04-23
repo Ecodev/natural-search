@@ -1,20 +1,20 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {NaturalSearchComponent} from './natural-search.component';
+import {SearchComponent} from './natural-search.component';
 
 describe('NaturalSearchComponent', () => {
-    let component: NaturalSearchComponent;
-    let fixture: ComponentFixture<NaturalSearchComponent>;
+    let component: SearchComponent;
+    let fixture: ComponentFixture<SearchComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [NaturalSearchComponent]
+            declarations: [SearchComponent]
         })
             .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(NaturalSearchComponent);
+        fixture = TestBed.createComponent(SearchComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

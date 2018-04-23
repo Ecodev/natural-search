@@ -23,7 +23,7 @@ import { ThemeService } from './shared/services/theme.service';
         MatListModule,
         MatIconModule,
         BrowserAnimationsModule,
-        FlexLayoutModule
+        FlexLayoutModule,
     ],
     providers: [ThemeService],
     bootstrap: [AppComponent],

@@ -3,7 +3,6 @@
     $accent: map-get($theme, accent);
     $background: map-get($theme, background);
     $foreground: map-get($theme, foreground);
-    @debug ($foreground);
 
     natural-input {
         background: mat-color($foreground, 'base', 0.06);

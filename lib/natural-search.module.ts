@@ -1,15 +1,26 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NaturalSearchComponent } from './natural-search/natural-search.component';
-import { NaturalInputComponent } from './natural-input/natural-input.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule } from '@angular/material';
+import {
+    MatButtonModule,
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatMenuModule,
+    MatRippleModule,
+} from '@angular/material';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { NaturalDropdownComponent } from './dropdown/dropdown.component';
+import { NaturalSearchComponent } from './search/search.component';
+import { NaturalInputComponent } from './input/input.component';
 export * from './natural-search/natural-search.component';
 
 @NgModule({
     declarations: [
         NaturalSearchComponent,
         NaturalInputComponent,
+        NaturalDropdownComponent
     ],
     imports: [
         CommonModule,
@@ -17,8 +28,12 @@ export * from './natural-search/natural-search.component';
         MatFormFieldModule,
         ReactiveFormsModule,
         MatInputModule,
+        MatCheckboxModule,
         MatIconModule,
-        MatButtonModule
+        MatButtonModule,
+        MatMenuModule,
+        FlexLayoutModule,
+        MatRippleModule
     ],
     exports: [
         NaturalSearchComponent,
