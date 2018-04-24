@@ -27,7 +27,6 @@ export function throwMatDialogContentAlreadyAttachedError() {
 }
 
 @Component({
-    moduleId: module.id,
     selector: 'natural-dropdown-container',
     templateUrl: './dropdown-container.component.html',
     styleUrls: ['./dropdown-container.component.scss'],

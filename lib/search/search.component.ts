@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { NaturalSearchConfiguration } from '../interfaces/Configuration';
 
 @Component({
@@ -6,7 +6,7 @@ import { NaturalSearchConfiguration } from '../interfaces/Configuration';
     templateUrl: './search.component.html',
     styleUrls: ['./search.component.scss'],
 })
-export class NaturalSearchComponent implements OnInit {
+export class NaturalSearchComponent implements OnInit, OnChanges {
 
     @Input() configuration: NaturalSearchConfiguration;
 
@@ -14,6 +14,13 @@ export class NaturalSearchComponent implements OnInit {
     }
 
     ngOnInit() {
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        console.log('changes', changes);
+
+
+
     }
 
 }

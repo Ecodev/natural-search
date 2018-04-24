@@ -4,9 +4,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
     MatButtonModule,
     MatCheckboxModule,
+    MatDialogModule,
     MatFormFieldModule,
     MatIconModule,
-    MatInputModule,
+    MatInputModule, MatListModule,
     MatMenuModule,
     MatRippleModule,
 } from '@angular/material';
@@ -17,6 +18,7 @@ import { PortalModule } from '@angular/cdk/portal';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { NaturalDropdownContainerComponent } from './dropdown-container/dropdown-container.component';
 import { TypeNumericComponent } from './dropdown-components/type-numeric/type-numeric.component';
+import { ConfigurationSelectorComponent } from './dropdown-components/configuration-selector/configuration-selector.component';
 
 export { TypeNumericComponent };
 
@@ -26,14 +28,17 @@ export { TypeNumericComponent };
         NaturalInputComponent,
         NaturalDropdownContainerComponent,
         TypeNumericComponent,
+        ConfigurationSelectorComponent,
     ],
     entryComponents: [
         NaturalDropdownContainerComponent,
-        TypeNumericComponent
+        TypeNumericComponent,
+        ConfigurationSelectorComponent
     ],
     exports: [
         NaturalSearchComponent,
         TypeNumericComponent,
+        NaturalDropdownContainerComponent
     ],
     imports: [
         CommonModule,
@@ -49,6 +54,8 @@ export { TypeNumericComponent };
         MatRippleModule,
         PortalModule,
         OverlayModule,
+        MatDialogModule,
+        MatListModule,
     ],
 })
 export class NaturalSearchModule {

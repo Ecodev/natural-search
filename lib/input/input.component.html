@@ -1,10 +1,18 @@
 <div fxLayout="row" fxLayoutAlign="start stretch" #field matRipple>
-    <mat-form-field>
+    <mat-form-field fxFlex>
         <!--<mat-icon matPrefix>search</mat-icon>-->
-        <input #input matInput type="text" [formControl]="formCtrl" [placeholder]="placeholder" [readonly]="readonly"  (blur)="launchRipple()">
-        <button mat-icon-button matSuffix >
+        <input #input
+               matInput
+               type="text"
+               [formControl]="formCtrl"
+               [placeholder]="configuration ? configuration.display : placeholder"
+               [readonly]="readonly"
+               (blur)="launchRipple()"
+        >
+        <button mat-icon-button matSuffix (click)="clear()">
             <mat-icon>close</mat-icon>
         </button>
     </mat-form-field>
-
 </div>
+
+

@@ -17,9 +17,6 @@ export class TypeNumericComponent implements NaturalSearchDropdownComponent, OnI
     public readonly valueChanges = new BehaviorSubject<any>(null);
     public readonly renderedValueChanges = new BehaviorSubject<any>(null);
 
-    constructor() {
-    }
-
     ngOnInit() {
     }
 

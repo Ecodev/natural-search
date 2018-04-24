@@ -3,7 +3,6 @@ import {
     Component,
     ComponentRef,
     ElementRef,
-    InjectionToken,
     Injector,
     Input,
     OnDestroy,
@@ -18,8 +17,9 @@ import { merge } from 'rxjs/observable/merge';
 import { Subscription } from 'rxjs/Subscription';
 import { FormControl } from '@angular/forms';
 import { NaturalDropdownContainerComponent } from '../dropdown-container/dropdown-container.component';
-
-export const MAT_INPUT_CONFIGURATION = new InjectionToken<any>('NaturalSearchConfiguration');
+import { NaturalSearchConfiguration, NaturalSearchItemConfiguration } from '../interfaces/Configuration';
+import { ConfigurationSelectorComponent } from '../dropdown-components/configuration-selector/configuration-selector.component';
+import { NATURAL_SEARCH_CONFIGURATION, NATURAL_SEARCH_CONFIGURATIONS } from '../dropdown-container/dropdown-ref';
 
 @Component({
     selector: 'natural-input',
@@ -30,7 +30,9 @@ export class NaturalInputComponent implements OnInit, OnDestroy, AfterContentIni
 
     @Input() placeholder = 'Rechercher';
     @Input() readonly = false;
-    @Input() configuration: any;
+    @Input() configurations: NaturalSearchConfiguration;
+
+    public configuration: NaturalSearchItemConfiguration;
 
     @ViewChild(MatRipple) ripple: MatRipple;
     @ViewChild('input') input: ElementRef;
@@ -49,8 +51,19 @@ export class NaturalInputComponent implements OnInit, OnDestroy, AfterContentIni
 
     ngOnInit() {
         this.input.nativeElement.addEventListener('focus', () => {
-            this.open();
+            if (this.configuration) {
+                this.openTypeDropdown();
+            } else {
+                this.openConfigurationsDropdown();
+            }
         });
+
+        // this.formCtrl.valueChanges.subscribe((val) => {
+        //     console.log('new val', val);
+        //     if (val) {
+        //         this.closeMenu();
+        //     }
+        // });
     }
 
     ngOnDestroy() {
@@ -59,10 +72,14 @@ export class NaturalInputComponent implements OnInit, OnDestroy, AfterContentIni
     ngAfterContentInit() {
     }
 
-    private destroyMenu() {
+    public clear() {
+        this.configuration = null;
+    }
+
+    private destroyMenu(dropdown) {
         this.closeSubscription.unsubscribe();
         this.overlayRef.detach();
-        this.dropdown.resetAnimation();
+        dropdown.resetAnimation();
     }
 
     public launchRipple() {
@@ -75,37 +92,58 @@ export class NaturalInputComponent implements OnInit, OnDestroy, AfterContentIni
         rippleRef.fadeOut();
     }
 
+    public openConfigurationsDropdown(): void {
+
+        const dropdown = this.openDropdown(ConfigurationSelectorComponent);
+        dropdown.closed.subscribe(config => {
+            console.log('config', config);
+            this.destroyMenu(dropdown);
+            if (config) {
+                this.configuration = config;
+                this.openTypeDropdown();
+            }
+        });
+
+    }
+
     /** Opens the dropdown. */
-    public open(): void {
+    public openTypeDropdown(): void {
+
+        const dropdown = this.openDropdown(this.configuration.component);
+        dropdown.closed.subscribe(result => {
+            this.destroyMenu(dropdown);
+            console.log('result', result);
+        });
+
+    }
+
+    public openDropdown(component) {
 
         this.overlayRef = this.overlay.create(this.getOverlayConfig());
         const containerPortal = new ComponentPortal(NaturalDropdownContainerComponent);
         const containerRef: ComponentRef<NaturalDropdownContainerComponent> = this.overlayRef.attach(containerPortal);
 
-        const injector = this.createInjector();
-        const componentPortal = new ComponentPortal(this.configuration.component, undefined, injector);
+        const injector = this.createInjector(containerRef.instance);
+        const componentPortal = new ComponentPortal(component, undefined, injector);
         containerRef.instance.attachComponentPortal<any>(componentPortal);
 
-        this.dropdown = containerRef.instance;
-        this.dropdown.startAnimation();
-        this.dropdown.closed.subscribe(() => this.destroyMenu());
+        const dropdown = containerRef.instance;
+        dropdown.startAnimation();
 
         const backdrop = this.overlayRef.backdropClick();
         const detachments = this.overlayRef.detachments();
+        this.closeSubscription = merge(backdrop, detachments).subscribe(() => dropdown.closed.emit());
 
-        this.closeSubscription = merge(backdrop, detachments).subscribe(() => this.closeMenu());
+        return dropdown;
     }
 
-    private createInjector() {
+    private createInjector(containerRef: NaturalDropdownContainerComponent) {
         const injectionTokens = new WeakMap();
-        injectionTokens.set(FormControl, this.formCtrl);
-        injectionTokens.set(MAT_INPUT_CONFIGURATION, this.configuration);
+        injectionTokens.set(FormControl, this.formCtrl)
+                       .set(NaturalDropdownContainerComponent, containerRef)
+                       .set(NATURAL_SEARCH_CONFIGURATION, this.configuration)
+                       .set(NATURAL_SEARCH_CONFIGURATIONS, this.configurations);
         return new PortalInjector(this.injector, injectionTokens);
-    }
-
-    /** Closes the menu. */
-    closeMenu(): void {
-        this.dropdown.closed.emit();
     }
 
     /**
