@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NaturalSearchDropdownComponent } from '../../interfaces/DropdownComponent';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { TypeNumericConfiguration } from '../../interfaces/TypeNumericConfiguration';
@@ -25,7 +25,12 @@ export class TypeNumericComponent implements NaturalSearchDropdownComponent, OnI
     }
 
     setValue(value: any): void {
+        console.warn('setValue', value);
         this.value = value;
+    }
+
+    getValue() {
+        return this.value;
     }
 
 }

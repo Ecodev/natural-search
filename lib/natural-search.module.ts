@@ -7,7 +7,8 @@ import {
     MatDialogModule,
     MatFormFieldModule,
     MatIconModule,
-    MatInputModule, MatListModule,
+    MatInputModule,
+    MatListModule,
     MatMenuModule,
     MatRippleModule,
 } from '@angular/material';
@@ -19,6 +20,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { NaturalDropdownContainerComponent } from './dropdown-container/dropdown-container.component';
 import { TypeNumericComponent } from './dropdown-components/type-numeric/type-numeric.component';
 import { ConfigurationSelectorComponent } from './dropdown-components/configuration-selector/configuration-selector.component';
+import { NaturalDropdownService } from './dropdown-container/dropdown.service';
 
 export { TypeNumericComponent };
 
@@ -33,12 +35,15 @@ export { TypeNumericComponent };
     entryComponents: [
         NaturalDropdownContainerComponent,
         TypeNumericComponent,
-        ConfigurationSelectorComponent
+        ConfigurationSelectorComponent,
     ],
     exports: [
         NaturalSearchComponent,
         TypeNumericComponent,
-        NaturalDropdownContainerComponent
+        NaturalDropdownContainerComponent,
+    ],
+    providers: [
+        NaturalDropdownService,
     ],
     imports: [
         CommonModule,

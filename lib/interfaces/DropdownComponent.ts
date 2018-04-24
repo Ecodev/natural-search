@@ -1,7 +1,6 @@
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { ComponentType } from '@angular/cdk/portal';
 
-export interface NaturalSearchDropdownComponent extends ComponentType<any> {
+export interface NaturalSearchDropdownComponent {
 
     readonly valueChanges: BehaviorSubject<any>;
     readonly renderedValueChanges: BehaviorSubject<any>;
@@ -18,5 +17,7 @@ export interface NaturalSearchDropdownComponent extends ComponentType<any> {
      * @param value
      */
     setValue(value: any): void;
+
+    getValue(): any;
 
 }

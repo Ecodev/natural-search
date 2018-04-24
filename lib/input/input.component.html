@@ -7,7 +7,6 @@
                [formControl]="formCtrl"
                [placeholder]="configuration ? configuration.display : placeholder"
                [readonly]="readonly"
-               (blur)="launchRipple()"
         >
         <button mat-icon-button matSuffix (click)="clear()">
             <mat-icon>close</mat-icon>

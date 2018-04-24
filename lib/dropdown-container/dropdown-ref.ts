@@ -1,12 +1,24 @@
-import { InjectionToken } from '@angular/core';
-
-export const NATURAL_SEARCH_CONFIGURATION = new InjectionToken<any>('NaturalSearchConfiguration');
-export const NATURAL_SEARCH_CONFIGURATIONS = new InjectionToken<any>('NaturalSearchConfigurations');
+import { Subject } from 'rxjs/Subject';
+import { NaturalDropdownContainerComponent } from './dropdown-container.component';
+import { OverlayRef } from '@angular/cdk/overlay';
 
 export class NaturalDropdownRef {
 
-    constructor() {
+    public componentInstance;
+    public readonly closed = new Subject<any>();
 
+    constructor(private overlay: OverlayRef, private dropdownContainer: NaturalDropdownContainerComponent) {
+
+        dropdownContainer.closed.subscribe(() => {
+            overlay.dispose();
+        });
+
+    }
+
+    public close(result?) {
+        this.closed.next(result);
+        this.closed.complete();
+        this.dropdownContainer.close();
     }
 
 }

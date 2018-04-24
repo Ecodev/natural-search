@@ -1,23 +1,5 @@
-import {
-    AfterContentInit,
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    ElementRef,
-    EmbeddedViewRef,
-    EventEmitter,
-    Inject,
-    OnDestroy,
-    OnInit,
-    Optional,
-    Output,
-    TemplateRef,
-    ViewChild,
-    ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EmbeddedViewRef, OnDestroy, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { BasePortalOutlet, CdkPortalOutlet, ComponentPortal } from '@angular/cdk/portal';
-import { FocusTrapFactory } from '@angular/cdk/a11y';
-import { DOCUMENT } from '@angular/common';
 import { TemplatePortal } from '@angular/cdk/portal/typings/portal';
 import { naturalDropDownAnimations } from './dropdown-container-animations';
 import { Subject } from 'rxjs/Subject';
@@ -38,11 +20,12 @@ export function throwMatDialogContentAlreadyAttachedError() {
         naturalDropDownAnimations.fadeInItems,
     ],
 })
-export class NaturalDropdownContainerComponent extends BasePortalOutlet implements OnInit, AfterContentInit, OnDestroy {
+export class NaturalDropdownContainerComponent extends BasePortalOutlet implements OnDestroy {
 
-    @ViewChild(CdkPortalOutlet) _portalOutlet: CdkPortalOutlet;
+    @ViewChild(CdkPortalOutlet) portalOutlet: CdkPortalOutlet;
     @ViewChild(TemplateRef) templateRef: TemplateRef<any>;
-    @Output() readonly closed: EventEmitter<void> = new EventEmitter<void>();
+
+    public readonly closed = new Subject();
 
     /** Current state of the panel animation. */
     public panelAnimationState: 'void' | 'enter' = 'void';
@@ -50,22 +33,12 @@ export class NaturalDropdownContainerComponent extends BasePortalOutlet implemen
     /** Emits whenever an animation on the menu completes. */
     private animationDone = new Subject<void>();
 
-    constructor(
-        private _elementRef: ElementRef,
-        private _focusTrapFactory: FocusTrapFactory,
-        private _changeDetectorRef: ChangeDetectorRef,
-        @Optional() @Inject(DOCUMENT) private _document: any) {
-        super();
-    }
-
-    ngOnInit() {
-    }
-
-    ngAfterContentInit() {
-    }
-
     ngOnDestroy() {
         this.closed.complete();
+    }
+
+    public close() {
+        this.closed.next();
     }
 
     public attachTemplatePortal<C>(portal: TemplatePortal<C>): EmbeddedViewRef<C> {
@@ -73,24 +46,17 @@ export class NaturalDropdownContainerComponent extends BasePortalOutlet implemen
     }
 
     public attachComponentPortal<T>(portal: ComponentPortal<T>) {
-        if (this._portalOutlet.hasAttached()) {
+        if (this.portalOutlet.hasAttached()) {
             throwMatDialogContentAlreadyAttachedError();
         }
 
-        return this._portalOutlet.attachComponentPortal(portal);
+        return this.portalOutlet.attachComponentPortal(portal);
     }
 
-    /** Starts the enter animation. */
     public startAnimation() {
         this.panelAnimationState = 'enter';
     }
 
-    /** Resets the panel animation to its initial state. */
-    public resetAnimation() {
-        this.panelAnimationState = 'void';
-    }
-
-    /** Callback that is invoked when the panel animation completes. */
     public onAnimationDone() {
         this.animationDone.next();
     }
