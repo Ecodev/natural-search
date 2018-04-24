@@ -1,1 +1,1 @@
-export { NaturalSearchModule } from './natural-search.module';
+export * from './natural-search.module';

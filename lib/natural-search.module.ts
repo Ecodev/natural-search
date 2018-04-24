@@ -16,15 +16,24 @@ import { NaturalInputComponent } from './input/input.component';
 import { PortalModule } from '@angular/cdk/portal';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { NaturalDropdownContainerComponent } from './dropdown-container/dropdown-container.component';
+import { TypeNumericComponent } from './dropdown-components/type-numeric/type-numeric.component';
+
+export { TypeNumericComponent };
 
 @NgModule({
     declarations: [
         NaturalSearchComponent,
         NaturalInputComponent,
         NaturalDropdownContainerComponent,
+        TypeNumericComponent,
     ],
     entryComponents: [
         NaturalDropdownContainerComponent,
+        TypeNumericComponent
+    ],
+    exports: [
+        NaturalSearchComponent,
+        TypeNumericComponent,
     ],
     imports: [
         CommonModule,
@@ -40,9 +49,6 @@ import { NaturalDropdownContainerComponent } from './dropdown-container/dropdown
         MatRippleModule,
         PortalModule,
         OverlayModule,
-    ],
-    exports: [
-        NaturalSearchComponent,
     ],
 })
 export class NaturalSearchModule {

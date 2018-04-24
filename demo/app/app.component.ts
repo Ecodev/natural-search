@@ -2,8 +2,8 @@ import { Component, HostBinding, OnInit } from '@angular/core';
 import { ThemeService } from './shared/services/theme.service';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { TestinputComponent } from './testinput/testinput.component';
-import { Testinput2Component } from './testinput2/testinput2.component';
 import { MatDialog } from '@angular/material';
+import { TypeNumericComponent } from '@ecodev/natural-search';
 
 @Component({
     selector: 'app-root',
@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
             {
                 display: 'Test2',
                 attribute: 'test2',
-                component: Testinput2Component,
+                component: TypeNumericComponent,
             },
         ];
 

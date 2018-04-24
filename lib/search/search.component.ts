@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { NaturalSearchConfiguration } from '../interfaces/Configuration';
 
 @Component({
     selector: 'natural-search',
@@ -7,7 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class NaturalSearchComponent implements OnInit {
 
-    @Input() configuration: any;
+    @Input() configuration: NaturalSearchConfiguration;
 
     constructor() {
     }
