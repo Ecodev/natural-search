@@ -1,12 +1,11 @@
-<ng-template>
-    <div class="natural-dropdown mat-elevation-z2"
-         [@transformMenu]="panelAnimationState"
-         (@transformMenu.done)="onAnimationDone($event)"
-         tabindex="-1"
-         role="menu"
-    >
-        <div class="natural-dropdown-content" [@fadeInItems]="'showing'">
-            <ng-content></ng-content>
-        </div>
+<div class="natural-dropdown-panel mat-elevation-z2"
+     [@transformMenu]="panelAnimationState"
+     (@transformMenu.done)="onAnimationDone()"
+     tabindex="-1"
+     role="menu"
+>
+    <div class="natural-dropdown-content">
+        <ng-template cdkPortalOutlet></ng-template>
     </div>
-</ng-template>
+</div>
+

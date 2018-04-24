@@ -14,12 +14,16 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { NaturalDropdownComponent } from './dropdown/dropdown.component';
 import { NaturalSearchComponent } from './search/search.component';
 import { NaturalInputComponent } from './input/input.component';
-export * from './natural-search/natural-search.component';
+import { PortalModule } from '@angular/cdk/portal';
+import { OverlayModule } from '@angular/cdk/overlay';
 
 @NgModule({
     declarations: [
         NaturalSearchComponent,
         NaturalInputComponent,
+        NaturalDropdownComponent
+    ],
+    entryComponents: [
         NaturalDropdownComponent
     ],
     imports: [
@@ -33,7 +37,9 @@ export * from './natural-search/natural-search.component';
         MatButtonModule,
         MatMenuModule,
         FlexLayoutModule,
-        MatRippleModule
+        MatRippleModule,
+        PortalModule,
+        OverlayModule
     ],
     exports: [
         NaturalSearchComponent,

@@ -1,8 +1,33 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+    AfterContentInit,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    ElementRef,
+    EmbeddedViewRef,
+    EventEmitter,
+    Inject,
+    OnDestroy,
+    OnInit,
+    Optional,
+    Output,
+    TemplateRef,
+    ViewChild,
+    ViewEncapsulation,
+} from '@angular/core';
+import { BasePortalOutlet, CdkPortalOutlet, ComponentPortal } from '@angular/cdk/portal';
+import { FocusTrapFactory } from '@angular/cdk/a11y';
+import { DOCUMENT } from '@angular/common';
+import { TemplatePortal } from '@angular/cdk/portal/typings/portal';
 import { naturalDropDownAnimations } from './dropdown-animations';
-import { AnimationEvent } from '@angular/animations';
+import { Subject } from 'rxjs/Subject';
+
+export function throwMatDialogContentAlreadyAttachedError() {
+    throw Error('Attempting to attach dialog content after content is already attached');
+}
 
 @Component({
+    moduleId: module.id,
     selector: 'natural-dropdown',
     templateUrl: './dropdown.component.html',
     styleUrls: ['./dropdown.component.scss'],
@@ -14,35 +39,61 @@ import { AnimationEvent } from '@angular/animations';
         naturalDropDownAnimations.fadeInItems,
     ],
 })
-export class NaturalDropdownComponent implements OnInit {
+export class NaturalDropdownComponent extends BasePortalOutlet implements OnInit, AfterContentInit, OnDestroy {
 
+    @ViewChild(CdkPortalOutlet) _portalOutlet: CdkPortalOutlet;
     @ViewChild(TemplateRef) templateRef: TemplateRef<any>;
-    @Output() close = new EventEmitter<void | 'click' | 'keydown'>();
+    @Output() readonly closed: EventEmitter<void> = new EventEmitter<void>();
 
-    public panelAnimationState: 'void' | 'enter-start' | 'enter' = 'void';
+    /** Current state of the panel animation. */
+    public panelAnimationState: 'void' | 'enter' = 'void';
 
-    constructor() {
+    /** Emits whenever an animation on the menu completes. */
+    private animationDone = new Subject<void>();
+
+    constructor(
+        private _elementRef: ElementRef,
+        private _focusTrapFactory: FocusTrapFactory,
+        private _changeDetectorRef: ChangeDetectorRef,
+        @Optional() @Inject(DOCUMENT) private _document: any) {
+        super();
     }
 
     ngOnInit() {
     }
 
+    ngAfterContentInit() {
+    }
+
+    ngOnDestroy() {
+        this.closed.complete();
+    }
+
+    public attachTemplatePortal<C>(portal: TemplatePortal<C>): EmbeddedViewRef<C> {
+        return;
+    }
+
+    public attachComponentPortal<T>(portal: ComponentPortal<T>) {
+        if (this._portalOutlet.hasAttached()) {
+            throwMatDialogContentAlreadyAttachedError();
+        }
+
+        return this._portalOutlet.attachComponentPortal(portal);
+    }
+
     /** Starts the enter animation. */
-    startAnimation() {
-        this.panelAnimationState = 'enter-start';
+    public startAnimation() {
+        this.panelAnimationState = 'enter';
     }
 
     /** Resets the panel animation to its initial state. */
-    resetAnimation() {
+    public resetAnimation() {
         this.panelAnimationState = 'void';
     }
 
     /** Callback that is invoked when the panel animation completes. */
-    onAnimationDone(event: AnimationEvent) {
-        // After the initial expansion is done, trigger the second phase of the enter animation.
-        if (event.toState === 'enter-start') {
-            this.panelAnimationState = 'enter';
-        }
+    public onAnimationDone() {
+        this.animationDone.next();
     }
 
 }

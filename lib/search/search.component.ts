@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
     selector: 'natural-search',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./search.component.scss'],
 })
 export class NaturalSearchComponent implements OnInit {
+
+    @Input() configuration: any;
 
     constructor() {
     }

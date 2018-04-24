@@ -1,69 +1,65 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import {
+    AfterContentInit,
+    Component,
+    ComponentRef,
+    ElementRef,
+    Injector,
+    Input,
+    OnDestroy,
+    OnInit,
+    ViewChild,
+    ViewContainerRef,
+} from '@angular/core';
 import { MatRipple } from '@angular/material';
 import { NaturalDropdownComponent } from '../dropdown/dropdown.component';
-import { TemplatePortal } from '@angular/cdk/portal';
+import { ComponentPortal, PortalInjector } from '@angular/cdk/portal';
 import { ConnectedPositionStrategy, Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
+import { merge } from 'rxjs/observable/merge';
+import { Subscription } from 'rxjs/Subscription';
+import { FormControl } from '@angular/forms';
 
 @Component({
     selector: 'natural-input',
     templateUrl: './input.component.html',
     styleUrls: ['./input.component.scss'],
 })
-export class NaturalInputComponent implements OnInit, OnDestroy {
-
-    /**
-     * https://github.com/angular/material2/blob/master/src/lib/core/ripple/ripple.md
-     */
-    @ViewChild(MatRipple) ripple: MatRipple;
-
-    @ViewChild('input') input: ElementRef;
-    @ViewChild('field') field: ViewContainerRef;
-    @ViewChild('dropdown') dropdown: NaturalDropdownComponent;
+export class NaturalInputComponent implements OnInit, OnDestroy, AfterContentInit {
 
     @Input() placeholder = 'Rechercher';
     @Input() readonly = false;
+    @Input() configuration: any;
 
-    private portal: TemplatePortal<any>;
-    private overlayRef: OverlayRef | null = null;
+    @ViewChild(MatRipple) ripple: MatRipple;
+    @ViewChild('input') input: ElementRef;
+    @ViewChild('field') field: ViewContainerRef;
 
     public formCtrl: FormControl = new FormControl();
+    public overlayRef: OverlayRef;
+    private dropdown;
+    private closeSubscription = Subscription.EMPTY;
 
-    private dropdownOpen;
-
-    constructor(private element: ElementRef, private viewContainerRef: ViewContainerRef, private overlay: Overlay) {
+    constructor(private element: ElementRef,
+                private viewContainerRef: ViewContainerRef,
+                private overlay: Overlay,
+                private injector: Injector) {
     }
 
     ngOnInit() {
-
         this.input.nativeElement.addEventListener('focus', () => {
-            this.openDropdown();
+            this.open();
         });
-
-        this.input.nativeElement.addEventListener('blur', () => {
-            this.closeDropdown();
-        });
-
-        this.dropdown.close.subscribe(() => this.destroyMenu());
-    }
-
-    private destroyMenu() {
-        if (this.overlayRef) {
-            // this._resetMenu();
-            // this._closeSubscription.unsubscribe();
-            this.overlayRef.detach();
-            this.dropdown.resetAnimation();
-
-        }
     }
 
     ngOnDestroy() {
-        if (this.overlayRef) {
-            this.overlayRef.dispose();
-            this.overlayRef = null;
-        }
+    }
 
-        // this._cleanUpSubscriptions();
+    ngAfterContentInit() {
+    }
+
+    private destroyMenu() {
+        this.closeSubscription.unsubscribe();
+        this.overlayRef.detach();
+        this.dropdown.resetAnimation();
     }
 
     public launchRipple() {
@@ -76,40 +72,37 @@ export class NaturalInputComponent implements OnInit, OnDestroy {
         rippleRef.fadeOut();
     }
 
-    /** Toggles the menu between the open and closed states. */
-    toggledropdown(): void {
-        return this.dropdownOpen ? this.closeDropdown() : this.openDropdown();
-    }
-
     /** Opens the dropdown. */
-    openDropdown(): void {
-        if (this.dropdownOpen) {
-            return;
-        }
+    public open(): void {
 
-        this.createOverlay().attach(this.portal);
+        this.overlayRef = this.overlay.create(this.getOverlayConfig());
+        const containerPortal = new ComponentPortal(NaturalDropdownComponent);
+        const containerRef: ComponentRef<NaturalDropdownComponent> = this.overlayRef.attach(containerPortal);
 
-        // this._closeSubscription = this._dropdownClosingActions().subscribe(() => this.closeDropdown());
-        // this._initdropdown();
+        const injector = this.createInjector();
+        const componentPortal = new ComponentPortal(this.configuration.component, undefined, injector);
+        containerRef.instance.attachComponentPortal<any>(componentPortal);
+
+        this.dropdown = containerRef.instance;
         this.dropdown.startAnimation();
+        this.dropdown.closed.subscribe(() => this.destroyMenu());
+
+        const backdrop = this.overlayRef.backdropClick();
+        const detachments = this.overlayRef.detachments();
+
+        this.closeSubscription = merge(backdrop, detachments).subscribe(() => this.closeMenu());
+    }
+
+    private createInjector() {
+        const injectionTokens = new WeakMap();
+        injectionTokens.set(FormControl, this.formCtrl);
+        return new PortalInjector(this.injector, injectionTokens);
 
     }
 
-    /** Closes the dropdown. */
-    closeDropdown(): void {
-        this.dropdown.close.emit();
-    }
-
-    private createOverlay(): OverlayRef {
-
-        if (!this.overlayRef) {
-            this.portal = new TemplatePortal(this.dropdown.templateRef, this.viewContainerRef);
-            const config = this.getOverlayConfig();
-            // this._subscribeToPositions(config.positionStrategy as ConnectedPositionStrategy);
-            this.overlayRef = this.overlay.create(config);
-        }
-
-        return this.overlayRef;
+    /** Closes the menu. */
+    closeMenu(): void {
+        this.dropdown.closed.emit();
     }
 
     /**
@@ -121,7 +114,6 @@ export class NaturalInputComponent implements OnInit, OnDestroy {
             positionStrategy: this.getPosition(),
             hasBackdrop: true,
             backdropClass: 'cdk-overlay-transparent-backdrop',
-            direction: 'ltr',
         });
     }
 
