@@ -32,10 +32,10 @@ export const naturalDropDownAnimations: {
             transform: 'scale(0.01, 0.01)'
         })),
         transition('void => enter', sequence([
-            query('.natural-dropdown-content', style({opacity: 0})),
+            query('.natural-dropdown-container-content', style({opacity: 0})),
             animate('100ms linear', style({opacity: 1, transform: 'scale(1, 0.5)'})),
             group([
-                query('.natural-dropdown-content', animate('400ms cubic-bezier(0.55, 0, 0.55, 0.2)',
+                query('.natural-dropdown-container-content', animate('400ms cubic-bezier(0.55, 0, 0.55, 0.2)',
                     style({opacity: 1})
                 )),
                 animate('300ms cubic-bezier(0.25, 0.8, 0.25, 1)', style({transform: 'scale(1, 1)'})),

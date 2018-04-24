@@ -1,8 +1,8 @@
-@mixin natural-dropdown($theme) {
+@mixin natural-dropdown-container($theme) {
     $background: map-get($theme, background);
     $foreground: map-get($theme, foreground);
 
-    .natural-dropdown-panel {
+    .natural-dropdown-container {
         background: mat-color($background, 'card');
     }
 }

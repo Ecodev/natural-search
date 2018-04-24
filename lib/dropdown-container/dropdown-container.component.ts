@@ -19,7 +19,7 @@ import { BasePortalOutlet, CdkPortalOutlet, ComponentPortal } from '@angular/cdk
 import { FocusTrapFactory } from '@angular/cdk/a11y';
 import { DOCUMENT } from '@angular/common';
 import { TemplatePortal } from '@angular/cdk/portal/typings/portal';
-import { naturalDropDownAnimations } from './dropdown-animations';
+import { naturalDropDownAnimations } from './dropdown-container-animations';
 import { Subject } from 'rxjs/Subject';
 
 export function throwMatDialogContentAlreadyAttachedError() {
@@ -28,9 +28,9 @@ export function throwMatDialogContentAlreadyAttachedError() {
 
 @Component({
     moduleId: module.id,
-    selector: 'natural-dropdown',
-    templateUrl: './dropdown.component.html',
-    styleUrls: ['./dropdown.component.scss'],
+    selector: 'natural-dropdown-container',
+    templateUrl: './dropdown-container.component.html',
+    styleUrls: ['./dropdown-container.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     preserveWhitespaces: false,
@@ -39,7 +39,7 @@ export function throwMatDialogContentAlreadyAttachedError() {
         naturalDropDownAnimations.fadeInItems,
     ],
 })
-export class NaturalDropdownComponent extends BasePortalOutlet implements OnInit, AfterContentInit, OnDestroy {
+export class NaturalDropdownContainerComponent extends BasePortalOutlet implements OnInit, AfterContentInit, OnDestroy {
 
     @ViewChild(CdkPortalOutlet) _portalOutlet: CdkPortalOutlet;
     @ViewChild(TemplateRef) templateRef: TemplateRef<any>;

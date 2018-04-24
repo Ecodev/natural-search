@@ -3,6 +3,7 @@ import {
     Component,
     ComponentRef,
     ElementRef,
+    InjectionToken,
     Injector,
     Input,
     OnDestroy,
@@ -11,12 +12,14 @@ import {
     ViewContainerRef,
 } from '@angular/core';
 import { MatRipple } from '@angular/material';
-import { NaturalDropdownComponent } from '../dropdown/dropdown.component';
 import { ComponentPortal, PortalInjector } from '@angular/cdk/portal';
 import { ConnectedPositionStrategy, Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { merge } from 'rxjs/observable/merge';
 import { Subscription } from 'rxjs/Subscription';
 import { FormControl } from '@angular/forms';
+import { NaturalDropdownContainerComponent } from '../dropdown-container/dropdown-container.component';
+
+export const MAT_INPUT_CONFIGURATION = new InjectionToken<any>('NaturalSearchConfiguration');
 
 @Component({
     selector: 'natural-input',
@@ -76,8 +79,8 @@ export class NaturalInputComponent implements OnInit, OnDestroy, AfterContentIni
     public open(): void {
 
         this.overlayRef = this.overlay.create(this.getOverlayConfig());
-        const containerPortal = new ComponentPortal(NaturalDropdownComponent);
-        const containerRef: ComponentRef<NaturalDropdownComponent> = this.overlayRef.attach(containerPortal);
+        const containerPortal = new ComponentPortal(NaturalDropdownContainerComponent);
+        const containerRef: ComponentRef<NaturalDropdownContainerComponent> = this.overlayRef.attach(containerPortal);
 
         const injector = this.createInjector();
         const componentPortal = new ComponentPortal(this.configuration.component, undefined, injector);
@@ -96,8 +99,8 @@ export class NaturalInputComponent implements OnInit, OnDestroy, AfterContentIni
     private createInjector() {
         const injectionTokens = new WeakMap();
         injectionTokens.set(FormControl, this.formCtrl);
+        injectionTokens.set(MAT_INPUT_CONFIGURATION, this.configuration);
         return new PortalInjector(this.injector, injectionTokens);
-
     }
 
     /** Closes the menu. */

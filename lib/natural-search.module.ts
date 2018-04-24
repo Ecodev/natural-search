@@ -11,20 +11,20 @@ import {
     MatRippleModule,
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { NaturalDropdownComponent } from './dropdown/dropdown.component';
 import { NaturalSearchComponent } from './search/search.component';
 import { NaturalInputComponent } from './input/input.component';
 import { PortalModule } from '@angular/cdk/portal';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { NaturalDropdownContainerComponent } from './dropdown-container/dropdown-container.component';
 
 @NgModule({
     declarations: [
         NaturalSearchComponent,
         NaturalInputComponent,
-        NaturalDropdownComponent
+        NaturalDropdownContainerComponent,
     ],
     entryComponents: [
-        NaturalDropdownComponent
+        NaturalDropdownContainerComponent,
     ],
     imports: [
         CommonModule,
@@ -39,7 +39,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
         FlexLayoutModule,
         MatRippleModule,
         PortalModule,
-        OverlayModule
+        OverlayModule,
     ],
     exports: [
         NaturalSearchComponent,
