@@ -1,8 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { NATURAL_DROPDOWN_DATA } from '../../dropdown-container/dropdown.service';
 import { NaturalSearchDropdownComponent } from '../../interfaces/DropdownComponent';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { NaturalSearchConfiguration } from '../../interfaces/Configuration';
+import { NATURAL_DROPDOWN_DATA } from '../../dropdown-container/dropdown.service';
 import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
 
 @Component({
@@ -12,32 +11,52 @@ import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
 })
 export class ConfigurationSelectorComponent implements NaturalSearchDropdownComponent, OnInit {
 
-    public value;
     public configurations: NaturalSearchConfiguration;
 
-    public readonly valueChanges = new BehaviorSubject<any>(null);
-    public readonly renderedValueChanges = new BehaviorSubject<any>(null);
-
     constructor(@Inject(NATURAL_DROPDOWN_DATA) public data: any,
-                public dropdownRef: NaturalDropdownRef) {
+                protected dropdownRef: NaturalDropdownRef) {
     }
 
     ngOnInit() {
         this.configurations = this.data.configurations;
     }
 
-    public selectConfig(config) {
-        this.dropdownRef.close(config);
+    /**
+     * Set the custom configuration for the type
+     * such as data source for possible values, display
+     * function for a value, etc.
+     */
+    public setConfiguration(configuration: any): void {
     }
 
-    setConfiguration(configuration): void {
+    /**
+     * Set value for component initialisation purposes
+     * @param value
+     */
+    public initValue(value: any): void {
     }
 
-    setValue(value: any): void {
-    }
-
-    getValue() {
+    /**
+     * Get value, including rich object types
+     * @returns {any}
+     */
+    public getValue(): any {
         return null;
+    }
+
+    /**
+     * Return actual value as string
+     * @returns {string}
+     */
+    public getRenderedValue(): string {
+        return '';
+    }
+
+    /**
+     * Allow to close the dropdown with a valid value
+     */
+    protected validateValue(value: any): void {
+        this.dropdownRef.close(value);
     }
 
 }

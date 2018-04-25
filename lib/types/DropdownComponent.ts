@@ -1,9 +1,4 @@
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-
 export interface NaturalSearchDropdownComponent {
-
-    readonly valueChanges: BehaviorSubject<any>;
-    readonly renderedValueChanges: BehaviorSubject<any>;
 
     /**
      * Set the custom configuration for the type
@@ -16,8 +11,18 @@ export interface NaturalSearchDropdownComponent {
      * Set value for component initialisation purposes
      * @param value
      */
-    setValue(value: any): void;
+    initValue(value: any): void;
 
+    /**
+     * Get value, including rich object types
+     * @returns {any}
+     */
     getValue(): any;
+
+    /**
+     * Return actual value as string
+     * @returns {string}
+     */
+    getRenderedValue(): string;
 
 }

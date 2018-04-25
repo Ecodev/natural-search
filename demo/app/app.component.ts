@@ -1,9 +1,30 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { ThemeService } from './shared/services/theme.service';
 import { OverlayContainer } from '@angular/cdk/overlay';
-import { TestinputComponent } from './testinput/testinput.component';
-import { MatDialog } from '@angular/material';
 import { TypeNumericComponent } from '@ecodev/natural-search';
+import { NaturalSearchValues } from '../../lib/types/Values';
+import { NaturalSearchConfiguration } from '../../lib/types/Configuration';
+
+// Interfaces
+// interface Parent {
+//     myFunc(): void;
+// }
+//
+// interface Test {
+//     component: Parent;
+// }
+//
+// // Class
+// class Child implements Parent {
+//     myFunc(): void {
+//         console.log('asdf');
+//     }
+// }
+//
+// // Variable with attribute that should accept children
+// const myVar: Test = {
+//     component: Child,
+// };
 
 @Component({
     selector: 'app-root',
@@ -14,25 +35,40 @@ export class AppComponent implements OnInit {
 
     @HostBinding('class') public theme = '';
 
-    public searchConfig;
+    public config: NaturalSearchConfiguration = [
+        {
+            display: 'Numeric 1',
+            attribute: 'numeric1',
+            component: TypeNumericComponent,
+        },
+        {
+            display: 'Numeric 2',
+            attribute: 'numeric2',
+            component: TypeNumericComponent,
+            configuration: {
+                min: 0,
+                max: 100,
+            },
+        },
+    ];
 
-    constructor(public themeService: ThemeService, private overlayContainer: OverlayContainer, private dialog: MatDialog) {
+    public values: NaturalSearchValues = [
+        [
+            {
+                attribute: 'numeric1',
+                value: 123,
+            },
+            {
+                attribute: 'numeric2',
+                value: 234,
+            },
+        ],
+    ];
+
+    constructor(public themeService: ThemeService, private overlayContainer: OverlayContainer) {
     }
 
     public ngOnInit() {
-
-        this.searchConfig = [
-            {
-                display: 'Test1',
-                attribute: 'test1',
-                component: TestinputComponent,
-            },
-            {
-                display: 'Test2',
-                attribute: 'test2',
-                component: TypeNumericComponent,
-            },
-        ];
 
         this.themeService.theme.subscribe(newTheme => {
             this.overlayContainer.getContainerElement().classList.remove('default');
@@ -42,7 +78,4 @@ export class AppComponent implements OnInit {
         });
     }
 
-    public openModal() {
-        this.dialog.open(TestinputComponent);
-    }
 }

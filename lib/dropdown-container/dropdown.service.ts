@@ -3,6 +3,7 @@ import { ConnectedPositionStrategy, Overlay, OverlayConfig } from '@angular/cdk/
 import { ComponentPortal, ComponentType, PortalInjector } from '@angular/cdk/portal';
 import { NaturalDropdownContainerComponent } from './dropdown-container.component';
 import { NaturalDropdownRef } from './dropdown-ref';
+import { FormControl } from '@angular/forms';
 
 export const NATURAL_DROPDOWN_DATA = new InjectionToken<any>('NaturalDropdownData');
 
@@ -12,7 +13,7 @@ export class NaturalDropdownService {
     constructor(private overlay: Overlay, private injector: Injector) {
     }
 
-    public open<T>(component: ComponentType<T>, connectedElement: ElementRef, data?: any): NaturalDropdownRef {
+    public open(component, connectedElement: ElementRef, formCtrl?: FormControl, data?: any): NaturalDropdownRef {
 
         // Container
         const overlayRef = this.overlay.create(this.getOverlayConfig(connectedElement));
@@ -25,6 +26,7 @@ export class NaturalDropdownService {
         // Customize injector to allow data and dropdown reference injection in component
         const injectionTokens = new WeakMap();
         injectionTokens.set(NaturalDropdownRef, dropdownRef);
+        injectionTokens.set(FormControl, formCtrl);
         injectionTokens.set(NATURAL_DROPDOWN_DATA, data);
         const injector = new PortalInjector(this.injector, injectionTokens);
 
@@ -34,15 +36,16 @@ export class NaturalDropdownService {
         dropdownRef.componentInstance = contentRef.instance;
 
         // Init type component value
-        contentRef.instance.setValue(data.value);
+        contentRef.instance.initValue(data.value);
 
         // Start animation that shows menu
         dropdownContainer.startAnimation();
 
         // When click on backdrop, validate result.. ?
         const backdropSub = overlayRef.backdropClick().subscribe(() => {
-            data.formCtrl.setValue(dropdownRef.componentInstance.getValue());
+            formCtrl.setValue(dropdownRef.componentInstance.getRenderedValue());
             dropdownContainer.close();
+            dropdownRef.close(dropdownRef.componentInstance.getValue());
             backdropSub.unsubscribe();
         });
 

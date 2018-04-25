@@ -1,5 +1,7 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { NaturalSearchConfiguration } from '../interfaces/Configuration';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChildren } from '@angular/core';
+import { NaturalInputComponent } from '../input/input.component';
+import { NaturalSearchConfiguration } from '../types/Configuration';
+import { NaturalSearchValues } from '../types/Values';
 
 @Component({
     selector: 'natural-search',
@@ -8,7 +10,10 @@ import { NaturalSearchConfiguration } from '../interfaces/Configuration';
 })
 export class NaturalSearchComponent implements OnInit, OnChanges {
 
-    @Input() configuration: NaturalSearchConfiguration;
+    @ViewChildren(NaturalInputComponent) inputs: NaturalInputComponent[];
+
+    @Input() configurations: NaturalSearchConfiguration;
+    @Input() values: NaturalSearchValues;
 
     constructor() {
     }
@@ -17,10 +22,6 @@ export class NaturalSearchComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        console.log('changes', changes);
-
-
-
     }
 
 }

@@ -21,6 +21,7 @@ import { NaturalDropdownContainerComponent } from './dropdown-container/dropdown
 import { TypeNumericComponent } from './dropdown-components/type-numeric/type-numeric.component';
 import { ConfigurationSelectorComponent } from './dropdown-components/configuration-selector/configuration-selector.component';
 import { NaturalDropdownService } from './dropdown-container/dropdown.service';
+import { GroupComponent } from './group/group.component';
 
 export { TypeNumericComponent };
 
@@ -31,6 +32,7 @@ export { TypeNumericComponent };
         NaturalDropdownContainerComponent,
         TypeNumericComponent,
         ConfigurationSelectorComponent,
+        GroupComponent,
     ],
     entryComponents: [
         NaturalDropdownContainerComponent,

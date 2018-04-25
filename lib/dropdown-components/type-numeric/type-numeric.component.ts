@@ -1,35 +1,39 @@
-import { Component, OnInit } from '@angular/core';
-import { NaturalSearchDropdownComponent } from '../../interfaces/DropdownComponent';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { TypeNumericConfiguration } from '../../interfaces/TypeNumericConfiguration';
+import { Component, Inject } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
+import { NATURAL_DROPDOWN_DATA } from '../../dropdown-container/dropdown.service';
+import { NaturalSearchDropdownComponent } from '../../types/DropdownComponent';
+import { TypeNumericConfiguration } from './TypeNumericConfiguration';
+import { NaturalSearchValue } from '../../types/Values';
 
 @Component({
     selector: 'natural-type-numeric',
     templateUrl: './type-numeric.component.html',
     styleUrls: ['./type-numeric.component.scss'],
 })
-export class TypeNumericComponent implements NaturalSearchDropdownComponent, OnInit {
+export class TypeNumericComponent implements NaturalSearchDropdownComponent {
 
     public value;
-
     public configuration: TypeNumericConfiguration;
 
-    public readonly valueChanges = new BehaviorSubject<any>(null);
-    public readonly renderedValueChanges = new BehaviorSubject<any>(null);
-
-    ngOnInit() {
+    constructor(@Inject(NATURAL_DROPDOWN_DATA) public data: any,
+                protected dropdownRef: NaturalDropdownRef,
+                protected formControl: FormControl) {
     }
 
-    setConfiguration(configuration: TypeNumericConfiguration): void {
+    public setConfiguration(configuration: TypeNumericConfiguration): void {
         this.configuration = configuration;
     }
 
-    setValue(value: any): void {
-        console.warn('setValue', value);
+    public initValue(value: any): void {
         this.value = value;
     }
 
-    getValue() {
+    public getValue(): NaturalSearchValue {
+        return this.value;
+    }
+
+    public getRenderedValue(): string {
         return this.value;
     }
 

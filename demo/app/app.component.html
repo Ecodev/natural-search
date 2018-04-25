@@ -9,10 +9,12 @@
             </mat-nav-list>
         </mat-sidenav>
 
-        <div style="padding:20px;" fxLayout="row">
-            <natural-search fxFlex [configuration]="searchConfig"></natural-search>
+        <div style="padding:20px;" fxLayout="column">
+
+            <natural-search [configurations]="config" [values]="values" (valuesChanges)="values = $event"></natural-search>
+
+            <pre class="debug">{{values|json}}</pre>
+
         </div>
-
     </mat-sidenav-container>
-
 </div>
