@@ -1,10 +1,9 @@
 <div fxLayout="row" fxLayoutGap="10px" >
-    <natural-input *ngFor="let value of filters; let i = index"
+    <natural-input *ngFor="let value of values; let i = index"
                    [configurations]="configurations"
                    [value]="value"
                    (valueChanges)="updateValue($event, i)"
                    (cleared)="removeValue(i)"
     ></natural-input>
+    <button mat-icon-button (click)="addValue()"><mat-icon>add</mat-icon></button>
 </div>
-
-<pre class="debug">{{filters|json}}</pre>

@@ -12,8 +12,6 @@ export class GroupComponent implements OnInit, OnChanges {
     @Input() configurations: NaturalSearchConfiguration;
     @Input() values: NaturalSearchGroupValues;
 
-    public filters: NaturalSearchGroupValues;
-
     constructor() {
     }
 
@@ -22,18 +20,18 @@ export class GroupComponent implements OnInit, OnChanges {
 
     ngOnChanges(changes: SimpleChanges) {
         if (this.configurations) {
-            this.filters = this.values.map(v => v);
-            if (!this.filters.length || this.filters.length && this.filters[this.filters.length - 1] !== null) {
-                this.addValue();
+            if (!this.values.length || this.values.length && this.values[this.values.length - 1] !== null) {
+                setTimeout(() => {
+                    this.addValue();
+                });
             }
         }
-
     }
 
     public updateValue(value: NaturalSearchValue, index: number) {
-        this.filters[index] = value;
+        this.values[index] = value;
 
-        if (index === this.filters.length - 1) {
+        if (index === this.values.length - 1) {
             this.addValue();
         }
     }
@@ -43,13 +41,13 @@ export class GroupComponent implements OnInit, OnChanges {
             attribute: null,
             value: null,
         };
-        this.filters.push(value);
+        this.values.push(value);
 
         return value;
     }
 
     public removeValue(index: number) {
-        this.filters.splice(index, 1);
+        this.values.splice(index, 1);
     }
 
 }
