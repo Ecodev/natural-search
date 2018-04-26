@@ -1,6 +1,7 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { NaturalSearchConfiguration } from '../types/Configuration';
 import { NaturalSearchGroupValues, NaturalSearchValue } from '../types/Values';
+import { NaturalInputComponent } from '../input/input.component';
 
 @Component({
     selector: 'natural-group',
@@ -8,6 +9,8 @@ import { NaturalSearchGroupValues, NaturalSearchValue } from '../types/Values';
     styleUrls: ['./group.component.scss'],
 })
 export class GroupComponent implements OnInit, OnChanges {
+
+    @ViewChild('newValueInput') newValueInput: NaturalInputComponent;
 
     @Input() configurations: NaturalSearchConfiguration;
     @Input() values: NaturalSearchGroupValues;
@@ -19,31 +22,16 @@ export class GroupComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        if (this.configurations) {
-            if (!this.values.length || this.values.length && this.values[this.values.length - 1] !== null) {
-                setTimeout(() => {
-                    this.addValue();
-                });
-            }
-        }
+
     }
 
-    public updateValue(value: NaturalSearchValue, index: number) {
+    public setValue(value: NaturalSearchValue, index: number) {
         this.values[index] = value;
-
-        if (index === this.values.length - 1) {
-            this.addValue();
-        }
     }
 
-    public addValue(value?: NaturalSearchValue): NaturalSearchValue {
-        value = value ? value : {
-            attribute: null,
-            value: null,
-        };
+    public addValue(value?: NaturalSearchValue): void {
+        this.newValueInput.clear();
         this.values.push(value);
-
-        return value;
     }
 
     public removeValue(index: number) {

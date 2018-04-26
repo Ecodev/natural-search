@@ -1,5 +1,4 @@
 import {
-    AfterContentInit,
     Component,
     ComponentFactoryResolver,
     ComponentRef,
@@ -30,7 +29,7 @@ import { NaturalSearchDropdownComponent } from '../types/DropdownComponent';
     templateUrl: './input.component.html',
     styleUrls: ['./input.component.scss'],
 })
-export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy, AfterContentInit {
+export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input() placeholder = 'Rechercher';
     @Input() readonly = false;
@@ -104,13 +103,9 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy, Afte
     ngOnDestroy() {
     }
 
-    ngAfterContentInit() {
-    }
-
     public clear() {
         this.configuration = null;
         this.value = null;
-        this.formCtrl.setValue('');
         this.cleared.emit(this);
     }
 
