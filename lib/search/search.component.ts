@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChildren } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild, ViewChildren, ViewContainerRef } from '@angular/core';
 import { NaturalInputComponent } from '../input/input.component';
 import { NaturalSearchConfiguration } from '../types/Configuration';
 import { NaturalSearchValues } from '../types/Values';

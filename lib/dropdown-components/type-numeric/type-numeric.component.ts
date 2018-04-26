@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
 import { NATURAL_DROPDOWN_DATA } from '../../dropdown-container/dropdown.service';
@@ -11,7 +11,7 @@ import { NaturalSearchValue } from '../../types/Values';
     templateUrl: './type-numeric.component.html',
     styleUrls: ['./type-numeric.component.scss'],
 })
-export class TypeNumericComponent implements NaturalSearchDropdownComponent {
+export class TypeNumericComponent implements NaturalSearchDropdownComponent, OnInit {
 
     public value;
     public configuration: TypeNumericConfiguration;
@@ -19,6 +19,9 @@ export class TypeNumericComponent implements NaturalSearchDropdownComponent {
     constructor(@Inject(NATURAL_DROPDOWN_DATA) public data: any,
                 protected dropdownRef: NaturalDropdownRef,
                 protected formControl: FormControl) {
+    }
+
+    ngOnInit() {
     }
 
     public setConfiguration(configuration: TypeNumericConfiguration): void {

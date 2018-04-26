@@ -1,9 +1,8 @@
 import { ComponentRef, ElementRef, Injectable, InjectionToken, Injector } from '@angular/core';
 import { ConnectedPositionStrategy, Overlay, OverlayConfig } from '@angular/cdk/overlay';
-import { ComponentPortal, ComponentType, PortalInjector } from '@angular/cdk/portal';
+import { ComponentPortal, PortalInjector } from '@angular/cdk/portal';
 import { NaturalDropdownContainerComponent } from './dropdown-container.component';
 import { NaturalDropdownRef } from './dropdown-ref';
-import { FormControl } from '@angular/forms';
 
 export const NATURAL_DROPDOWN_DATA = new InjectionToken<any>('NaturalDropdownData');
 
@@ -13,7 +12,7 @@ export class NaturalDropdownService {
     constructor(private overlay: Overlay, private injector: Injector) {
     }
 
-    public open(component, connectedElement: ElementRef, formCtrl?: FormControl, data?: any): NaturalDropdownRef {
+    public open(component, connectedElement: ElementRef, customInjectorTokens: WeakMap<any, any>): NaturalDropdownRef {
 
         // Container
         const overlayRef = this.overlay.create(this.getOverlayConfig(connectedElement));
@@ -24,26 +23,22 @@ export class NaturalDropdownService {
         const dropdownRef = new NaturalDropdownRef(overlayRef, dropdownContainer);
 
         // Customize injector to allow data and dropdown reference injection in component
-        const injectionTokens = new WeakMap();
-        injectionTokens.set(NaturalDropdownRef, dropdownRef);
-        injectionTokens.set(FormControl, formCtrl);
-        injectionTokens.set(NATURAL_DROPDOWN_DATA, data);
-        const injector = new PortalInjector(this.injector, injectionTokens);
+        customInjectorTokens.set(NaturalDropdownRef, dropdownRef);
+        const injector = new PortalInjector(this.injector, customInjectorTokens);
 
         // Content (type component given in configuration)
         const componentPortal = new ComponentPortal(component, undefined, injector);
         const contentRef = containerRef.instance.attachComponentPortal<any>(componentPortal);
         dropdownRef.componentInstance = contentRef.instance;
 
-        // Init type component value
-        contentRef.instance.initValue(data.value);
+        // Init type component value,
+        contentRef.instance.initValue(customInjectorTokens.get(NATURAL_DROPDOWN_DATA).value);
 
         // Start animation that shows menu
         dropdownContainer.startAnimation();
 
         // When click on backdrop, validate result.. ?
         const backdropSub = overlayRef.backdropClick().subscribe(() => {
-            formCtrl.setValue(dropdownRef.componentInstance.getRenderedValue());
             dropdownContainer.close();
             dropdownRef.close(dropdownRef.componentInstance.getValue());
             backdropSub.unsubscribe();

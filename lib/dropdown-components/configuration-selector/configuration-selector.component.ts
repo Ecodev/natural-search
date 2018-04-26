@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { NaturalSearchDropdownComponent } from '../../interfaces/DropdownComponent';
-import { NaturalSearchConfiguration } from '../../interfaces/Configuration';
+import { NaturalSearchDropdownComponent } from '../../types/DropdownComponent';
+import { NaturalSearchConfiguration } from '../../types/Configuration';
 import { NATURAL_DROPDOWN_DATA } from '../../dropdown-container/dropdown.service';
 import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
 
