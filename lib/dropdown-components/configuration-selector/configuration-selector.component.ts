@@ -22,18 +22,10 @@ export class ConfigurationSelectorComponent implements NaturalSearchDropdownComp
     }
 
     /**
-     * Set the custom configuration for the type
-     * such as data source for possible values, display
-     * function for a value, etc.
-     */
-    public setConfiguration(configuration: any): void {
-    }
-
-    /**
      * Set value for component initialisation purposes
      * @param value
      */
-    public initValue(value: any): void {
+    public init(value: any): void {
     }
 
     /**
@@ -53,8 +45,12 @@ export class ConfigurationSelectorComponent implements NaturalSearchDropdownComp
     /**
      * Allow to close the dropdown with a valid value
      */
-    protected validateValue(value: any): void {
+    protected close(value: any): void {
         this.dropdownRef.close(value);
+    }
+
+    public isValid(): boolean {
+        return true;
     }
 
 }

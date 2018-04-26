@@ -1,16 +1,9 @@
 export interface NaturalSearchDropdownComponent {
 
     /**
-     * Set the custom configuration for the type
-     * such as data source for possible values, display
-     * function for a value, etc.
-     */
-    setConfiguration(configuration: any): void;
-
-    /**
      * Set value for component initialisation purposes
      */
-    initValue(value: any): void;
+    init(value: any, configuration?: any): void;
 
     /**
      * Get value, including rich object types
@@ -21,5 +14,10 @@ export interface NaturalSearchDropdownComponent {
      * Return actual value as string
      */
     getRenderedValue(): string;
+
+    /**
+     * Returns true if dropdown value is valid
+     */
+    isValid(): boolean;
 
 }

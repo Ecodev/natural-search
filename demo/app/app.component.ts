@@ -16,13 +16,29 @@ export class AppComponent implements OnInit {
 
     public config: NaturalSearchConfiguration = [
         {
-            display: 'Numeric 1',
-            attribute: 'numeric1',
+            display: 'Number',
+            attribute: 'numeric',
             component: TypeNumericComponent,
         },
         {
-            display: 'Numeric 2',
-            attribute: 'numeric2',
+            display: 'Number > 0',
+            attribute: 'numeric0',
+            component: TypeNumericComponent,
+            configuration: {
+                min: 0,
+            },
+        },
+        {
+            display: 'Number < 100',
+            attribute: 'numeric100',
+            component: TypeNumericComponent,
+            configuration: {
+                max: 100,
+            },
+        },
+        {
+            display: 'Number 0 < < 100',
+            attribute: 'numeric0-100',
             component: TypeNumericComponent,
             configuration: {
                 min: 0,
@@ -34,11 +50,15 @@ export class AppComponent implements OnInit {
     public values: NaturalSearchValues = [
         [
             {
-                attribute: 'numeric1',
+                attribute: 'numeric',
                 value: 123,
             },
             {
-                attribute: 'numeric2',
+                attribute: 'numeric0',
+                value: 234,
+            },
+            {
+                attribute: 'numeric0-100',
                 value: 234,
             },
         ],

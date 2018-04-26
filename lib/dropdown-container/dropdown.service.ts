@@ -32,7 +32,8 @@ export class NaturalDropdownService {
         dropdownRef.componentInstance = contentRef.instance;
 
         // Init type component value,
-        contentRef.instance.initValue(customInjectorTokens.get(NATURAL_DROPDOWN_DATA).value);
+        const data = customInjectorTokens.get(NATURAL_DROPDOWN_DATA);
+        contentRef.instance.init(data.value, data.configuration ? data.configuration.configuration : null);
 
         // Start animation that shows menu
         dropdownContainer.startAnimation();
@@ -40,7 +41,12 @@ export class NaturalDropdownService {
         // When click on backdrop, validate result.. ?
         const backdropSub = overlayRef.backdropClick().subscribe(() => {
             dropdownContainer.close();
-            dropdownRef.close(dropdownRef.componentInstance.getValue());
+            const componentValueIsValid = dropdownRef.componentInstance.isValid();
+            if (componentValueIsValid) {
+                dropdownRef.close(dropdownRef.componentInstance.getValue());
+            } else {
+                dropdownRef.close();
+            }
             backdropSub.unsubscribe();
         });
 
@@ -49,7 +55,6 @@ export class NaturalDropdownService {
 
     /**
      * This method builds the configuration object needed to create the overlay, the OverlayState.
-     * @returns OverlayConfig
      */
     private getOverlayConfig(element): OverlayConfig {
         return new OverlayConfig({

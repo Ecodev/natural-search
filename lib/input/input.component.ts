@@ -55,6 +55,10 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
 
     ngOnInit() {
         this.input.nativeElement.addEventListener('focus', () => {
+            if (this.dropdownRef) {
+                return;
+            }
+
             this.launchRipple();
             if (this.configuration) {
                 this.openTypeDropdown();
@@ -78,7 +82,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
 
                 this.dropdownComponentRef = this.createComponent<NaturalSearchDropdownComponent>(this.configuration.component);
                 const dropdownComponent = this.dropdownComponentRef.instance;
-                dropdownComponent.initValue(this.value.value);
+                dropdownComponent.init(this.value.value);
                 this.formCtrl.setValue(dropdownComponent.getRenderedValue());
             }
         }
@@ -126,8 +130,10 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
 
         const injectorTokens = this.createInjectorTokens(data);
 
-        this.dropdown.open(ConfigurationSelectorComponent, this.element, injectorTokens).closed.subscribe(config => {
-            if (config) {
+        this.dropdownRef = this.dropdown.open(ConfigurationSelectorComponent, this.element, injectorTokens);
+        this.dropdownRef.closed.subscribe(config => {
+            this.dropdownRef = null;
+            if (config !== undefined) {
                 this.configuration = config;
                 this.openTypeDropdown();
             }
@@ -146,10 +152,13 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
 
         this.dropdownRef = this.dropdown.open(this.configuration.component, this.element, injectorTokens);
         this.dropdownRef.closed.subscribe((result: NaturalSearchValue['value']) => {
-            this.valueChanges.emit({
-                attribute: this.configuration.attribute,
-                value: result,
-            });
+            this.dropdownRef = null;
+            if (result !== undefined) {
+                this.valueChanges.emit({
+                    attribute: this.configuration.attribute,
+                    value: result,
+                });
+            }
         });
 
     }

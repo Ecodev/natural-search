@@ -50,8 +50,8 @@ export { TypeNumericComponent };
     imports: [
         CommonModule,
         FormsModule,
-        MatFormFieldModule,
         ReactiveFormsModule,
+        MatFormFieldModule,
         MatInputModule,
         MatCheckboxModule,
         MatIconModule,

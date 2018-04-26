@@ -1,3 +1,20 @@
 <mat-form-field>
-    <input matInput type="number" [(ngModel)]="value" placeholder="Ma valeur" [min]="configuration?.min" [max]="configuration?.max">
+    <input matInput type="number" placeholder="Valeur" [formControl]="formCtrl" [required]="true" [errorStateMatcher]="matcher">
+
+    <mat-error *ngIf="formCtrl.hasError('minmax')">
+        Numéro entre {{ configuration.min }} et {{ configuration.max }}
+    </mat-error>
+
+    <mat-error *ngIf="formCtrl.hasError('min')">
+        Numéro plus petit que {{ configuration.min }}
+    </mat-error>
+
+    <mat-error *ngIf="formCtrl.hasError('max')">
+        Numéro plus grand que {{ configuration.max }}
+    </mat-error>
+
+    <mat-error *ngIf="formCtrl.hasError('required') || formCtrl.hasError('number')">
+        Veuillez entrer un numéro
+    </mat-error>
+
 </mat-form-field>
