@@ -14,6 +14,7 @@ export class NaturalSearchComponent implements OnInit, OnChanges {
 
     @Input() configurations: NaturalSearchConfiguration;
     @Input() values: NaturalSearchValues;
+    @Input() multipleGroups: boolean;
 
     constructor() {
     }
@@ -22,6 +23,14 @@ export class NaturalSearchComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges) {
+    }
+
+    public addGroup() {
+        this.values.push([]);
+    }
+
+    public removeGroup(index) {
+        this.values.splice(index, 1);
     }
 
 }
