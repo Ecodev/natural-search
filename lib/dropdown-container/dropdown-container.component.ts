@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, EmbeddedViewRef, OnDestroy, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    ComponentRef,
+    EmbeddedViewRef,
+    OnDestroy,
+    TemplateRef,
+    ViewChild,
+    ViewEncapsulation,
+} from '@angular/core';
 import { BasePortalOutlet, CdkPortalOutlet, ComponentPortal } from '@angular/cdk/portal';
 import { TemplatePortal } from '@angular/cdk/portal/typings/portal';
 import { naturalDropDownAnimations } from './dropdown-container-animations';
@@ -45,7 +54,7 @@ export class NaturalDropdownContainerComponent extends BasePortalOutlet implemen
         return;
     }
 
-    public attachComponentPortal<T>(portal: ComponentPortal<T>) {
+    public attachComponentPortal<T>(portal: ComponentPortal<T>): ComponentRef<T> {
         if (this.portalOutlet.hasAttached()) {
             throwMatDialogContentAlreadyAttachedError();
         }

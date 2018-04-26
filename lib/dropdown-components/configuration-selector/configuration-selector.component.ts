@@ -38,7 +38,6 @@ export class ConfigurationSelectorComponent implements NaturalSearchDropdownComp
 
     /**
      * Get value, including rich object types
-     * @returns {any}
      */
     public getValue(): any {
         return null;
@@ -46,7 +45,6 @@ export class ConfigurationSelectorComponent implements NaturalSearchDropdownComp
 
     /**
      * Return actual value as string
-     * @returns {string}
      */
     public getRenderedValue(): string {
         return '';

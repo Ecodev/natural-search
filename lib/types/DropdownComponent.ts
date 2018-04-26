@@ -9,19 +9,16 @@ export interface NaturalSearchDropdownComponent {
 
     /**
      * Set value for component initialisation purposes
-     * @param value
      */
     initValue(value: any): void;
 
     /**
      * Get value, including rich object types
-     * @returns {any}
      */
     getValue(): any;
 
     /**
      * Return actual value as string
-     * @returns {string}
      */
     getRenderedValue(): string;
 
