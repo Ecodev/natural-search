@@ -16,20 +16,13 @@ import {
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ThemeService } from './shared/services/theme.service';
-import { TestinputComponent } from './testinput/testinput.component';
-import { Testinput2Component } from './testinput2/testinput2.component';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [
         AppComponent,
-        TestinputComponent,
-        Testinput2Component,
     ],
-    entryComponents: [
-        TestinputComponent,
-        Testinput2Component,
-    ],
+    entryComponents: [],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,

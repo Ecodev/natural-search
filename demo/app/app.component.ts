@@ -5,27 +5,6 @@ import { TypeNumericComponent } from '@ecodev/natural-search';
 import { NaturalSearchValues } from '../../lib/types/Values';
 import { NaturalSearchConfiguration } from '../../lib/types/Configuration';
 
-// Interfaces
-// interface Parent {
-//     myFunc(): void;
-// }
-//
-// interface Test {
-//     component: Parent;
-// }
-//
-// // Class
-// class Child implements Parent {
-//     myFunc(): void {
-//         console.log('asdf');
-//     }
-// }
-//
-// // Variable with attribute that should accept children
-// const myVar: Test = {
-//     component: Child,
-// };
-
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
