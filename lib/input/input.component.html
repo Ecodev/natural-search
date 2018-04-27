@@ -6,7 +6,9 @@
                type="text"
                [formControl]="formCtrl"
                [placeholder]="configuration ? configuration.display : placeholder"
-               [readonly]="readonly"
+               [readonly]="!!value"
+               (blur)="search()"
+               (keydown.enter)="search()"
         >
         <button mat-icon-button matSuffix (click)="clear()">
             <mat-icon>close</mat-icon>

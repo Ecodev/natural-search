@@ -30,6 +30,7 @@ export class GroupComponent implements OnInit, OnChanges {
     }
 
     public addValue(value?: NaturalSearchValue): void {
+        console.log('addValue', value);
         this.newValueInput.clear();
         this.values.push(value);
     }

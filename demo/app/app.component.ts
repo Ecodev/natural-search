@@ -61,6 +61,10 @@ export class AppComponent implements OnInit {
                 attribute: 'numeric0-100',
                 value: 234,
             },
+            {
+                attribute: 'search',
+                value: 'free seach',
+            },
         ],
     ];
 

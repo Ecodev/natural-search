@@ -32,7 +32,7 @@ export class ConfigurationSelectorComponent implements NaturalSearchDropdownComp
      * Get value, including rich object types
      */
     public getValue(): any {
-        return null;
+        return undefined;
     }
 
     /**

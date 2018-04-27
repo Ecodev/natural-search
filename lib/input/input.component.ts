@@ -53,17 +53,21 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
                 private componentFactoryResolver: ComponentFactoryResolver) {
     }
 
+    ngOnDestroy() {
+    }
+
     ngOnInit() {
         this.input.nativeElement.addEventListener('focus', () => {
-            if (this.dropdownRef) {
+            this.openDropdown();
+        });
+
+        this.input.nativeElement.addEventListener('keyup', () => {
+            if (!this.dropdownRef) {
                 return;
             }
 
-            this.launchRipple();
-            if (this.configuration) {
-                this.openTypeDropdown();
-            } else {
-                this.openConfigurationsDropdown();
+            if (this.formCtrl.value !== '') {
+                this.dropdownRef.close();
             }
         });
     }
@@ -73,6 +77,9 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         if (this.configurations && this.value) {
 
             this.configuration = InputOutput.getConfigurationFromValue(this.configurations, this.value);
+
+            // If has configuration, means we need a component from external config
+            // If hasn't a configuration, that means we are in global search mode
             if (this.configuration) {
                 // Always destroy and recreate component
                 // Todo : test if configuration has changed, if not re-use the component
@@ -84,7 +91,18 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
                 const dropdownComponent = this.dropdownComponentRef.instance;
                 dropdownComponent.init(this.value.value);
                 this.formCtrl.setValue(dropdownComponent.getRenderedValue());
+            } else {
+                this.formCtrl.setValue(this.value.value);
             }
+        }
+    }
+
+    public search() {
+        if (!this.configuration && !!this.formCtrl.value) {
+            this.valueChanges.emit({
+                attribute: 'search',
+                value: this.formCtrl.value,
+            });
         }
     }
 
@@ -104,12 +122,10 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         return injectionTokens;
     }
 
-    ngOnDestroy() {
-    }
-
     public clear() {
         this.configuration = null;
         this.value = null;
+        this.formCtrl.setValue(null);
         this.cleared.emit(this);
     }
 
@@ -120,6 +136,28 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         });
 
         rippleRef.fadeOut();
+    }
+
+    public openDropdown() {
+        if (this.dropdownRef) {
+            // Prevent to open multiple dropdowns.
+            // Happens as we open on "focus", and alt+tab re-activate focus on an element that already had
+            // focus when leaving window with another alt+tab
+            return;
+        }
+
+        this.launchRipple();
+
+        if (this.configuration) {
+
+            // If a configuration is selected, open specific component dropdown
+            this.openTypeDropdown();
+
+        } else if (!this.configuration && !this.formCtrl.value) {
+
+            // If there is no configuration and no string typed, show panel to select the configuration
+            this.openConfigurationsDropdown();
+        }
     }
 
     public openConfigurationsDropdown() {
