@@ -14,7 +14,7 @@ import {
     ViewChild,
 } from '@angular/core';
 import { MatRipple } from '@angular/material';
-import { FormControl } from '@angular/forms';
+import { FormControl, ValidatorFn } from '@angular/forms';
 import { NaturalSearchConfiguration, NaturalSearchItemConfiguration } from '../types/Configuration';
 import { ConfigurationSelectorComponent } from '../dropdown-components/configuration-selector/configuration-selector.component';
 import { NATURAL_DROPDOWN_DATA, NaturalDropdownService } from '../dropdown-container/dropdown.service';
@@ -23,7 +23,10 @@ import { InputOutput } from '../classes/input-output';
 import { NaturalDropdownRef } from '../dropdown-container/dropdown-ref';
 import { ComponentType, PortalInjector } from '@angular/cdk/portal';
 import { NaturalSearchDropdownComponent } from '../types/DropdownComponent';
+import { AlwaysErrorStateMatcher } from '../classes/AlwaysErrorStateMatcher';
 
+// bellow comment fix this : https://github.com/angular/angular/issues/18867
+// @dynamic
 @Component({
     selector: 'natural-input',
     templateUrl: './input.component.html',
@@ -45,6 +48,18 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
     private dropdownRef: NaturalDropdownRef;
 
     private dropdownComponentRef: ComponentRef<NaturalSearchDropdownComponent>;
+    public errorMatcher = new AlwaysErrorStateMatcher();
+
+    public static isComponentValid(component: NaturalSearchDropdownComponent): ValidatorFn {
+        return (control: FormControl): { [key: string]: boolean } => {
+
+            if (!component.isValid()) {
+                return {component: true};
+            }
+
+            return null;
+        };
+    }
 
     constructor(private element: ElementRef,
                 private dropdown: NaturalDropdownService,
@@ -88,9 +103,13 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
 
                 this.dropdownComponentRef = this.createComponent<NaturalSearchDropdownComponent>(this.configuration.component);
                 const dropdownComponent = this.dropdownComponentRef.instance;
-                dropdownComponent.init(this.value.value);
+                dropdownComponent.init(this.value.value, this.configuration.configuration);
+
+                this.formCtrl.setValidators([NaturalInputComponent.isComponentValid(dropdownComponent)]);
                 this.formCtrl.setValue(dropdownComponent.getRenderedValue());
+
             } else {
+
                 this.formCtrl.setValue(this.value.value);
             }
         }
@@ -115,7 +134,6 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         // Customize injector to allow data and dropdown reference injection in component
         const injectionTokens = new WeakMap();
         injectionTokens.set(NaturalDropdownRef, null);
-        injectionTokens.set(FormControl, this.formCtrl);
         injectionTokens.set(NATURAL_DROPDOWN_DATA, data);
 
         return injectionTokens;

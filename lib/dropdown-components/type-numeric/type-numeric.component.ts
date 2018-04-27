@@ -48,8 +48,7 @@ export class TypeNumericComponent implements NaturalSearchDropdownComponent, OnI
     }
 
     constructor(@Inject(NATURAL_DROPDOWN_DATA) public data: any,
-                protected dropdownRef: NaturalDropdownRef,
-                protected parentFormControl: FormControl) {
+                protected dropdownRef: NaturalDropdownRef) {
     }
 
     ngOnInit() {

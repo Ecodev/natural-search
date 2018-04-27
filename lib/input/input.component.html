@@ -1,6 +1,5 @@
 <div fxLayout="row" fxLayoutAlign="start stretch" #field matRipple>
-    <mat-form-field fxFlex>
-        <!--<mat-icon matPrefix>search</mat-icon>-->
+    <mat-form-field fxFlex color="accent">
         <input #input
                matInput
                type="text"
@@ -9,6 +8,7 @@
                [readonly]="configuration && value"
                (blur)="search()"
                (keydown.enter)="search()"
+               [errorStateMatcher]="errorMatcher"
         >
         <button mat-icon-button matSuffix (click)="clear()">
             <mat-icon>close</mat-icon>
