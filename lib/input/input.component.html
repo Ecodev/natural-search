@@ -6,7 +6,7 @@
                type="text"
                [formControl]="formCtrl"
                [placeholder]="configuration ? configuration.display : placeholder"
-               [readonly]="!!value"
+               [readonly]="configuration && value"
                (blur)="search()"
                (keydown.enter)="search()"
         >

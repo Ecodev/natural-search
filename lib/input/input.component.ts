@@ -32,7 +32,6 @@ import { NaturalSearchDropdownComponent } from '../types/DropdownComponent';
 export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input() placeholder = 'Rechercher';
-    @Input() readonly = false;
     @Input() configurations: NaturalSearchConfiguration;
     @Input() configuration: NaturalSearchItemConfiguration;
     @Input() value: NaturalSearchValue;
