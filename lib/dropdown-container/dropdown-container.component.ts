@@ -2,6 +2,7 @@ import {
     ChangeDetectionStrategy,
     Component,
     ComponentRef,
+    ElementRef,
     EmbeddedViewRef,
     OnDestroy,
     TemplateRef,
@@ -12,6 +13,8 @@ import { BasePortalOutlet, CdkPortalOutlet, ComponentPortal } from '@angular/cdk
 import { TemplatePortal } from '@angular/cdk/portal/typings/portal';
 import { naturalDropDownAnimations } from './dropdown-container-animations';
 import { Subject } from 'rxjs/Subject';
+import { FocusTrap, FocusTrapFactory } from '@angular/cdk/a11y';
+import { AnimationEvent } from '@angular/animations';
 
 export function throwMatDialogContentAlreadyAttachedError() {
     throw Error('Attempting to attach dialog content after content is already attached');
@@ -42,6 +45,14 @@ export class NaturalDropdownContainerComponent extends BasePortalOutlet implemen
     /** Emits whenever an animation on the menu completes. */
     private animationDone = new Subject<void>();
 
+    private focusTrap: FocusTrap;
+    private elementFocusedBeforeDialogWasOpened: HTMLElement | null = null;
+
+    constructor(private elementRef: ElementRef, private focusTrapFactory: FocusTrapFactory) {
+
+        super();
+    }
+
     ngOnDestroy() {
         this.closed.complete();
     }
@@ -66,8 +77,36 @@ export class NaturalDropdownContainerComponent extends BasePortalOutlet implemen
         this.panelAnimationState = 'enter';
     }
 
-    public onAnimationDone() {
+    public onAnimationDone(event: AnimationEvent) {
+        if (event.toState === 'enter') {
+            this.trapFocus();
+        } else if (event.toState === 'exit') {
+            this.restoreFocus();
+        }
+
         this.animationDone.next();
+    }
+
+    private trapFocus() {
+        if (!this.focusTrap) {
+            this.focusTrap = this.focusTrapFactory.create(this.elementRef.nativeElement);
+        }
+
+        this.focusTrap.focusInitialElementWhenReady();
+    }
+
+    /** Restores focus to the element that was focused before the dialog opened. */
+    private restoreFocus() {
+        const toFocus = this.elementFocusedBeforeDialogWasOpened;
+
+        // We need the extra check, because IE can set the `activeElement` to null in some cases.
+        if (toFocus && typeof toFocus.focus === 'function') {
+            toFocus.focus();
+        }
+
+        if (this.focusTrap) {
+            this.focusTrap.destroy();
+        }
     }
 
 }
