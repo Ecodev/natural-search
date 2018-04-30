@@ -40,6 +40,22 @@ export class TypeSelectComponent extends AbstractController implements OnInit {
         }
     }
 
+    public getDisplay(item) {
+        if (!!this.configuration.displayWith) {
+            return this.configuration.displayWith(item);
+        }
+
+        if (typeof item === 'string') {
+            return item;
+        }
+
+        if (item && item.name) {
+            return item.name;
+        }
+
+        return item;
+    }
+
     public select(item) {
         if (this.configuration.multiple) {
             if (!this.selected) {
@@ -64,7 +80,7 @@ export class TypeSelectComponent extends AbstractController implements OnInit {
 
     public getRenderedValue(): string {
         if (this.configuration.multiple) {
-            return this.selected.map(option => option.name).join(', ');
+            return this.selected.map(option => this.getDisplay(option)).join(', ');
         } else {
             return this.selected.name;
         }

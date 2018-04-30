@@ -54,18 +54,19 @@ export class AppComponent implements OnInit {
                 items: [
                     {
                         id: 1,
-                        name: 'Object 1',
+                        name: 'Single 1',
                     },
                     {
                         id: 2,
-                        name: 'Object 2',
+                        name: 'Single 2',
                     },
                     {
                         id: 3,
-                        name: 'Object 3',
+                        name: 'Single 3',
                     },
                 ],
                 multiple: false,
+
             },
         },
         {
@@ -76,19 +77,19 @@ export class AppComponent implements OnInit {
                 items: [
                     {
                         id: 1,
-                        name: 'Object 1',
+                        name: 'Multiple 1',
                     },
                     {
                         id: 2,
-                        name: 'Object 2',
+                        name: 'Multiple 2',
                     },
                     {
                         id: 3,
-                        name: 'Object 3',
+                        name: 'Multiple 3',
                     },
                 ],
                 multiple: true,
-                displayName: (item) => item.name,
+                displayWith: (item) => item.name,
                 matchItems: (a, b) => a.id === b.id,
             },
         },
@@ -109,11 +110,11 @@ export class AppComponent implements OnInit {
                 'value': [
                     {
                         'id': 2,
-                        'name': 'Object 2',
+                        'name': 'Multiple 2',
                     },
                     {
                         'id': 3,
-                        'name': 'Object 3',
+                        'name': 'Multiple 3',
                     },
                 ],
             },

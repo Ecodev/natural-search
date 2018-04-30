@@ -9,16 +9,15 @@
             </mat-nav-list>
         </mat-sidenav>
 
-        <div style="padding:20px;" fxLayout="column">
+        <div style="padding:20px;" fxLayout="column" fxLayoutGap="20px">
 
-            <natural-search [configurations]="config"
-                            [values]="values"
-                            (valuesChanges)="values = $event"
-                            [multipleGroups]="true"
+            <natural-search [configurations]="config" [(values)]="values" (valuesChanges)="$event" [multipleGroups]="true"
             ></natural-search>
 
-            <pre class="debug">{{values|json}}</pre>
-
+            <div fxLayout="row" fxLayoutGap="20px">
+                <pre class="debug" fxFlex><strong>Configuration (input) : </strong>{{config|json}}</pre>
+                <pre class="debug" fxFlex><strong>Result (output) : </strong>{{values|json}}</pre>
+            </div>
         </div>
     </mat-sidenav-container>
 </div>
