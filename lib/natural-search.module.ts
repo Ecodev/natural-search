@@ -12,7 +12,6 @@ import {
     MatMenuModule,
     MatRippleModule,
 } from '@angular/material';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { NaturalSearchComponent } from './search/search.component';
 import { NaturalInputComponent } from './input/input.component';
 import { PortalModule } from '@angular/cdk/portal';
@@ -67,7 +66,6 @@ export { TypeSelectComponent };
         MatIconModule,
         MatButtonModule,
         MatMenuModule,
-        FlexLayoutModule,
         MatRippleModule,
         PortalModule,
         OverlayModule,

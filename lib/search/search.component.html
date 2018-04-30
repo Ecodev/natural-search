@@ -1,19 +1,17 @@
-<div fxLayout="column" fxLayoutGap="10px">
-    <div *ngFor="let groupValues of values; let i = index; let last = last" fxLayout="row">
-        <natural-group fxFlex [values]="groupValues" [configurations]="configurations"></natural-group>
+<div class="groupWrapper" *ngFor="let groupValues of values; let i = index; let last = last">
+    <natural-group [values]="groupValues" [configurations]="configurations"></natural-group>
 
-        <button mat-icon-button *ngIf="values.length > 1" (click)="removeGroup(i)">
-            <mat-icon>remove</mat-icon>
-        </button>
+    <button mat-icon-button *ngIf="values.length > 1" (click)="removeGroup(i)">
+        <mat-icon>remove</mat-icon>
+    </button>
 
-        <button mat-icon-button *ngIf="last" (click)="addGroup()">
-            <mat-icon>add</mat-icon>
-        </button>
+    <button mat-icon-button *ngIf="last" (click)="addGroup()">
+        <mat-icon>add</mat-icon>
+    </button>
 
-        <!-- Spaceholder-->
-        <button mat-icon-button *ngIf="!last">
-            <mat-icon></mat-icon>
-        </button>
+    <!-- Spaceholder-->
+    <button mat-icon-button *ngIf="!last">
+        <mat-icon></mat-icon>
+    </button>
 
-    </div>
 </div>

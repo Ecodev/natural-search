@@ -1,0 +1,16 @@
+:host {
+
+    .groupWrapper {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 10px;
+
+        natural-group {
+            flex: 1;
+        }
+
+        &:last-of-type {
+            margin-bottom: 0;
+        }
+    }
+}
