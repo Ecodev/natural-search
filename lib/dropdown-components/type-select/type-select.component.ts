@@ -1,16 +1,19 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { NATURAL_DROPDOWN_DATA } from '../../dropdown-container/dropdown.service';
-import { NaturalSearchValue } from '../../types/Values';
+import { NaturalSearchDropdownResult, NaturalSearchValue } from '../../types/Values';
 import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
 import { TypeSelectConfiguration } from './TypeSelectConfiguration';
+import { NaturalSearchDropdownComponent } from '../../types/DropdownComponent';
+import { MatSelectionList } from '@angular/material';
 
 @Component({
     selector: 'natural-type-select',
     templateUrl: './type-select.component.html',
     styleUrls: ['./type-select.component.scss'],
 })
-export class TypeSelectComponent implements OnInit {
+export class TypeSelectComponent implements NaturalSearchDropdownComponent, OnInit {
 
+    @ViewChild(MatSelectionList) list: any;
     public configuration: TypeSelectConfiguration;
     public selected;
 
@@ -21,7 +24,7 @@ export class TypeSelectComponent implements OnInit {
     ngOnInit() {
     }
 
-    public init(value: any, configuration: TypeSelectConfiguration): void {
+    public init(value: NaturalSearchDropdownResult['value'], configuration: TypeSelectConfiguration): void {
 
         this.configuration = configuration;
 
@@ -31,6 +34,7 @@ export class TypeSelectComponent implements OnInit {
 
         if (!configuration.multiple) {
             value = [value];
+            this.list.selectedOptions._multiple = false;
         }
 
         // nav-list selector needs same references
@@ -59,10 +63,12 @@ export class TypeSelectComponent implements OnInit {
         return item;
     }
 
-    public select(item) {
-        if (!this.configuration.multiple) {
-            this.selected = item;
-            this.dropdownRef.close(item[0]);
+    public closeIfSingleAndHasValue() {
+        if (!this.configuration.multiple && this.selected.length) {
+            this.dropdownRef.close({
+                value: this.getValue(),
+                rendered: this.getRenderedValue(),
+            });
         }
     }
 
@@ -75,10 +81,20 @@ export class TypeSelectComponent implements OnInit {
     }
 
     public getRenderedValue(): string {
+
+        if (!this.selected) {
+            return '';
+        }
+
         return this.selected.map(option => this.getDisplay(option)).join(', ');
     }
 
     public isValid(): boolean {
+
+        if (!this.selected) {
+            return false;
+        }
+
         return this.selected.length > 0;
     }
 

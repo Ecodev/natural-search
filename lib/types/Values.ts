@@ -11,13 +11,15 @@ export interface NaturalSearchValue {
 /**
  * Groups are a list of values, that should be interpreted with AND condition
  */
-export interface NaturalSearchGroupValues extends Array<NaturalSearchValue> { }
+export interface NaturalSearchGroupValues extends Array<NaturalSearchValue> {
+}
 
 /**
  * List of groups
  * Final input / output format
  */
-export interface NaturalSearchValues extends Array<NaturalSearchGroupValues> { }
+export interface NaturalSearchValues extends Array<NaturalSearchGroupValues> {
+}
 
 /**
  * Consolidated type for a value and it's matching configuration
@@ -26,4 +28,9 @@ export interface NaturalSearchValues extends Array<NaturalSearchGroupValues> { }
 export interface NaturalSearchConfigurationValue {
     value: NaturalSearchValue;
     configuration: NaturalSearchItemConfiguration;
+}
+
+export interface NaturalSearchDropdownResult {
+    value: NaturalSearchValue['value'];
+    rendered: string;
 }

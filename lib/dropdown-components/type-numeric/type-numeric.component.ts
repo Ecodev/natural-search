@@ -3,7 +3,7 @@ import { FormControl, ValidatorFn } from '@angular/forms';
 import { NATURAL_DROPDOWN_DATA } from '../../dropdown-container/dropdown.service';
 import { NaturalSearchDropdownComponent } from '../../types/DropdownComponent';
 import { TypeNumericConfiguration } from './TypeNumericConfiguration';
-import { NaturalSearchValue } from '../../types/Values';
+import { NaturalSearchDropdownResult, NaturalSearchValue } from '../../types/Values';
 import { TouchedOrInitializedErrorStateMatcher } from '../../classes/TouchedOrInitializedErrorStateMatcher';
 
 // bellow comment fix this : https://github.com/angular/angular/issues/18867
@@ -52,7 +52,7 @@ export class TypeNumericComponent implements NaturalSearchDropdownComponent, OnI
     ngOnInit() {
     }
 
-    public init(value: any, configuration: TypeNumericConfiguration): void {
+    public init(value: NaturalSearchDropdownResult['value'], configuration: TypeNumericConfiguration): void {
         this.configuration = configuration;
         this.formCtrl = new FormControl('', TypeNumericComponent.number(configuration));
         this.formCtrl.setValue(value);

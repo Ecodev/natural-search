@@ -1,12 +1,12 @@
 import { Subject } from 'rxjs/Subject';
 import { NaturalDropdownContainerComponent } from './dropdown-container.component';
 import { OverlayRef } from '@angular/cdk/overlay';
-import { NaturalSearchValue } from '../types/Values';
+import { NaturalSearchDropdownResult } from '../types/Values';
 
 export class NaturalDropdownRef {
 
     public componentInstance;
-    public readonly closed = new Subject<NaturalSearchValue['value']>();
+    public readonly closed = new Subject<NaturalSearchDropdownResult>();
 
     constructor(private overlay: OverlayRef, private dropdownContainer: NaturalDropdownContainerComponent) {
         dropdownContainer.closed.subscribe(() => {
@@ -14,7 +14,7 @@ export class NaturalDropdownRef {
         });
     }
 
-    public close(result?: NaturalSearchValue['value']) {
+    public close(result?: NaturalSearchDropdownResult) {
         this.closed.next(result);
         this.closed.complete();
         this.dropdownContainer.close();

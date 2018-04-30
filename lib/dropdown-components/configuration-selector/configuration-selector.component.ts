@@ -3,6 +3,8 @@ import { NaturalSearchDropdownComponent } from '../../types/DropdownComponent';
 import { NaturalSearchConfiguration } from '../../types/Configuration';
 import { NATURAL_DROPDOWN_DATA } from '../../dropdown-container/dropdown.service';
 import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
+import { NaturalSearchDropdownResult } from '../../types/Values';
+import { NaturalSearchItemConfiguration } from '@ecodev/natural-search';
 
 @Component({
     selector: 'natural-configuration-selector',
@@ -23,15 +25,14 @@ export class ConfigurationSelectorComponent implements NaturalSearchDropdownComp
 
     /**
      * Set value for component initialisation purposes
-     * @param value
      */
-    public init(value: any): void {
+    public init(value: NaturalSearchDropdownResult['value'], configuration?: NaturalSearchItemConfiguration): void {
     }
 
     /**
      * Get value, including rich object types
      */
-    public getValue(): any {
+    public getValue(): NaturalSearchDropdownResult {
         return undefined;
     }
 

@@ -5,7 +5,7 @@
                type="text"
                [formControl]="formCtrl"
                [placeholder]="configuration ? configuration.display : placeholder"
-               [readonly]="configuration && value"
+               [readonly]="configuration && configuration.component && value"
                (blur)="search()"
                (keydown.enter)="search()"
                [errorStateMatcher]="errorMatcher"

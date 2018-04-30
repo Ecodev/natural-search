@@ -18,7 +18,7 @@ import { FormControl, ValidatorFn } from '@angular/forms';
 import { NaturalSearchConfiguration, NaturalSearchItemConfiguration } from '../types/Configuration';
 import { ConfigurationSelectorComponent } from '../dropdown-components/configuration-selector/configuration-selector.component';
 import { NATURAL_DROPDOWN_DATA, NaturalDropdownService } from '../dropdown-container/dropdown.service';
-import { NaturalSearchValue } from '../types/Values';
+import { NaturalSearchDropdownResult, NaturalSearchValue } from '../types/Values';
 import { InputOutput } from '../classes/input-output';
 import { NaturalDropdownRef } from '../dropdown-container/dropdown-ref';
 import { ComponentType, PortalInjector } from '@angular/cdk/portal';
@@ -105,7 +105,6 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
                 this.dropdownComponentRef = this.createComponent<NaturalSearchDropdownComponent>(this.configuration.component);
                 const dropdownComponent = this.dropdownComponentRef.instance;
                 dropdownComponent.init(this.value.value, this.configuration.configuration);
-
                 this.formCtrl.setValidators([NaturalInputComponent.isComponentValid(dropdownComponent)]);
                 this.formCtrl.setValue(dropdownComponent.getRenderedValue());
 
@@ -118,6 +117,10 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
     public search() {
 
         if (!this.formCtrl.value) {
+            return;
+        }
+
+        if (this.configuration && this.configuration.component) {
             return;
         }
 
@@ -190,12 +193,12 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         const injectorTokens = this.createInjectorTokens(data);
 
         this.dropdownRef = this.dropdown.open(ConfigurationSelectorComponent, this.element, injectorTokens);
-        this.dropdownRef.closed.subscribe(config => {
+        this.dropdownRef.closed.subscribe((result: NaturalSearchDropdownResult) => {
             this.dropdownRef = null;
-            if (config !== undefined) {
-                this.configuration = config;
-
-                if (config.component) {
+            console.log('result', result);
+            if (result !== undefined) {
+                this.configuration = result.value;
+                if (this.configuration.component) {
                     this.openTypeDropdown();
                 } else {
                     this.input.nativeElement.focus();
@@ -207,27 +210,28 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
 
     public openTypeDropdown(): void {
 
-        if (!this.configuration.component) {
-            return;
+        if (this.configuration && this.configuration.component) {
+
+            const data = {
+                configuration: this.configuration,
+                value: this.value ? this.value.value : null,
+            };
+
+            const injectorTokens = this.createInjectorTokens(data);
+            this.dropdownRef = this.dropdown.open(this.configuration.component, this.element, injectorTokens);
+            this.dropdownRef.closed.subscribe((result: NaturalSearchDropdownResult) => {
+                console.log('result', result);
+                this.dropdownRef = null;
+                if (result !== undefined) {
+                    this.formCtrl.setValue(result.rendered);
+                    this.valueChanges.emit({
+                        attribute: this.configuration.attribute,
+                        value: result.value,
+                    });
+                }
+            });
+
         }
-
-        const data = {
-            configuration: this.configuration,
-            value: this.value ? this.value.value : null,
-        };
-
-        const injectorTokens = this.createInjectorTokens(data);
-
-        this.dropdownRef = this.dropdown.open(this.configuration.component, this.element, injectorTokens);
-        this.dropdownRef.closed.subscribe((result: NaturalSearchValue['value']) => {
-            this.dropdownRef = null;
-            if (result !== undefined) {
-                this.valueChanges.emit({
-                    attribute: this.configuration.attribute,
-                    value: result,
-                });
-            }
-        });
 
     }
 
