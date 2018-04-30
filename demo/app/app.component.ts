@@ -4,6 +4,7 @@ import { OverlayContainer } from '@angular/cdk/overlay';
 import { TypeNumericComponent } from '@ecodev/natural-search';
 import { NaturalSearchValues } from '../../lib/types/Values';
 import { NaturalSearchConfiguration } from '../../lib/types/Configuration';
+import { TypeSelectComponent } from '../../lib/dropdown-components/type-select/type-select.component';
 
 @Component({
     selector: 'app-root',
@@ -45,18 +46,28 @@ export class AppComponent implements OnInit {
                 max: 100,
             },
         },
+        {
+            display: 'Select single',
+            attribute: 'select-single',
+            component: TypeSelectComponent,
+            configuration: {
+                items: [{id: 1, name: 'Object 1'}, {id: 2, name: 'Object 2'}, {id: 3, name: 'Object 3'}],
+                multiple: false
+            },
+        },
+        {
+            display: 'Select multiple',
+            attribute: 'select-multiple',
+            component: TypeSelectComponent,
+            configuration: {
+                items: [{id: 1, name: 'Object 1'}, {id: 2, name: 'Object 2'}, {id: 3, name: 'Object 3'}],
+                multiple: true
+            },
+        },
     ];
 
     public values: NaturalSearchValues = [
         [
-            {
-                attribute: 'numeric',
-                value: 123,
-            },
-            {
-                attribute: 'numeric0',
-                value: 234,
-            },
             {
                 attribute: 'numeric0-100',
                 value: 345,
