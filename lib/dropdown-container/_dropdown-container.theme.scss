@@ -4,5 +4,10 @@
 
     .natural-dropdown-container {
         background: mat-color($background, 'card');
+
+        & > * > * > * {
+            outline: none !important;
+        }
+
     }
 }
