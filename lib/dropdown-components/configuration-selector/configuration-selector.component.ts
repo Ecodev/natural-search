@@ -15,6 +15,8 @@ export class ConfigurationSelectorComponent implements NaturalSearchDropdownComp
 
     public configurations: NaturalSearchConfiguration;
 
+    public selection;
+
     constructor(@Inject(NATURAL_DROPDOWN_DATA) public data: any,
                 protected dropdownRef: NaturalDropdownRef) {
     }
@@ -46,12 +48,17 @@ export class ConfigurationSelectorComponent implements NaturalSearchDropdownComp
     /**
      * Allow to close the dropdown with a valid value
      */
-    protected close(value: any): void {
-        this.dropdownRef.close(value);
+    protected close(): void {
+        if (this.selection) {
+            this.dropdownRef.close({
+                value: this.selection,
+                rendered: null,
+            });
+        }
     }
 
     public isValid(): boolean {
-        return true;
+        return !!this.selection;
     }
 
 }

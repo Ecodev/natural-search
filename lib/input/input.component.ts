@@ -195,7 +195,6 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         this.dropdownRef = this.dropdown.open(ConfigurationSelectorComponent, this.element, injectorTokens);
         this.dropdownRef.closed.subscribe((result: NaturalSearchDropdownResult) => {
             this.dropdownRef = null;
-            console.log('result', result);
             if (result !== undefined) {
                 this.configuration = result.value;
                 if (this.configuration.component) {
@@ -220,7 +219,6 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
             const injectorTokens = this.createInjectorTokens(data);
             this.dropdownRef = this.dropdown.open(this.configuration.component, this.element, injectorTokens);
             this.dropdownRef.closed.subscribe((result: NaturalSearchDropdownResult) => {
-                console.log('result', result);
                 this.dropdownRef = null;
                 if (result !== undefined) {
                     this.formCtrl.setValue(result.rendered);
