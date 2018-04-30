@@ -1,3 +1,7 @@
-<mat-nav-list>
+<mat-nav-list *ngIf="!configuration.multiple">
     <mat-list-item *ngFor="let item of configuration.items" (click)="select(item)"> {{ item.name }}</mat-list-item>
 </mat-nav-list>
+
+<mat-selection-list #items [(ngModel)]="selected" *ngIf="configuration.multiple">
+    <mat-list-option *ngFor="let item of configuration.items" [value]="item" checkboxPosition="before">{{ item.name }}</mat-list-option>
+</mat-selection-list>

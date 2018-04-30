@@ -1,30 +1,43 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { NATURAL_DROPDOWN_DATA } from '../../dropdown-container/dropdown.service';
 import { NaturalSearchValue } from '../../types/Values';
-import { TypeNumericConfiguration } from '../type-numeric/TypeNumericConfiguration';
 import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
+import { TypeSelectConfiguration } from './TypeSelectConfiguration';
+import { AbstractController } from '../../classes/AbstractController';
 
 @Component({
     selector: 'natural-type-select',
     templateUrl: './type-select.component.html',
     styleUrls: ['./type-select.component.scss'],
 })
-export class TypeSelectComponent implements OnInit {
+export class TypeSelectComponent extends AbstractController implements OnInit {
 
     public configuration;
-
     public selected;
 
     constructor(@Inject(NATURAL_DROPDOWN_DATA) public data: any,
                 protected dropdownRef: NaturalDropdownRef) {
+        super();
     }
 
     ngOnInit() {
     }
 
-    public init(value: any, configuration: TypeNumericConfiguration): void {
+    public init(value: any, configuration: TypeSelectConfiguration): void {
         this.configuration = configuration;
-        this.selected = value;
+        if (!configuration.multiple) {
+            this.selected = value;
+
+        } else if (configuration.multiple && value) {
+            // nav-list selector needs same references
+            this.selected = configuration.items.filter((item) => {
+                for (const val of value) {
+                    if (configuration.matchItems(item, val)) {
+                        return true;
+                    }
+                }
+            });
+        }
     }
 
     public select(item) {
@@ -36,26 +49,33 @@ export class TypeSelectComponent implements OnInit {
 
         } else {
             this.selected = item;
-            console.log('this.selected', this.selected);
             this.dropdownRef.close(item); // close with selection
         }
 
     }
 
-    public getValue(): NaturalSearchValue {
-        return this.selected;
+    public getValue(): NaturalSearchValue['value'] {
+        if (this.configuration.multiple) {
+            return this.selected.map(option => option);
+        } else {
+            return this.selected;
+        }
     }
 
     public getRenderedValue(): string {
         if (this.configuration.multiple) {
-            return this.selected.map(el => el.name);
+            return this.selected.map(option => option.name).join(', ');
         } else {
             return this.selected.name;
         }
     }
 
     public isValid(): boolean {
-        return !!this.selected;
+        if (this.configuration.multiple) {
+            return this.selected.length > 0;
+        } else {
+            return !!this.selected;
+        }
     }
 
 }

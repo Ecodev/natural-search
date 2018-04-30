@@ -60,7 +60,7 @@ export class TypeNumericComponent implements NaturalSearchDropdownComponent, OnI
         this.formCtrl.setValue(value);
     }
 
-    public getValue(): NaturalSearchValue {
+    public getValue(): NaturalSearchValue['value'] {
         return this.formCtrl.value;
     }
 

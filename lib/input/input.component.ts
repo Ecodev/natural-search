@@ -109,7 +109,6 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
                 this.formCtrl.setValue(dropdownComponent.getRenderedValue());
 
             } else {
-
                 this.formCtrl.setValue(this.value.value);
             }
         }
@@ -200,7 +199,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
 
         const data = {
             configuration: this.configuration,
-            value: this.formCtrl.value,
+            value: this.value ? this.value.value : null,
         };
 
         const injectorTokens = this.createInjectorTokens(data);

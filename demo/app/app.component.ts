@@ -51,8 +51,21 @@ export class AppComponent implements OnInit {
             attribute: 'select-single',
             component: TypeSelectComponent,
             configuration: {
-                items: [{id: 1, name: 'Object 1'}, {id: 2, name: 'Object 2'}, {id: 3, name: 'Object 3'}],
-                multiple: false
+                items: [
+                    {
+                        id: 1,
+                        name: 'Object 1',
+                    },
+                    {
+                        id: 2,
+                        name: 'Object 2',
+                    },
+                    {
+                        id: 3,
+                        name: 'Object 3',
+                    },
+                ],
+                multiple: false,
             },
         },
         {
@@ -60,8 +73,23 @@ export class AppComponent implements OnInit {
             attribute: 'select-multiple',
             component: TypeSelectComponent,
             configuration: {
-                items: [{id: 1, name: 'Object 1'}, {id: 2, name: 'Object 2'}, {id: 3, name: 'Object 3'}],
-                multiple: true
+                items: [
+                    {
+                        id: 1,
+                        name: 'Object 1',
+                    },
+                    {
+                        id: 2,
+                        name: 'Object 2',
+                    },
+                    {
+                        id: 3,
+                        name: 'Object 3',
+                    },
+                ],
+                multiple: true,
+                displayName: (item) => item.name,
+                matchItems: (a, b) => a.id === b.id,
             },
         },
     ];
@@ -75,6 +103,19 @@ export class AppComponent implements OnInit {
             {
                 attribute: 'search',
                 value: 'free seach',
+            },
+            {
+                'attribute': 'select-multiple',
+                'value': [
+                    {
+                        'id': 2,
+                        'name': 'Object 2',
+                    },
+                    {
+                        'id': 3,
+                        'name': 'Object 3',
+                    },
+                ],
             },
         ],
     ];
