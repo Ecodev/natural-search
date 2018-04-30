@@ -66,7 +66,8 @@ export class AppComponent implements OnInit {
                     },
                 ],
                 multiple: false,
-
+                displayWith: (item) => item.name,
+                matchItems: (a, b) => a.id === b.id,
             },
         },
         {
@@ -104,6 +105,13 @@ export class AppComponent implements OnInit {
             {
                 attribute: 'search',
                 value: 'free seach',
+            },
+            {
+                'attribute': 'select-single',
+                'value': {
+                    'id': 2,
+                    'name': 'Multiple 2',
+                },
             },
             {
                 'attribute': 'select-multiple',

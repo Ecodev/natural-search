@@ -24,20 +24,25 @@ export class TypeSelectComponent extends AbstractController implements OnInit {
     }
 
     public init(value: any, configuration: TypeSelectConfiguration): void {
-        this.configuration = configuration;
-        if (!configuration.multiple) {
-            this.selected = value;
 
-        } else if (configuration.multiple && value) {
-            // nav-list selector needs same references
-            this.selected = configuration.items.filter((item) => {
-                for (const val of value) {
-                    if (configuration.matchItems(item, val)) {
-                        return true;
-                    }
-                }
-            });
+        this.configuration = configuration;
+
+        if (!value) {
+            return;
         }
+
+        if (!configuration.multiple) {
+            value = [value];
+        }
+
+        // nav-list selector needs same references
+        this.selected = configuration.items.filter((item) => {
+            for (const val of value) {
+                if (configuration.matchItems(item, val)) {
+                    return true;
+                }
+            }
+        });
     }
 
     public getDisplay(item) {
@@ -57,41 +62,27 @@ export class TypeSelectComponent extends AbstractController implements OnInit {
     }
 
     public select(item) {
-        if (this.configuration.multiple) {
-            if (!this.selected) {
-                this.selected = [];
-            }
-            this.selected.push(item);
-
-        } else {
+        console.log('select', item);
+        if (!this.configuration.multiple) {
             this.selected = item;
-            this.dropdownRef.close(item); // close with selection
+            this.dropdownRef.close(item[0]);
         }
-
     }
 
     public getValue(): NaturalSearchValue['value'] {
         if (this.configuration.multiple) {
             return this.selected.map(option => option);
         } else {
-            return this.selected;
+            return this.selected[0];
         }
     }
 
     public getRenderedValue(): string {
-        if (this.configuration.multiple) {
-            return this.selected.map(option => this.getDisplay(option)).join(', ');
-        } else {
-            return this.selected.name;
-        }
+        return this.selected.map(option => this.getDisplay(option)).join(', ');
     }
 
     public isValid(): boolean {
-        if (this.configuration.multiple && this.selected) {
-            return this.selected.length > 0;
-        } else if (!this.configuration.multiple) {
-            return !!this.selected;
-        }
+        return this.selected.length > 0;
     }
 
 }
