@@ -19,6 +19,10 @@ export class AppComponent implements OnInit {
 
     public config: NaturalSearchConfiguration = [
         {
+            display: 'Search in attribute',
+            attribute: 'search-attrib',
+        },
+        {
             display: 'Number',
             attribute: 'numeric',
             component: TypeNumericComponent,
@@ -100,6 +104,10 @@ export class AppComponent implements OnInit {
 
     public values: NaturalSearchValues = [
         [
+            {
+                attribute: 'search-attrib',
+                value: 'search-attrib',
+            },
             {
                 attribute: 'numeric0-100',
                 value: 345,

@@ -51,7 +51,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
     public errorMatcher = new AlwaysErrorStateMatcher();
 
     public static isComponentValid(component: NaturalSearchDropdownComponent): ValidatorFn {
-        return (control: FormControl): { [key: string]: boolean } => {
+        return (): { [key: string]: boolean } => {
 
             if (!component.isValid()) {
                 return {component: true};
@@ -94,7 +94,8 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
 
             // If has configuration, means we need a component from external config
             // If hasn't a configuration, that means we are in global search mode
-            if (this.configuration) {
+            if (this.configuration && this.configuration.component) {
+
                 // Always destroy and recreate component
                 // Todo : test if configuration has changed, if not re-use the component
                 if (this.dropdownComponentRef) {
@@ -109,18 +110,23 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
                 this.formCtrl.setValue(dropdownComponent.getRenderedValue());
 
             } else {
+                console.log('this.configuration', this.configuration);
                 this.formCtrl.setValue(this.value.value);
             }
         }
     }
 
     public search() {
-        if (!this.configuration && !!this.formCtrl.value) {
-            this.valueChanges.emit({
-                attribute: 'search',
-                value: this.formCtrl.value,
-            });
+
+        if (!this.formCtrl.value) {
+            return;
         }
+
+        this.valueChanges.emit({
+            attribute: this.configuration ? this.configuration.attribute : 'search',
+            value: this.formCtrl.value,
+        });
+
     }
 
     private createComponent<C>(component: ComponentType<C>): ComponentRef<C> {
@@ -189,13 +195,22 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
             this.dropdownRef = null;
             if (config !== undefined) {
                 this.configuration = config;
-                this.openTypeDropdown();
+
+                if (config.component) {
+                    this.openTypeDropdown();
+                } else {
+                    this.input.nativeElement.focus();
+                }
             }
         });
 
     }
 
     public openTypeDropdown(): void {
+
+        if (!this.configuration.component) {
+            return;
+        }
 
         const data = {
             configuration: this.configuration,
