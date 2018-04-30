@@ -1,3 +1,5 @@
+
+
 <div fxFlex fxFlexFill fxLayout="column">
 
     <mat-sidenav-container #navContainer fxFlex fxLayout="column">
@@ -10,6 +12,13 @@
         </mat-sidenav>
 
         <div style="padding:20px;" fxLayout="column" fxLayoutGap="20px">
+
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <h1 fxFlex class="mat-headline" style="margin-bottom:0">Natural Search</h1>
+                <a mat-raised-button color="primary" href="https://github.com/ecodev/natural-search">
+                    <img src="assets/github.svg" style="height:24px;"> Github
+                </a>
+            </div>
 
             <natural-search [configurations]="config" [(values)]="values" (valuesChanges)="$event" [multipleGroups]="true"
             ></natural-search>
