@@ -1,10 +1,12 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { ThemeService } from './shared/services/theme.service';
 import { OverlayContainer } from '@angular/cdk/overlay';
-import { TypeNumericComponent } from '@ecodev/natural-search';
+
 import { NaturalSearchValues } from '../../lib/types/Values';
 import { NaturalSearchConfiguration } from '../../lib/types/Configuration';
-import { TypeSelectComponent } from '../../lib/dropdown-components/type-select/type-select.component';
+
+import { TypeNumericComponent } from '@ecodev/natural-search';
+import { TypeSelectComponent } from '@ecodev/natural-search';
 
 @Component({
     selector: 'app-root',

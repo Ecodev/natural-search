@@ -1,5 +1,3 @@
-import { NaturalSearchDropdownComponent } from './DropdownComponent';
-
 /**
  * Configuration for one item
  */
@@ -13,4 +11,5 @@ export interface NaturalSearchItemConfiguration {
 /**
  * Exhaustive list of configurations
  */
-export interface NaturalSearchConfiguration extends Array<NaturalSearchItemConfiguration> { }
+export interface NaturalSearchConfiguration extends Array<NaturalSearchItemConfiguration> {
+}

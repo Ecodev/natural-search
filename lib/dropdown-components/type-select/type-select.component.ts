@@ -3,21 +3,19 @@ import { NATURAL_DROPDOWN_DATA } from '../../dropdown-container/dropdown.service
 import { NaturalSearchValue } from '../../types/Values';
 import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
 import { TypeSelectConfiguration } from './TypeSelectConfiguration';
-import { AbstractController } from '../../classes/AbstractController';
 
 @Component({
     selector: 'natural-type-select',
     templateUrl: './type-select.component.html',
     styleUrls: ['./type-select.component.scss'],
 })
-export class TypeSelectComponent extends AbstractController implements OnInit {
+export class TypeSelectComponent implements OnInit {
 
-    public configuration;
+    public configuration: TypeSelectConfiguration;
     public selected;
 
     constructor(@Inject(NATURAL_DROPDOWN_DATA) public data: any,
                 protected dropdownRef: NaturalDropdownRef) {
-        super();
     }
 
     ngOnInit() {
@@ -62,7 +60,6 @@ export class TypeSelectComponent extends AbstractController implements OnInit {
     }
 
     public select(item) {
-        console.log('select', item);
         if (!this.configuration.multiple) {
             this.selected = item;
             this.dropdownRef.close(item[0]);

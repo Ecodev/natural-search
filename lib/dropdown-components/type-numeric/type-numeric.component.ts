@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, ValidatorFn } from '@angular/forms';
-import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
 import { NATURAL_DROPDOWN_DATA } from '../../dropdown-container/dropdown.service';
 import { NaturalSearchDropdownComponent } from '../../types/DropdownComponent';
 import { TypeNumericConfiguration } from './TypeNumericConfiguration';
@@ -47,8 +46,7 @@ export class TypeNumericComponent implements NaturalSearchDropdownComponent, OnI
         };
     }
 
-    constructor(@Inject(NATURAL_DROPDOWN_DATA) public data: any,
-                protected dropdownRef: NaturalDropdownRef) {
+    constructor(@Inject(NATURAL_DROPDOWN_DATA) public data: any) {
     }
 
     ngOnInit() {
