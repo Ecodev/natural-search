@@ -1,20 +1,17 @@
-<div fxLayout="row" fxLayoutAlign="start stretch" #field matRipple>
-    <mat-form-field fxFlex>
-        <input #input
-               matInput
-               type="text"
-               [formControl]="formCtrl"
-               [placeholder]="configuration ? configuration.display : placeholder"
-               [readonly]="configuration && configuration.component && value"
-               (blur)="search()"
-               (keydown.enter)="search()"
-               [errorStateMatcher]="errorMatcher"
-        >
-        <button mat-icon-button matSuffix (click)="clear()">
-            <mat-icon>close</mat-icon>
-        </button>
-    </mat-form-field>
-</div>
-
-<!-- For later, dynamic width
-<!--<input [style.width.ch]="value.length" [(ngModel)]="value" />-->
+<mat-form-field fxFlex #field matRipple>
+    <input #input
+           matInput
+           type="text"
+           [formControl]="formCtrl"
+           [placeholder]="configuration ? configuration.display : placeholder"
+           [readonly]="configuration && configuration.component && value"
+           (blur)="search()"
+           (keydown.enter)="search()"
+           [errorStateMatcher]="errorMatcher"
+           [attr.size]="length"
+    >
+    <button mat-icon-button matSuffix (click)="clear()">
+        <mat-icon>close</mat-icon>
+    </button>
+</mat-form-field>
+<div class="hide">{{formCtrl.value ? formCtrl.value : (configuration ? configuration.display : placeholder)}}</div>

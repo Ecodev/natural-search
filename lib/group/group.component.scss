@@ -1,5 +1,14 @@
 :host {
+    display: flex;
+
+    natural-input {
+        flex: none;
+        display: inline-flex;
+        margin-right: 10px;
+    }
+
     natural-input:last-of-type {
-        flex:1
+        flex: 1;
+        margin-right: 0;
     }
 }

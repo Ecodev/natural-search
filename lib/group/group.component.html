@@ -1,10 +1,8 @@
-<div fxLayout="row" fxLayoutGap="10px">
-    <natural-input *ngFor="let value of values; let i = index"
-                   [configurations]="configurations"
-                   [value]="value"
-                   (valueChanges)="setValue($event, i)"
-                   (cleared)="removeValue(i, $event)"
-    ></natural-input>
+<natural-input *ngFor="let value of values; let i = index"
+               [configurations]="configurations"
+               [value]="value"
+               (valueChanges)="setValue($event, i)"
+               (cleared)="removeValue(i, $event)"
+></natural-input>
 
-    <natural-input #newValueInput [configurations]="configurations" (valueChanges)="addValue($event)"></natural-input>
-</div>
+<natural-input #newValueInput [configurations]="configurations" (valueChanges)="addValue($event)"></natural-input>

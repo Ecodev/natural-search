@@ -50,6 +50,9 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
     private dropdownComponentRef: ComponentRef<NaturalSearchDropdownComponent>;
     public errorMatcher = new AlwaysErrorStateMatcher();
 
+    public minlength = 5;
+    public length = this.minlength;
+
     public static isComponentValid(component: NaturalSearchDropdownComponent): ValidatorFn {
         return (): { [key: string]: boolean } => {
 
@@ -84,6 +87,10 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
                 this.dropdownRef.close();
             }
         });
+
+
+        const placeholderSize = (this.configuration ? this.configuration.display.length : this.placeholder.length) * 0.66;
+        this.length = Math.max(this.minlength, Math.ceil(placeholderSize));
     }
 
     ngOnChanges(changes: SimpleChanges) {
