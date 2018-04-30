@@ -87,9 +87,9 @@ export class TypeSelectComponent extends AbstractController implements OnInit {
     }
 
     public isValid(): boolean {
-        if (this.configuration.multiple) {
+        if (this.configuration.multiple && this.selected) {
             return this.selected.length > 0;
-        } else {
+        } else if (!this.configuration.multiple) {
             return !!this.selected;
         }
     }
