@@ -17,7 +17,7 @@ export class TypeNumericComponent implements NaturalSearchDropdownComponent, OnI
 
     public value;
     public configuration: TypeNumericConfiguration;
-    public formCtrl: FormControl;
+    public formCtrl: FormControl = new FormControl();
     public matcher = new TouchedOrInitializedErrorStateMatcher();
 
     public static number(params: { min?, max? } = {}): ValidatorFn {
@@ -46,7 +46,9 @@ export class TypeNumericComponent implements NaturalSearchDropdownComponent, OnI
         };
     }
 
-    constructor(@Inject(NATURAL_DROPDOWN_DATA) public data: any) {
+    // @Inject(NATURAL_DROPDOWN_DATA) public data: any
+    constructor() {
+
     }
 
     ngOnInit() {
@@ -54,7 +56,7 @@ export class TypeNumericComponent implements NaturalSearchDropdownComponent, OnI
 
     public init(value: NaturalSearchDropdownResult['value'], configuration: TypeNumericConfiguration): void {
         this.configuration = configuration;
-        this.formCtrl = new FormControl('', TypeNumericComponent.number(configuration));
+        this.formCtrl.setValidators([TypeNumericComponent.number(configuration)]);
         this.formCtrl.setValue(value);
     }
 

@@ -8,7 +8,7 @@ import { NaturalInputComponent } from '../input/input.component';
     templateUrl: './group.component.html',
     styleUrls: ['./group.component.scss'],
 })
-export class GroupComponent implements OnInit, OnChanges {
+export class NaturalGroupComponent implements OnInit, OnChanges {
 
     @ViewChild('newValueInput') newValueInput: NaturalInputComponent;
 

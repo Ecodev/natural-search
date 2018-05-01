@@ -1,15 +1,16 @@
-import { TestBed, inject } from '@angular/core/testing';
-
-import { DropdownService } from './dropdown.service';
+import { inject, TestBed } from '@angular/core/testing';
+import { NaturalDropdownService } from './dropdown.service';
+import { OverlayModule } from '@angular/cdk/overlay';
 
 describe('DropdownService', () => {
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [DropdownService]
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            providers: [NaturalDropdownService],
+            imports: [OverlayModule],
+        });
     });
-  });
 
-  it('should be created', inject([DropdownService], (service: DropdownService) => {
-    expect(service).toBeTruthy();
-  }));
+    it('should be created', inject([NaturalDropdownService], (service: NaturalDropdownService) => {
+        expect(service).toBeTruthy();
+    }));
 });

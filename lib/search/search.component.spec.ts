@@ -1,20 +1,67 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-
-import {SearchComponent} from './natural-search.component';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NaturalSearchComponent } from './search.component';
+import { NaturalGroupComponent } from '../group/group.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NaturalDropdownService } from '../dropdown-container/dropdown.service';
+import {
+    MatButtonModule,
+    MatCheckboxModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatListModule,
+    MatMenuModule,
+    MatRippleModule,
+} from '@angular/material';
+import { PortalModule } from '@angular/cdk/portal';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { CommonModule } from '@angular/common';
+import { TypeNumericComponent } from '../dropdown-components/type-numeric/type-numeric.component';
+import { TypeSelectComponent } from '../dropdown-components/type-select/type-select.component';
+import { NaturalDropdownContainerComponent } from '../dropdown-container/dropdown-container.component';
+import { NaturalInputComponent } from '../input/input.component';
+import { ConfigurationSelectorComponent } from '../dropdown-components/configuration-selector/configuration-selector.component';
 
 describe('NaturalSearchComponent', () => {
-    let component: SearchComponent;
-    let fixture: ComponentFixture<SearchComponent>;
+    let component: NaturalSearchComponent;
+    let fixture: ComponentFixture<NaturalSearchComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [SearchComponent]
-        })
-            .compileComponents();
+            declarations: [
+                NaturalSearchComponent,
+                NaturalGroupComponent,
+                NaturalInputComponent,
+                NaturalDropdownContainerComponent,
+                TypeNumericComponent,
+                ConfigurationSelectorComponent,
+                TypeSelectComponent,
+            ],
+            providers: [
+                NaturalDropdownService,
+            ],
+            imports: [
+                CommonModule,
+                FormsModule,
+                ReactiveFormsModule,
+                MatFormFieldModule,
+                MatInputModule,
+                MatCheckboxModule,
+                MatIconModule,
+                MatButtonModule,
+                MatMenuModule,
+                MatRippleModule,
+                PortalModule,
+                OverlayModule,
+                MatDialogModule,
+                MatListModule,
+            ],
+        }).compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(SearchComponent);
+        fixture = TestBed.createComponent(NaturalSearchComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

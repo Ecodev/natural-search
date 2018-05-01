@@ -20,8 +20,8 @@ import { NaturalDropdownContainerComponent } from './dropdown-container/dropdown
 import { TypeNumericComponent } from './dropdown-components/type-numeric/type-numeric.component';
 import { ConfigurationSelectorComponent } from './dropdown-components/configuration-selector/configuration-selector.component';
 import { NaturalDropdownService } from './dropdown-container/dropdown.service';
-import { GroupComponent } from './group/group.component';
 import { TypeSelectComponent } from './dropdown-components/type-select/type-select.component';
+import { NaturalGroupComponent } from './group/group.component';
 
 export * from './types/Configuration';
 export * from './types/DropdownComponent';
@@ -34,11 +34,11 @@ export { TypeSelectComponent };
 @NgModule({
     declarations: [
         NaturalSearchComponent,
+        NaturalGroupComponent,
         NaturalInputComponent,
         NaturalDropdownContainerComponent,
         TypeNumericComponent,
         ConfigurationSelectorComponent,
-        GroupComponent,
         TypeSelectComponent,
     ],
     entryComponents: [
