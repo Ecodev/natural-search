@@ -1,5 +1,5 @@
 import { NaturalSearchDropdownResult } from './Values';
-import { NaturalSearchItemConfiguration } from '@ecodev/natural-search';
+import { NaturalSearchItemConfiguration } from './Configuration';
 
 export interface NaturalSearchDropdownComponent {
 

@@ -4,7 +4,7 @@ import { NaturalSearchConfiguration } from '../../types/Configuration';
 import { NATURAL_DROPDOWN_DATA } from '../../dropdown-container/dropdown.service';
 import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
 import { NaturalSearchDropdownResult } from '../../types/Values';
-import { NaturalSearchItemConfiguration } from '@ecodev/natural-search';
+import { NaturalSearchItemConfiguration } from '../../types/Configuration';
 
 @Component({
     selector: 'natural-configuration-selector',
