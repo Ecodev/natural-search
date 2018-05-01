@@ -103,40 +103,7 @@ export class AppComponent implements OnInit {
     ];
 
     public values: NaturalSearchValues = [
-        [
-            {
-                attribute: 'search-attrib',
-                value: 'search-attrib',
-            },
-            {
-                attribute: 'numeric0-100',
-                value: 345,
-            },
-            {
-                attribute: 'search',
-                value: 'free seach',
-            },
-            {
-                'attribute': 'select-single',
-                'value': {
-                    'id': 2,
-                    'name': 'Multiple 2',
-                },
-            },
-            {
-                'attribute': 'select-multiple',
-                'value': [
-                    {
-                        'id': 2,
-                        'name': 'Multiple 2',
-                    },
-                    {
-                        'id': 3,
-                        'name': 'Multiple 3',
-                    },
-                ],
-            },
-        ],
+        [],
     ];
 
     constructor(public themeService: ThemeService, private overlayContainer: OverlayContainer) {
