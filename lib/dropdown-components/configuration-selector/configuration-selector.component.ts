@@ -1,10 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { NaturalSearchDropdownComponent } from '../../types/DropdownComponent';
-import { NaturalSearchConfiguration } from '../../types/Configuration';
+import { NaturalSearchConfiguration, NaturalSearchItemConfiguration } from '../../types/Configuration';
 import { NATURAL_DROPDOWN_DATA } from '../../dropdown-container/dropdown.service';
 import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
 import { NaturalSearchDropdownResult } from '../../types/Values';
-import { NaturalSearchItemConfiguration } from '../../types/Configuration';
 
 @Component({
     selector: 'natural-configuration-selector',
@@ -51,8 +50,7 @@ export class ConfigurationSelectorComponent implements NaturalSearchDropdownComp
     protected close(): void {
         if (this.selection) {
             this.dropdownRef.close({
-                value: this.selection,
-                rendered: null,
+                configuration: this.selection,
             });
         }
     }

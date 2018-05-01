@@ -5,6 +5,7 @@ export interface NaturalSearchItemConfiguration {
     display: string;
     attribute: string;
     component?: any; // NaturalSearchDropdownComponent;
+    flag?: any;
     configuration?: any;
 }
 

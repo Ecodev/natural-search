@@ -89,7 +89,6 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
             }
         });
 
-
         const placeholderSize = (this.configuration ? this.configuration.display.length : this.placeholder.length) * 0.66;
         this.length = Math.max(this.minlength, Math.ceil(placeholderSize));
     }
@@ -115,6 +114,12 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
                 dropdownComponent.init(this.value.value, this.configuration.configuration);
                 this.formCtrl.setValidators([NaturalInputComponent.isComponentValid(dropdownComponent)]);
                 this.formCtrl.setValue(dropdownComponent.getRenderedValue());
+
+            } else if (this.configuration && this.configuration.flag) {
+                this.setValue({
+                    value: this.configuration.flag,
+                    rendered: '',
+                });
 
             } else {
                 this.formCtrl.setValue(this.value.value);
@@ -204,12 +209,12 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         this.dropdownRef.closed.subscribe((result: NaturalSearchDropdownResult) => {
             this.dropdownRef = null;
             if (result !== undefined) {
-                this.configuration = result.value;
-                if (this.configuration.component) {
-                    this.openTypeDropdown();
-                } else {
-                    this.input.nativeElement.focus();
+                if (result.configuration) {
+                    this.setConfiguration(result.configuration);
+                } else if (result.value) {
+                    this.setValue(result);
                 }
+
             }
         });
 
@@ -217,6 +222,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
 
     public openTypeDropdown(): void {
 
+        console.log('openTypeDropdown');
         if (this.configuration && this.configuration.component) {
 
             const data = {
@@ -229,16 +235,37 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
             this.dropdownRef.closed.subscribe((result: NaturalSearchDropdownResult) => {
                 this.dropdownRef = null;
                 if (result !== undefined) {
-                    this.formCtrl.setValue(result.rendered);
-                    this.valueChanges.emit({
-                        attribute: this.configuration.attribute,
-                        value: result.value,
-                    });
+                    this.setValue(result);
                 }
             });
 
         }
 
+    }
+
+    public setConfiguration(config) {
+        this.configuration = config;
+
+        if (config.component) {
+            this.openTypeDropdown();
+
+        } else if (config.flag) {
+            this.setValue({
+                value: config.flag,
+                rendered: null,
+            });
+
+        } else {
+            this.input.nativeElement.focus();
+        }
+    }
+
+    public setValue(result) {
+        this.formCtrl.setValue(result.rendered);
+        this.valueChanges.emit({
+            attribute: this.configuration.attribute,
+            value: result.value,
+        });
     }
 
 }

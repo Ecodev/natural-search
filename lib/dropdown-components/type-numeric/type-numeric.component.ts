@@ -1,6 +1,5 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, ValidatorFn } from '@angular/forms';
-import { NATURAL_DROPDOWN_DATA } from '../../dropdown-container/dropdown.service';
 import { NaturalSearchDropdownComponent } from '../../types/DropdownComponent';
 import { TypeNumericConfiguration } from './TypeNumericConfiguration';
 import { NaturalSearchDropdownResult, NaturalSearchValue } from '../../types/Values';
@@ -15,7 +14,7 @@ import { TouchedOrInitializedErrorStateMatcher } from '../../classes/TouchedOrIn
 })
 export class TypeNumericComponent implements NaturalSearchDropdownComponent, OnInit {
 
-    public value;
+    public value: NaturalSearchValue['value'];
     public configuration: TypeNumericConfiguration;
     public formCtrl: FormControl = new FormControl();
     public matcher = new TouchedOrInitializedErrorStateMatcher();
@@ -48,7 +47,6 @@ export class TypeNumericComponent implements NaturalSearchDropdownComponent, OnI
 
     // @Inject(NATURAL_DROPDOWN_DATA) public data: any
     constructor() {
-
     }
 
     ngOnInit() {

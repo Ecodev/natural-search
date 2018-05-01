@@ -31,6 +31,7 @@ export interface NaturalSearchConfigurationValue {
 }
 
 export interface NaturalSearchDropdownResult {
-    value: NaturalSearchValue['value'];
-    rendered: string;
+    value?: NaturalSearchValue['value'];
+    rendered?: string;
+    configuration?: NaturalSearchItemConfiguration;
 }

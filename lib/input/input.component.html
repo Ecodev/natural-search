@@ -10,11 +10,11 @@
            [errorStateMatcher]="errorMatcher"
            [attr.size]="length"
     >
-    <button mat-icon-button matPrefix (click)="clear()" *ngIf="value">
+    <button mat-icon-button matPrefix (click)="clear()" *ngIf="value" class="positionMiddle">
         <mat-icon>close</mat-icon>
     </button>
 
-    <button mat-icon-button matPrefix (click)="clear()" *ngIf="configuration && !value" class="positionMiddle">
+    <button mat-icon-button matPrefix (click)="clear()" *ngIf="configuration && !value">
         <mat-icon>undo</mat-icon>
     </button>
 

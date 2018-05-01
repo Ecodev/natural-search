@@ -5,8 +5,7 @@ import { OverlayContainer } from '@angular/cdk/overlay';
 import { NaturalSearchValues } from '../../lib/types/Values';
 import { NaturalSearchConfiguration } from '../../lib/types/Configuration';
 
-import { TypeNumericComponent } from '@ecodev/natural-search';
-import { TypeSelectComponent } from '@ecodev/natural-search';
+import { TypeNumericComponent, TypeSelectComponent } from '@ecodev/natural-search';
 
 @Component({
     selector: 'app-root',
@@ -18,6 +17,11 @@ export class AppComponent implements OnInit {
     @HostBinding('class') public theme = '';
 
     public config: NaturalSearchConfiguration = [
+        {
+            display: 'With archives',
+            attribute: 'is-flagged',
+            flag: 'asdf',
+        },
         {
             display: 'Search in attribute',
             attribute: 'search-attrib',
@@ -103,7 +107,12 @@ export class AppComponent implements OnInit {
     ];
 
     public values: NaturalSearchValues = [
-        [],
+        [
+            {
+                attribute: 'is-flagged',
+                value: 'asdf',
+            },
+        ],
     ];
 
     constructor(public themeService: ThemeService, private overlayContainer: OverlayContainer) {
