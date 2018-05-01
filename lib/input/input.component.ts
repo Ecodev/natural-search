@@ -74,7 +74,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     ngOnInit() {
-        const test = 1;
+
         this.input.nativeElement.addEventListener('focus', () => {
             this.openDropdown();
         });
