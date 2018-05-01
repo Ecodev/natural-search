@@ -14,4 +14,9 @@
         position: absolute;
         pointer-events: none;
     }
+
+    .positionMiddle {
+        position:relative;
+        top:-5px;
+    }
 }

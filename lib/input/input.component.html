@@ -10,8 +10,13 @@
            [errorStateMatcher]="errorMatcher"
            [attr.size]="length"
     >
-    <button mat-icon-button matSuffix (click)="clear()">
+    <button mat-icon-button matPrefix (click)="clear()" *ngIf="value">
         <mat-icon>close</mat-icon>
     </button>
+
+    <button mat-icon-button matPrefix (click)="clear()" *ngIf="configuration && !value" class="positionMiddle">
+        <mat-icon>undo</mat-icon>
+    </button>
+
 </mat-form-field>
 <div class="hide">{{formCtrl.value ? formCtrl.value : (configuration ? configuration.display : placeholder)}}</div>
