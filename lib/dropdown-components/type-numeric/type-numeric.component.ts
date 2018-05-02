@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, ValidatorFn } from '@angular/forms';
+import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { NaturalSearchDropdownComponent } from '../../types/DropdownComponent';
 import { TypeNumericConfiguration } from './TypeNumericConfiguration';
 import { NaturalSearchDropdownResult, NaturalSearchValue } from '../../types/Values';
-import { TouchedOrInitializedErrorStateMatcher } from '../../classes/TouchedOrInitializedErrorStateMatcher';
+import { ErrorStateMatcher } from '@angular/material';
 
-// bellow comment fix this : https://github.com/angular/angular/issues/18867
-// @dynamic
+class InvalidWithValueStateMatcher implements ErrorStateMatcher {
+    isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+        return control && control.invalid && control.value;
+    }
+}
+
 @Component({
     selector: 'natural-type-numeric',
     templateUrl: './type-numeric.component.html',
@@ -17,33 +21,7 @@ export class TypeNumericComponent implements NaturalSearchDropdownComponent, OnI
     public value: NaturalSearchValue['value'];
     public configuration: TypeNumericConfiguration;
     public formCtrl: FormControl = new FormControl();
-    public matcher = new TouchedOrInitializedErrorStateMatcher();
-
-    public static number(params: { min?, max? } = {}): ValidatorFn {
-        return (control: FormControl): { [key: string]: boolean } => {
-
-            const val: number = control.value;
-            if (!val) {
-                return;
-            }
-
-            if (isNaN(val)) {
-                return {'number': true};
-
-            } else if (!isNaN(params.min) && !isNaN(params.max)) {
-                return val < params.min || val > params.max ? {'minmax': true} : null;
-
-            } else if (!isNaN(params.min)) {
-                return val < params.min ? {'min': true} : null;
-
-            } else if (!isNaN(params.max)) {
-                return val > params.max ? {'max': true} : null;
-            } else {
-
-                return null;
-            }
-        };
-    }
+    public matcher = new InvalidWithValueStateMatcher();
 
     // @Inject(NATURAL_DROPDOWN_DATA) public data: any
     constructor() {
@@ -53,8 +31,14 @@ export class TypeNumericComponent implements NaturalSearchDropdownComponent, OnI
     }
 
     public init(value: NaturalSearchDropdownResult['value'], configuration: TypeNumericConfiguration): void {
-        this.configuration = configuration;
-        this.formCtrl.setValidators([TypeNumericComponent.number(configuration)]);
+        this.configuration = configuration ? configuration : {};
+
+        this.formCtrl.setValidators([
+            Validators.required,
+            Validators.max(this.configuration.max),
+            Validators.min(this.configuration.min),
+        ]);
+
         this.formCtrl.setValue(value);
     }
 
