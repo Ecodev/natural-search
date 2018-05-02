@@ -228,7 +228,6 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
 
     public openTypeDropdown(): void {
 
-        console.log('openTypeDropdown');
         if (this.configuration && this.configuration.component) {
 
             const data = {

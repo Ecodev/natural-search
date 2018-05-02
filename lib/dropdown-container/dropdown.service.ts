@@ -69,6 +69,13 @@ export class NaturalDropdownService {
 
     private getPosition(element): ConnectedPositionStrategy {
 
+        // @Todo : Prevent menu to overflow screen if too long
+        // https://github.com/angular/material2/releases/tag/6.0.0-rc.2
+        // Replace .connectedTo(element
+        // by
+        // .flexibleConnectedTo(this.element).withPositions([
+        // Returns FlexibleConnectedPositionStrategy
+
         return this.overlay.position()
                    .connectedTo(element,
                        {
