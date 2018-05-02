@@ -13,8 +13,8 @@ import {
     SimpleChanges,
     ViewChild,
 } from '@angular/core';
-import { MatRipple } from '@angular/material';
-import { FormControl, ValidatorFn } from '@angular/forms';
+import { ErrorStateMatcher, MatRipple } from '@angular/material';
+import { FormControl, FormGroupDirective, NgForm, ValidatorFn } from '@angular/forms';
 import { NaturalSearchConfiguration, NaturalSearchItemConfiguration } from '../types/Configuration';
 import { ConfigurationSelectorComponent } from '../dropdown-components/configuration-selector/configuration-selector.component';
 import { NATURAL_DROPDOWN_DATA, NaturalDropdownService } from '../dropdown-container/dropdown.service';
@@ -23,7 +23,13 @@ import { InputOutput } from '../classes/input-output';
 import { NaturalDropdownRef } from '../dropdown-container/dropdown-ref';
 import { ComponentType, PortalInjector } from '@angular/cdk/portal';
 import { NaturalSearchDropdownComponent } from '../types/DropdownComponent';
-import { AlwaysErrorStateMatcher } from '../classes/AlwaysErrorStateMatcher';
+
+// Required to check invalid fields when initializing natural-search
+class AlwaysErrorStateMatcher implements ErrorStateMatcher {
+    isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+        return control && control.invalid;
+    }
+}
 
 // bellow comment fix this : https://github.com/angular/angular/issues/18867
 // @dynamic
