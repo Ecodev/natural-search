@@ -5,7 +5,7 @@ import { OverlayContainer } from '@angular/cdk/overlay';
 import { NaturalSearchValues } from '../../lib/types/Values';
 import { NaturalSearchConfiguration } from '../../lib/types/Configuration';
 
-import { TypeNumericComponent, TypeSelectComponent } from '@ecodev/natural-search';
+import { TypeNumericComponent, TypeNumericRangeComponent, TypeSelectComponent } from '@ecodev/natural-search';
 
 @Component({
     selector: 'app-root',
@@ -25,6 +25,20 @@ export class AppComponent implements OnInit {
         {
             display: 'Search in attribute',
             attribute: 'search-attrib',
+        },
+        {
+            display: 'Range',
+            attribute: 'range',
+            component: TypeNumericRangeComponent,
+        },
+        {
+            display: 'Range 0 - 100',
+            attribute: 'range0-100',
+            component: TypeNumericRangeComponent,
+            configuration: {
+                min: 0,
+                max: 100,
+            },
         },
         {
             display: 'Number',
