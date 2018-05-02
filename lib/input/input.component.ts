@@ -25,7 +25,7 @@ import { ComponentType, PortalInjector } from '@angular/cdk/portal';
 import { NaturalSearchDropdownComponent } from '../types/DropdownComponent';
 
 // Required to check invalid fields when initializing natural-search
-class AlwaysErrorStateMatcher implements ErrorStateMatcher {
+export class AlwaysErrorStateMatcher implements ErrorStateMatcher {
     isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
         return control && control.invalid;
     }

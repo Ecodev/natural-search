@@ -41,6 +41,17 @@ export class AppComponent implements OnInit {
             },
         },
         {
+            display: 'Range 2 values',
+            attribute: 'range-2values',
+            component: TypeNumericRangeComponent,
+            configuration: {
+                min: 0,
+                max: 100,
+                fromRequired: true,
+                toRequired: true,
+            },
+        },
+        {
             display: 'Number',
             attribute: 'numeric',
             component: TypeNumericComponent,

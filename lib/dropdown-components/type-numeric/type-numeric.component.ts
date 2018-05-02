@@ -5,7 +5,7 @@ import { TypeNumericConfiguration } from './TypeNumericConfiguration';
 import { NaturalSearchDropdownResult, NaturalSearchValue } from '../../types/Values';
 import { ErrorStateMatcher } from '@angular/material';
 
-class InvalidWithValueStateMatcher implements ErrorStateMatcher {
+export class InvalidWithValueStateMatcher implements ErrorStateMatcher {
     isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
         return control && control.invalid && control.value;
     }

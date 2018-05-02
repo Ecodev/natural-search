@@ -22,11 +22,13 @@ import { ConfigurationSelectorComponent } from './dropdown-components/configurat
 import { NaturalDropdownService } from './dropdown-container/dropdown.service';
 import { TypeSelectComponent } from './dropdown-components/type-select/type-select.component';
 import { NaturalGroupComponent } from './group/group.component';
+import { TypeNumericRangeComponent } from './dropdown-components/type-numeric-range/type-numeric-range.component';
 
 export * from './types/Configuration';
 export * from './types/DropdownComponent';
 export * from './dropdown-components/type-numeric/TypeNumericConfiguration';
 export * from './dropdown-components/type-select/TypeSelectConfiguration';
+export * from './dropdown-components/type-numeric-range/type-numeric-range.component';
 
 export { TypeNumericComponent };
 export { TypeSelectComponent };
@@ -40,12 +42,14 @@ export { TypeSelectComponent };
         TypeNumericComponent,
         ConfigurationSelectorComponent,
         TypeSelectComponent,
+        TypeNumericRangeComponent,
     ],
     entryComponents: [
         NaturalDropdownContainerComponent,
         ConfigurationSelectorComponent,
         TypeNumericComponent,
         TypeSelectComponent,
+        TypeNumericRangeComponent,
     ],
     exports: [
         NaturalDropdownContainerComponent,
