@@ -43,6 +43,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
     @Input() placeholder = 'Rechercher';
     @Input() configurations: NaturalSearchConfiguration;
     @Input() configuration: NaturalSearchItemConfiguration;
+    @Input() searchAttributeName = 'search';
     @Input() value: NaturalSearchValue;
     @Output() valueChange = new EventEmitter<NaturalSearchValue>();
     @Output() cleared = new EventEmitter<NaturalInputComponent>();
@@ -101,7 +102,10 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
 
     ngOnChanges(changes: SimpleChanges) {
 
-        if (this.configurations && this.value) {
+        if (!this.configurations && this.value) {
+            setTimeout(() => this.clear());
+
+        } else if (this.configurations && this.value) {
 
             this.configuration = InputOutput.getConfigurationFromValue(this.configurations, this.value);
 
@@ -118,15 +122,22 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
                 this.dropdownComponentRef = this.createComponent<NaturalSearchDropdownComponent>(this.configuration.component);
                 const dropdownComponent = this.dropdownComponentRef.instance;
                 dropdownComponent.init(this.value.value, this.configuration.configuration);
+
                 this.formCtrl.setValidators([NaturalInputComponent.isComponentValid(dropdownComponent)]);
                 this.formCtrl.setValue(dropdownComponent.getRenderedValue());
 
             } else if (this.configuration && this.configuration.flag) {
                 this.formCtrl.setValue('');
 
-            } else {
+            } else if (this.configuration || this.value.attribute === this.searchAttributeName) {
                 this.formCtrl.setValue(this.value.value);
+
+            } else {
+
+                // If component is invalid (no config and not a global search), clear from result and destroy component
+                setTimeout(() => this.clear());
             }
+
         }
     }
 
@@ -141,7 +152,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         this.valueChange.emit({
-            attribute: this.configuration ? this.configuration.attribute : 'search',
+            attribute: this.configuration ? this.configuration.attribute : this.searchAttributeName,
             value: this.formCtrl.value,
         });
 

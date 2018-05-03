@@ -16,15 +16,11 @@ export class AppComponent implements OnInit {
 
     @HostBinding('class') public theme = '';
 
-    public config: NaturalSearchConfiguration = [
+    public config1: NaturalSearchConfiguration = [
+
         {
-            display: 'With archives',
-            attribute: 'is-flagged',
-            flag: 'asdf',
-        },
-        {
-            display: 'Search in attribute',
-            attribute: 'search-attrib',
+            display: 'Artist',
+            attribute: 'artist',
         },
         {
             display: 'Range',
@@ -32,72 +28,27 @@ export class AppComponent implements OnInit {
             component: TypeNumericRangeComponent,
         },
         {
-            display: 'Range 0 - 100',
-            attribute: 'range0-100',
-            component: TypeNumericRangeComponent,
-            configuration: {
-                min: 0,
-                max: 100,
-            },
-        },
-        {
-            display: 'Range 2 values',
-            attribute: 'range-2values',
-            component: TypeNumericRangeComponent,
-            configuration: {
-                min: 0,
-                max: 100,
-                fromRequired: true,
-                toRequired: true,
-            },
-        },
-        {
             display: 'Number',
-            attribute: 'numeric',
+            attribute: 'number',
             component: TypeNumericComponent,
         },
         {
-            display: 'Number > 0',
-            attribute: 'numeric0',
-            component: TypeNumericComponent,
-            configuration: {
-                min: 0,
-            },
-        },
-        {
-            display: 'Number < 100',
-            attribute: 'numeric100',
-            component: TypeNumericComponent,
-            configuration: {
-                max: 100,
-            },
-        },
-        {
-            display: 'Number 0 < < 100',
-            attribute: 'numeric0-100',
-            component: TypeNumericComponent,
-            configuration: {
-                min: 0,
-                max: 100,
-            },
-        },
-        {
-            display: 'Select single',
-            attribute: 'select-single',
+            display: 'Select',
+            attribute: 'select',
             component: TypeSelectComponent,
             configuration: {
                 items: [
                     {
                         id: 1,
-                        name: 'Single 1',
+                        name: 'Option A',
                     },
                     {
                         id: 2,
-                        name: 'Single 2',
+                        name: 'Option B',
                     },
                     {
                         id: 3,
-                        name: 'Single 3',
+                        name: 'Option C',
                     },
                 ],
                 multiple: false,
@@ -106,22 +57,22 @@ export class AppComponent implements OnInit {
             },
         },
         {
-            display: 'Select multiple',
-            attribute: 'select-multiple',
+            display: 'Checkbox',
+            attribute: 'checkbox',
             component: TypeSelectComponent,
             configuration: {
                 items: [
                     {
                         id: 1,
-                        name: 'Multiple 1',
+                        name: 'Option A',
                     },
                     {
                         id: 2,
-                        name: 'Multiple 2',
+                        name: 'Option B',
                     },
                     {
                         id: 3,
-                        name: 'Multiple 3',
+                        name: 'Option C',
                     },
                 ],
                 multiple: true,
@@ -129,13 +80,53 @@ export class AppComponent implements OnInit {
                 matchItems: (a, b) => a.id === b.id,
             },
         },
+        {
+            display: 'With archives',
+            attribute: 'archived',
+            flag: true,
+        },
+    ];
+
+    public config: NaturalSearchConfiguration = this.config1;
+    public output;
+
+    public config2: NaturalSearchConfiguration = [
+        {
+            display: 'Number',
+            attribute: 'number',
+            component: TypeNumericComponent,
+            configuration: {
+                max: 100,
+            },
+        },
+        {
+            display: 'With archives',
+            attribute: 'archived',
+            flag: 'true',
+        },
     ];
 
     public values: NaturalSearchValues = [
         [
             {
-                attribute: 'is-flagged',
-                value: 'asdf',
+                attribute: 'artist',
+                value: 'picasso',
+            },
+            {
+                attribute: 'number',
+                value: 123,
+            },
+            {
+                attribute: 'archived',
+                value: 'true',
+            },
+            {
+                attribute: 'unsued',
+                value: 'unused value',
+            },
+            {
+                attribute: 'search',
+                value: 'searched',
             },
         ],
     ];
@@ -144,7 +135,6 @@ export class AppComponent implements OnInit {
     }
 
     public ngOnInit() {
-
         this.themeService.theme.subscribe(newTheme => {
             this.overlayContainer.getContainerElement().classList.remove('default');
             this.overlayContainer.getContainerElement().classList.remove('defaultDark');
