@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChildren } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChildren } from '@angular/core';
 import { NaturalInputComponent } from '../input/input.component';
 import { NaturalSearchConfiguration } from '../types/Configuration';
 import { NaturalSearchValues } from '../types/Values';
@@ -13,8 +13,9 @@ export class NaturalSearchComponent implements OnInit, OnChanges {
     @ViewChildren(NaturalInputComponent) inputs: NaturalInputComponent[];
 
     @Input() configurations: NaturalSearchConfiguration;
-    @Input() values: NaturalSearchValues;
     @Input() multipleGroups: boolean;
+    @Input() values: NaturalSearchValues;
+    @Output() valuesChange = new EventEmitter<NaturalSearchValues>();
 
     constructor() {
     }
@@ -25,12 +26,24 @@ export class NaturalSearchComponent implements OnInit, OnChanges {
     ngOnChanges(changes: SimpleChanges) {
     }
 
+    public setValue(value, index) {
+        const values = this.values.slice(0);
+        values[index] = value;
+        this.values = values;
+        this.valuesChange.emit(values);
+    }
+
     public addGroup() {
-        this.values.push([]);
+        const groups = this.values.slice(0);
+        groups.push([]);
+        this.values = groups;
+        this.valuesChange.emit(this.values);
     }
 
     public removeGroup(index) {
-        this.values.splice(index, 1);
+        const values = this.values.slice(0);
+        values.splice(index, 1);
+        this.values = values;
+        this.valuesChange.emit(values);
     }
-
 }

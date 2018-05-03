@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { NaturalSearchConfiguration } from '../types/Configuration';
 import { NaturalSearchGroupValues, NaturalSearchValue } from '../types/Values';
 import { NaturalInputComponent } from '../input/input.component';
@@ -14,6 +14,7 @@ export class NaturalGroupComponent implements OnInit, OnChanges {
 
     @Input() configurations: NaturalSearchConfiguration;
     @Input() values: NaturalSearchGroupValues;
+    @Output() valuesChange = new EventEmitter<NaturalSearchGroupValues>();
 
     constructor() {
     }
@@ -24,17 +25,24 @@ export class NaturalGroupComponent implements OnInit, OnChanges {
     ngOnChanges(changes: SimpleChanges) {
     }
 
-    public setValue(value: NaturalSearchValue, index: number) {
-        this.values[index] = value;
+    public updateInput(value: NaturalSearchValue, index: number) {
+        const values = this.values.slice(0);
+        values[index] = value;
+        this.values = values;
+        this.valuesChange.emit(values);
     }
 
-    public addValue(value?: NaturalSearchValue): void {
+    public addInput(value?: NaturalSearchValue): void {
         this.newValueInput.clear();
-        this.values.push(value);
+        this.values = this.values.concat([value]);
+        this.valuesChange.emit(this.values);
     }
 
-    public removeValue(index: number) {
-        this.values.splice(index, 1);
+    public removeInput(index: number) {
+        const values = this.values.slice(0);
+        values.splice(index, 1);
+        this.values = values;
+        this.valuesChange.emit(values);
     }
 
 }

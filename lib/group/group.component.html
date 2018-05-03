@@ -1,8 +1,8 @@
 <natural-input *ngFor="let value of values; let i = index"
                [configurations]="configurations"
                [value]="value"
-               (valueChanges)="setValue($event, i)"
-               (cleared)="removeValue(i, $event)"
+               (valueChange)="updateInput($event, i)"
+               (cleared)="removeInput(i)"
 ></natural-input>
 
-<natural-input #newValueInput [configurations]="configurations" (valueChanges)="addValue($event)"></natural-input>
+<natural-input #newValueInput [configurations]="configurations" (valueChange)="addInput($event)"></natural-input>

@@ -44,7 +44,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
     @Input() configurations: NaturalSearchConfiguration;
     @Input() configuration: NaturalSearchItemConfiguration;
     @Input() value: NaturalSearchValue;
-    @Output() valueChanges = new EventEmitter<NaturalSearchValue>();
+    @Output() valueChange = new EventEmitter<NaturalSearchValue>();
     @Output() cleared = new EventEmitter<NaturalInputComponent>();
 
     @ViewChild(MatRipple) ripple: MatRipple;
@@ -122,10 +122,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
                 this.formCtrl.setValue(dropdownComponent.getRenderedValue());
 
             } else if (this.configuration && this.configuration.flag) {
-                this.setValue({
-                    value: this.configuration.flag,
-                    rendered: '',
-                });
+                this.formCtrl.setValue('');
 
             } else {
                 this.formCtrl.setValue(this.value.value);
@@ -143,7 +140,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
             return;
         }
 
-        this.valueChanges.emit({
+        this.valueChange.emit({
             attribute: this.configuration ? this.configuration.attribute : 'search',
             value: this.formCtrl.value,
         });
@@ -267,7 +264,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
 
     public setValue(result) {
         this.formCtrl.setValue(result.rendered);
-        this.valueChanges.emit({
+        this.valueChange.emit({
             attribute: this.configuration.attribute,
             value: result.value,
         });
