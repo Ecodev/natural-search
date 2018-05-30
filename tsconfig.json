@@ -1,6 +1,8 @@
 {
     "compileOnSave": false,
     "compilerOptions": {
+        "baseUrl": "./",
+        "outDir": "./dist/out-tsc",
         "sourceMap": true,
         "declaration": false,
         "moduleResolution": "node",
@@ -14,13 +16,13 @@
             "es2017",
             "dom"
         ],
-        "baseUrl": ".",
         "paths": {
-            "@ecodev/natural-search": ["lib"]
+            "@ecodev/natural-search": [
+                "dist/natural-search"
+            ],
+            "@ecodev/natural-search/*": [
+                "dist/natural-search/*"
+            ]
         }
-    },
-    "exclude": [
-        "node_modules",
-        "tmp"
-    ]
+    }
 }

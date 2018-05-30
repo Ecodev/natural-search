@@ -6,8 +6,7 @@ node_js:
 cache: yarn
 
 script:
-  - ./node_modules/.bin/ng test --progress false --single-run --browsers ChromeHeadlessCustom
-
-before_install:
-  - nvm install 8
-  - nvm use 8
+  - yarn build-lib
+  - ./node_modules/.bin/ng test demo --progress false --watch=false --browsers ChromeHeadlessCustom
+  - ./node_modules/.bin/ng test natural-search --progress false --watch=false --browsers ChromeHeadlessCustom
+  - yarn lint

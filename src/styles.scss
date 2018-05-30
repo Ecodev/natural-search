@@ -1,0 +1,68 @@
+@import '~@angular/material/theming';
+@import '../projects/natural-search/src/lib/natural-search.theme';
+@import url(https://fonts.googleapis.com/icon?family=Material+Icons);
+
+@include mat-core();
+
+// Include components themes
+@mixin components-theme($theme) {
+    @include natural-search-theme($theme);
+}
+
+$theme-primary: mat-palette($mat-cyan);
+$theme-accent: mat-palette($mat-orange);
+$theme-warn: mat-palette($mat-red);
+$light-theme: mat-light-theme($theme-primary, $theme-accent, $theme-warn);
+$dark-theme: mat-dark-theme($theme-primary, $theme-accent, $theme-warn);
+
+$baseColorLight: mat-color(map-get($light-theme, foreground), base);
+$baseColorDark: mat-color(map-get($dark-theme, foreground), base);
+
+@include angular-material-theme($light-theme);
+
+.default {
+    color: $baseColorLight;
+    @include components-theme($light-theme);
+    #menu {
+        background: mat-color(map-get($light-theme, primary));
+    }
+}
+
+.defaultDark {
+    color: $baseColorDark;
+    @include angular-material-theme($dark-theme);
+    @include components-theme($dark-theme);
+    #menu {
+        background: mat-color(map-get($dark-theme, primary));
+    }
+}
+
+body {
+    margin: 0;
+}
+
+html, body {
+    height: 100%;
+}
+
+pre.debug {
+    padding: 10px;
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.5em;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.2);
+    font-family: Courrier, monospace;
+}
+
+[debug] {
+    border: 2px solid red;
+}
+
+[debug][children] > * {
+    border: 2px solid orange;
+}
+
+[debug][children][grandchildren] > * > * {
+    border: 2px solid green;
+}

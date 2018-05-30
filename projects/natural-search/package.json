@@ -1,0 +1,10 @@
+{
+    "name": "natural-search",
+    "version": "0.0.1",
+    "peerDependencies": {
+        "@angular/common": "^6.0.0",
+        "@angular/core": "^^6.0.0",
+        "@angular/material": "^^6.0.0",
+        "@angular/cdk": "^6.0.0"
+    }
+}
