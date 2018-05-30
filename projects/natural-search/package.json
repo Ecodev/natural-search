@@ -1,10 +1,11 @@
 {
-    "name": "natural-search",
-    "version": "0.0.1",
+    "name": "@ecodev/natural-search",
+    "version": "0.0.2",
+    "license": "MIT",
     "peerDependencies": {
         "@angular/common": "^6.0.0",
-        "@angular/core": "^^6.0.0",
-        "@angular/material": "^^6.0.0",
+        "@angular/core": "^6.0.0",
+        "@angular/material": "^S6.0.0",
         "@angular/cdk": "^6.0.0"
     }
 }
