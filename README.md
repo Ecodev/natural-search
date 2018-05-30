@@ -1,27 +1,24 @@
-# NaturalSearch
+# Natural Search
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.5.
+This component to search things via facets. 
 
-## Development server
+See the component in action on [the demo page](https://ecodev.github.io/natural-search).
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Install
 
-## Code scaffolding
+```bash
+yarn add @ecodev/natural-search
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Development
 
-## Build
+The most useful commands for development are:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+- `yarn dev` to start a development server
+- `yarn build-docs` to build and commit (but not push) the docs/demo page
+- `yarn release` to publish the lib to npm
 
-## Running unit tests
+## Prior work
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+While the implementation is entirely different, [VisualSearch.js
+](https://github.com/documentcloud/visualsearch/) was an important inspiration.
