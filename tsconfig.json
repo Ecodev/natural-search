@@ -18,7 +18,7 @@
         ],
         "paths": {
             "@ecodev/natural-search": [
-                "dist/natural-search"
+                "projects//natural-search/src/public_api"
             ],
             "@ecodev/natural-search/*": [
                 "dist/natural-search/*"
