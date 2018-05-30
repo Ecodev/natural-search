@@ -6,7 +6,8 @@
 [![License](https://img.shields.io/npm/l/@ecodev/natural-search.svg)](https://www.npmjs.com/package/@ecodev/natural-search)
 [![Join the chat at https://gitter.im/Ecodev/natural-search](https://badges.gitter.im/Ecodev/natural-search.svg)](https://gitter.im/Ecodev/natural-search)
 
-This component to search things via facets. 
+This is an Angular component to search for things via configurable facets. Facets may be
+configured to use one of the built-in component, or a custom component to input values.
 
 See the component in action on [the demo page](https://ecodev.github.io/natural-search).
 
