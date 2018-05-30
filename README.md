@@ -1,5 +1,7 @@
 # NaturalSearch
 
+[![Join the chat at https://gitter.im/Ecodev/natural-search](https://badges.gitter.im/Ecodev/natural-search.svg)](https://gitter.im/Ecodev/natural-search?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.5.
 
 ## Development server
