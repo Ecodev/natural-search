@@ -6,11 +6,10 @@ import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
 import { NaturalSearchDropdownResult } from '../../types/Values';
 
 @Component({
-    selector: 'natural-configuration-selector',
     templateUrl: './configuration-selector.component.html',
     styleUrls: ['./configuration-selector.component.scss'],
 })
-export class ConfigurationSelectorComponent implements NaturalSearchDropdownComponent, OnInit {
+export class ConfigurationSelectorComponent implements NaturalSearchDropdownComponent<any>, OnInit {
 
     public configurations: NaturalSearchConfiguration;
 
@@ -27,13 +26,13 @@ export class ConfigurationSelectorComponent implements NaturalSearchDropdownComp
     /**
      * Set value for component initialisation purposes
      */
-    public init(value: NaturalSearchDropdownResult['value'], configuration?: NaturalSearchItemConfiguration): void {
+    public init(value: any, configuration?: NaturalSearchItemConfiguration): void {
     }
 
     /**
      * Get value, including rich object types
      */
-    public getValue(): NaturalSearchDropdownResult {
+    public getValue(): any {
         return undefined;
     }
 

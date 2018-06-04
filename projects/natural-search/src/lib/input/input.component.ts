@@ -22,12 +22,12 @@ import {
 } from '../types/Configuration';
 import { ConfigurationSelectorComponent } from '../dropdown-components/configuration-selector/configuration-selector.component';
 import { NATURAL_DROPDOWN_DATA, NaturalDropdownService } from '../dropdown-container/dropdown.service';
-import { NaturalSearchDropdownResult, NaturalSearchValue } from '../types/Values';
+import { NaturalSearchDropdownResult, NaturalSearchSelection } from '../types/Values';
 import { InputOutput } from '../classes/input-output';
 import { NaturalDropdownRef } from '../dropdown-container/dropdown-ref';
 import { ComponentType, PortalInjector } from '@angular/cdk/portal';
 import { NaturalSearchDropdownComponent } from '../types/DropdownComponent';
-import { Type } from '@angular/core';
+import { NaturalSearchValue } from '@ecodev/natural-search/lib/types/Values';
 
 // Required to check invalid fields when initializing natural-search
 export class AlwaysErrorStateMatcher implements ErrorStateMatcher {
@@ -35,6 +35,8 @@ export class AlwaysErrorStateMatcher implements ErrorStateMatcher {
         return control && control.invalid;
     }
 }
+
+type AnyDropdownComponent = NaturalSearchDropdownComponent<NaturalSearchValue>;
 
 // bellow comment fix this : https://github.com/angular/angular/issues/18867
 // @dynamic
@@ -49,8 +51,8 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
     @Input() configurations: NaturalSearchConfiguration;
     @Input() configuration: NaturalSearchItemConfiguration;
     @Input() searchAttributeName = 'search';
-    @Input() value: NaturalSearchValue;
-    @Output() valueChange = new EventEmitter<NaturalSearchValue>();
+    @Input() selection: NaturalSearchSelection;
+    @Output() selectionChange = new EventEmitter<NaturalSearchSelection>();
     @Output() cleared = new EventEmitter<NaturalInputComponent>();
 
     @ViewChild(MatRipple) ripple: MatRipple;
@@ -59,13 +61,13 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
     public formCtrl: FormControl = new FormControl();
     private dropdownRef: NaturalDropdownRef;
 
-    private dropdownComponentRef: ComponentRef<NaturalSearchDropdownComponent>;
+    private dropdownComponentRef: ComponentRef<AnyDropdownComponent>;
     public errorMatcher = new AlwaysErrorStateMatcher();
 
     public minlength = 5;
     public length = this.minlength;
 
-    public static isComponentValid(component: NaturalSearchDropdownComponent): ValidatorFn {
+    public static isComponentValid(component: AnyDropdownComponent): ValidatorFn {
         return (): { [key: string]: boolean } => {
 
             if (!component.isValid()) {
@@ -107,12 +109,12 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
 
     ngOnChanges(changes: SimpleChanges) {
 
-        if (!this.configurations && this.value) {
+        if (!this.configurations && this.selection) {
             setTimeout(() => this.clear());
 
-        } else if (this.configurations && this.value) {
+        } else if (this.configurations && this.selection) {
 
-            this.configuration = InputOutput.getConfigurationFromValue(this.configurations, this.value);
+            this.configuration = InputOutput.getConfigurationFromValue(this.configurations, this.selection);
 
             // If has configuration, means we need a component from external config
             // If hasn't a configuration, that means we are in global search mode
@@ -125,8 +127,8 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
             } else if (this.isFlag()) {
                 this.formCtrl.setValue('');
 
-            } else if (this.configuration || this.value.attribute === this.searchAttributeName) {
-                this.formCtrl.setValue(this.value.value);
+            } else if (this.configuration || this.selection.attribute === this.searchAttributeName) {
+                this.formCtrl.setValue(this.selection.value);
 
             } else {
 
@@ -147,14 +149,14 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
             return;
         }
 
-        this.valueChange.emit({
+        this.selectionChange.emit({
             attribute: this.configuration ? this.configuration.attribute : this.searchAttributeName,
             value: this.formCtrl.value,
         });
 
     }
 
-    private createComponent(configuration: NaturalSearchDropdownConfiguration): NaturalSearchDropdownComponent {
+    private createComponent(configuration: NaturalSearchDropdownConfiguration): AnyDropdownComponent {
         // Always destroy and recreate component
         // Todo : test if configuration has changed, if not re-use the component
         if (this.dropdownComponentRef) {
@@ -162,11 +164,11 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         const injector = new PortalInjector(this.injector, this.createInjectorTokens());
-        const factory = this.componentFactoryResolver.resolveComponentFactory<NaturalSearchDropdownComponent>(configuration.component);
+        const factory = this.componentFactoryResolver.resolveComponentFactory<AnyDropdownComponent>(configuration.component);
         this.dropdownComponentRef = factory.create(injector);
 
         const dropdownComponent = this.dropdownComponentRef.instance;
-        dropdownComponent.init(this.value.value, configuration.configuration);
+        dropdownComponent.init(this.selection.value as NaturalSearchValue, configuration.configuration);
 
         return dropdownComponent;
     }
@@ -183,7 +185,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
 
     public clear() {
         this.configuration = null;
-        this.value = null;
+        this.selection = null;
         this.formCtrl.setValue(null);
         this.cleared.emit(this);
     }
@@ -247,7 +249,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
 
         const data = {
             configuration: this.configuration,
-            value: this.value ? this.value.value : null,
+            value: this.selection ? this.selection.value : null,
         };
 
         const injectorTokens = this.createInjectorTokens(data);
@@ -261,7 +263,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         });
     }
 
-    private isDropdown(): boolean {
+    public isDropdown(): boolean {
         return !!(this.configuration && (this.configuration as NaturalSearchDropdownConfiguration).component);
     }
 
@@ -286,9 +288,9 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         }
     }
 
-    public setValue(result) {
+    public setValue(result: NaturalSearchDropdownResult) {
         this.formCtrl.setValue(result.rendered);
-        this.valueChange.emit({
+        this.selectionChange.emit({
             attribute: this.configuration.attribute,
             value: result.value,
         });

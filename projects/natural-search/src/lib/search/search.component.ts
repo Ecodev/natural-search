@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChildren } from '@angular/core';
 import { NaturalInputComponent } from '../input/input.component';
 import { NaturalSearchConfiguration } from '../types/Configuration';
-import { NaturalSearchValues } from '../types/Values';
+import { NaturalSearchGroupSelections, NaturalSearchSelection, NaturalSearchSelections } from '../types/Values';
 
 @Component({
     selector: 'natural-search',
@@ -13,9 +13,9 @@ export class NaturalSearchComponent implements OnInit, OnChanges {
     @ViewChildren(NaturalInputComponent) inputs: NaturalInputComponent[];
 
     @Input() configurations: NaturalSearchConfiguration;
-    @Input() multipleGroups: boolean;
-    @Input() values: NaturalSearchValues;
-    @Output() valuesChange = new EventEmitter<NaturalSearchValues>();
+    @Input() multipleGroups: false;
+    @Input() selections: NaturalSearchSelections;
+    @Output() selectionsChange = new EventEmitter<NaturalSearchSelections>();
 
     constructor() {
     }
@@ -26,24 +26,24 @@ export class NaturalSearchComponent implements OnInit, OnChanges {
     ngOnChanges(changes: SimpleChanges) {
     }
 
-    public setValue(value, index) {
-        const values = this.values.slice(0);
-        values[index] = value;
-        this.values = values;
-        this.valuesChange.emit(values);
+    public setGroupSelection(groupSelections: NaturalSearchGroupSelections, index: number): void {
+        const groups = this.selections.slice(0);
+        groups[index] = groupSelections;
+        this.selections = groups;
+        this.selectionsChange.emit(groups);
     }
 
-    public addGroup() {
-        const groups = this.values.slice(0);
+    public addGroup(): void {
+        const groups = this.selections.slice(0);
         groups.push([]);
-        this.values = groups;
-        this.valuesChange.emit(this.values);
+        this.selections = groups;
+        this.selectionsChange.emit(this.selections);
     }
 
-    public removeGroup(index) {
-        const values = this.values.slice(0);
-        values.splice(index, 1);
-        this.values = values;
-        this.valuesChange.emit(values);
+    public removeGroup(index: number): void {
+        const groups = this.selections.slice(0);
+        groups.splice(index, 1);
+        this.selections = groups;
+        this.selectionsChange.emit(groups);
     }
 }

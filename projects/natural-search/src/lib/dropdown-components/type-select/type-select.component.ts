@@ -1,17 +1,15 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { NATURAL_DROPDOWN_DATA } from '../../dropdown-container/dropdown.service';
-import { NaturalSearchDropdownResult, NaturalSearchValue } from '../../types/Values';
 import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
 import { TypeSelectConfiguration } from './TypeSelectConfiguration';
 import { NaturalSearchDropdownComponent } from '../../types/DropdownComponent';
 import { MatSelectionList } from '@angular/material';
 
 @Component({
-    selector: 'natural-type-select',
     templateUrl: './type-select.component.html',
     styleUrls: ['./type-select.component.scss'],
 })
-export class TypeSelectComponent implements NaturalSearchDropdownComponent, OnInit {
+export class TypeSelectComponent implements NaturalSearchDropdownComponent<any[]>, OnInit {
 
     @ViewChild(MatSelectionList) list: any;
     public configuration: TypeSelectConfiguration;
@@ -24,7 +22,7 @@ export class TypeSelectComponent implements NaturalSearchDropdownComponent, OnIn
     ngOnInit() {
     }
 
-    public init(value: NaturalSearchDropdownResult['value'], configuration: TypeSelectConfiguration): void {
+    public init(value: any[], configuration: TypeSelectConfiguration): void {
 
         this.configuration = configuration;
 
@@ -72,7 +70,7 @@ export class TypeSelectComponent implements NaturalSearchDropdownComponent, OnIn
         }
     }
 
-    public getValue(): NaturalSearchValue['value'] {
+    public getValue(): any[] {
         if (this.configuration.multiple) {
             return this.selected.map(option => option);
         } else {

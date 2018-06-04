@@ -3,7 +3,7 @@ import { ThemeService } from './shared/services/theme.service';
 import { OverlayContainer } from '@angular/cdk/overlay';
 
 import {
-    NaturalSearchValues,
+    NaturalSearchSelections,
     NaturalSearchConfiguration,
     TypeNumericComponent,
     TypeNumericRangeComponent,
@@ -109,7 +109,7 @@ export class AppComponent implements OnInit {
         },
     ];
 
-    public values: NaturalSearchValues = [
+    public selections: NaturalSearchSelections = [
         [
             {
                 attribute: 'artist',

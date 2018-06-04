@@ -18,7 +18,7 @@
                 </a>
             </div>
 
-            <natural-search [configurations]="config" [(values)]="values" [multipleGroups]="true"></natural-search>
+            <natural-search [configurations]="config" [(selections)]="selections" [multipleGroups]="true"></natural-search>
 
             <div fxLayout="row" fxLayoutGap="20px">
                 <button mat-raised-button color="primary" (click)="config = config1">Config 1</button>
@@ -28,7 +28,7 @@
 
             <div fxLayout="row" fxLayoutGap="20px">
                 <pre class="debug" fxFlex><strong>Config : </strong>{{config|json}}</pre>
-                <pre class="debug" fxFlex><strong>Values : </strong>{{values|json}}</pre>
+                <pre class="debug" fxFlex><strong>Selections : </strong>{{selections |json}}</pre>
             </div>
         </div>
     </mat-sidenav-container>

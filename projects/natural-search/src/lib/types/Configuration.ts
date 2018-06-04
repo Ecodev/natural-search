@@ -1,5 +1,6 @@
 import { NaturalSearchDropdownComponent } from './DropdownComponent';
 import { Type } from '@angular/core';
+import { NaturalSearchValue } from '@ecodev/natural-search/lib/types/Values';
 
 export interface NaturalSearchBasicConfiguration {
     /**
@@ -23,7 +24,7 @@ export interface NaturalSearchBasicConfiguration {
  * Configuration for an item that uses a component in a dropdown
  */
 export interface NaturalSearchDropdownConfiguration extends NaturalSearchBasicConfiguration {
-    component: Type<NaturalSearchDropdownComponent>;
+    component: Type<NaturalSearchDropdownComponent<NaturalSearchValue>>;
 
     /**
      * Anything that could be useful for the dropdown component

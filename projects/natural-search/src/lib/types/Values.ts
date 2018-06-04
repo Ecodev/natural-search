@@ -1,14 +1,14 @@
 import { NaturalSearchItemConfiguration } from './Configuration';
 
 /**
- * Type for a value
+ * Type for a search selection
  */
-export interface NaturalSearchValue {
+export interface NaturalSearchSelection {
     attribute: string;
-    value: any;
+    value: NaturalSearchValue | NaturalSearchValue[];
 }
 
-interface RangeValue {
+export interface RangeValue {
     from: number;
     to: number;
 }
@@ -21,30 +21,27 @@ interface NumericValue {
     lessOrEqual?: number;
 }
 
+type NaturalSearchValue = string | number | RangeValue | NumericValue;
+
 /**
  * Groups are a list of values, that should be interpreted with AND condition
  */
-export interface NaturalSearchGroupValues extends Array<NaturalSearchValue> {
+export interface NaturalSearchGroupSelections extends Array<NaturalSearchSelection> {
 }
 
 /**
  * List of groups, that should be interpreted with OR condition
  * Final input / output format
  */
-export interface NaturalSearchValues extends Array<NaturalSearchGroupValues> {
+export interface NaturalSearchSelections extends Array<NaturalSearchGroupSelections> {
 }
 
 /**
- * Consolidated type for a value and it's matching configuration
- * Used for configure a mat-input
+ * Consolidated type for a selection and it's matching configuration
+ * Used internally for dropdown
  */
-export interface NaturalSearchConfigurationValue {
-    value: NaturalSearchValue;
-    configuration: NaturalSearchItemConfiguration;
-}
-
 export interface NaturalSearchDropdownResult {
-    value?: NaturalSearchValue['value'];
+    value?: NaturalSearchSelection['value'];
     rendered?: string;
     configuration?: NaturalSearchItemConfiguration;
 }

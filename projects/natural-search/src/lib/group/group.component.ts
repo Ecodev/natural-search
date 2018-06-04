@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { NaturalSearchConfiguration } from '../types/Configuration';
-import { NaturalSearchGroupValues, NaturalSearchValue } from '../types/Values';
+import { NaturalSearchGroupSelections, NaturalSearchSelection } from '../types/Values';
 import { NaturalInputComponent } from '../input/input.component';
 import { InputOutput } from '../classes/input-output';
 
@@ -14,8 +14,8 @@ export class NaturalGroupComponent implements OnInit, OnChanges {
     @ViewChild('newValueInput') newValueInput: NaturalInputComponent;
 
     @Input() configurations: NaturalSearchConfiguration;
-    @Input() values: NaturalSearchGroupValues;
-    @Output() valuesChange = new EventEmitter<NaturalSearchGroupValues>();
+    @Input() groupSelections: NaturalSearchGroupSelections;
+    @Output() groupSelectionsChange = new EventEmitter<NaturalSearchGroupSelections>();
 
     constructor() {
     }
@@ -26,24 +26,24 @@ export class NaturalGroupComponent implements OnInit, OnChanges {
     ngOnChanges(changes: SimpleChanges) {
     }
 
-    public updateInput(value: NaturalSearchValue, index: number) {
-        const values = this.values.slice(0);
+    public updateInput(value: NaturalSearchSelection, index: number) {
+        const values = this.groupSelections.slice(0);
         values[index] = value;
-        this.values = values;
-        this.valuesChange.emit(values);
+        this.groupSelections = values;
+        this.groupSelectionsChange.emit(values);
     }
 
-    public addInput(value?: NaturalSearchValue): void {
+    public addInput(selection?: NaturalSearchSelection): void {
         this.newValueInput.clear();
-        this.values = this.values.concat([value]);
-        this.valuesChange.emit(this.values);
+        this.groupSelections = this.groupSelections.concat([selection]);
+        this.groupSelectionsChange.emit(this.groupSelections);
     }
 
     public removeInput(index: number) {
-        const values = this.values.slice(0);
+        const values = this.groupSelections.slice(0);
         values.splice(index, 1);
-        this.values = values;
-        this.valuesChange.emit(values);
+        this.groupSelections = values;
+        this.groupSelectionsChange.emit(values);
     }
 
 }

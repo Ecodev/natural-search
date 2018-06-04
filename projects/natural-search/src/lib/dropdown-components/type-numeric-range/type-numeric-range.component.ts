@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective, NgForm, ValidatorFn, Validators } from '@angular/forms';
-import { NaturalSearchDropdownResult, NaturalSearchValue } from '../../types/Values';
+import { NaturalSearchDropdownResult, NaturalSearchSelection, RangeValue } from '../../types/Values';
 import { TypeRangeConfiguration } from './TypeNumericRangeConfiguration';
 import { ErrorStateMatcher } from '@angular/material';
 import { NaturalSearchDropdownComponent } from '../../types/DropdownComponent';
@@ -14,13 +14,12 @@ export class InvalidWithValueStateMatcher implements ErrorStateMatcher {
 // bellow comment fix this : https://github.com/angular/angular/issues/18867
 // @dynamic
 @Component({
-    selector: 'natural-type-numeric-range',
     templateUrl: './type-numeric-range.component.html',
     styleUrls: ['./type-numeric-range.component.scss'],
 })
-export class TypeNumericRangeComponent implements NaturalSearchDropdownComponent, OnInit {
+export class TypeNumericRangeComponent implements NaturalSearchDropdownComponent<RangeValue>, OnInit {
 
-    public value: NaturalSearchValue['value'];
+    public value: NaturalSearchSelection['value'];
     public configuration: TypeRangeConfiguration;
     public matcher = new InvalidWithValueStateMatcher();
 
@@ -63,7 +62,7 @@ export class TypeNumericRangeComponent implements NaturalSearchDropdownComponent
     ngOnInit() {
     }
 
-    public init(value: NaturalSearchDropdownResult['value'], configuration: TypeRangeConfiguration): void {
+    public init(value: RangeValue, configuration: TypeRangeConfiguration): void {
         this.configuration = configuration ? configuration : {};
 
         const rangeValidators = [
@@ -95,7 +94,7 @@ export class TypeNumericRangeComponent implements NaturalSearchDropdownComponent
 
     }
 
-    public getValue(): NaturalSearchValue['value'] {
+    public getValue(): RangeValue {
         return {
             from: this.form.get('from').value,
             to: this.form.get('to').value,
@@ -104,8 +103,8 @@ export class TypeNumericRangeComponent implements NaturalSearchDropdownComponent
 
     public getRenderedValue(): string {
 
-        const from = parseFloat(this.getValue().from);
-        const to = parseFloat(this.getValue().to);
+        const from = this.getValue().from;
+        const to = this.getValue().to;
 
         if (!isNaN(from) && !isNaN(to)) {
             return from + ' - ' + to;

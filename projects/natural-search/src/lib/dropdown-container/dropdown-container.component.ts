@@ -21,7 +21,6 @@ export function throwMatDialogContentAlreadyAttachedError() {
 }
 
 @Component({
-    selector: 'natural-dropdown-container',
     templateUrl: './dropdown-container.component.html',
     styleUrls: ['./dropdown-container.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
