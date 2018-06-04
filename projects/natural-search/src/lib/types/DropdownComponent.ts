@@ -1,12 +1,12 @@
 import { NaturalSearchDropdownResult } from './Values';
-import { NaturalSearchItemConfiguration } from './Configuration';
+import { NaturalSearchDropdownConfiguration } from './Configuration';
 
 export interface NaturalSearchDropdownComponent {
 
     /**
      * Set value for component initialisation purposes
      */
-    init(value: NaturalSearchDropdownResult['value'], configuration?: NaturalSearchItemConfiguration['configuration']): void;
+    init(value: NaturalSearchDropdownResult['value'], configuration?: NaturalSearchDropdownConfiguration['configuration']): void;
 
     /**
      * Get value, including rich object types
@@ -14,7 +14,7 @@ export interface NaturalSearchDropdownComponent {
     getValue(): NaturalSearchDropdownResult;
 
     /**
-     * Return actual value as string
+     * Return current value as string
      */
     getRenderedValue(): string;
 

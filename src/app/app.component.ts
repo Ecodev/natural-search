@@ -86,7 +86,7 @@ export class AppComponent implements OnInit {
         {
             display: 'With archives',
             attribute: 'archived',
-            flag: true,
+            value: true,
         },
     ];
 
@@ -105,7 +105,7 @@ export class AppComponent implements OnInit {
         {
             display: 'With archives',
             attribute: 'archived',
-            flag: 'true',
+            value: 'true',
         },
     ];
 

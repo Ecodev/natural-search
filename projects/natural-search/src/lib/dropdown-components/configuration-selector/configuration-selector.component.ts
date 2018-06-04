@@ -38,7 +38,7 @@ export class ConfigurationSelectorComponent implements NaturalSearchDropdownComp
     }
 
     /**
-     * Return actual value as string
+     * Return current value as string
      */
     public getRenderedValue(): string {
         return '';

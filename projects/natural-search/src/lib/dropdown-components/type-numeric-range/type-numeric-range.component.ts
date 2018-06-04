@@ -3,6 +3,7 @@ import { FormControl, FormGroup, FormGroupDirective, NgForm, ValidatorFn, Valida
 import { NaturalSearchDropdownResult, NaturalSearchValue } from '../../types/Values';
 import { TypeRangeConfiguration } from './TypeNumericRangeConfiguration';
 import { ErrorStateMatcher } from '@angular/material';
+import { NaturalSearchDropdownComponent } from '../../types/DropdownComponent';
 
 export class InvalidWithValueStateMatcher implements ErrorStateMatcher {
     isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -17,7 +18,7 @@ export class InvalidWithValueStateMatcher implements ErrorStateMatcher {
     templateUrl: './type-numeric-range.component.html',
     styleUrls: ['./type-numeric-range.component.scss'],
 })
-export class TypeNumericRangeComponent implements OnInit {
+export class TypeNumericRangeComponent implements NaturalSearchDropdownComponent, OnInit {
 
     public value: NaturalSearchValue['value'];
     public configuration: TypeRangeConfiguration;
