@@ -1,10 +1,13 @@
 import { NaturalSearchDropdownComponent } from './DropdownComponent';
 import { Type } from '@angular/core';
 import { NaturalSearchValue } from '../types/Values';
+import { TypeNumericConfiguration } from '../dropdown-components/type-numeric/TypeNumericConfiguration';
+import { TypeSelectConfiguration } from '../dropdown-components/type-select/TypeSelectConfiguration';
+import { TypeRangeConfiguration } from '../dropdown-components/type-numeric-range/TypeNumericRangeConfiguration';
 
 export interface NaturalSearchBasicConfiguration {
     /**
-     * The label to used in the GUI
+     * The label to be used in the GUI
      */
     display: string;
 
@@ -29,7 +32,7 @@ export interface NaturalSearchDropdownConfiguration extends NaturalSearchBasicCo
     /**
      * Anything that could be useful for the dropdown component
      */
-    configuration?: any;
+    configuration?: TypeSelectConfiguration | TypeNumericConfiguration | TypeRangeConfiguration | NaturalSearchItemConfiguration;
 }
 
 /**
