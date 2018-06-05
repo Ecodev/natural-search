@@ -13,7 +13,7 @@ export interface RangeValue {
     to: number;
 }
 
-interface NumericValue {
+export interface NumericValue {
     equal?: number;
     greater?: number;
     greaterOrEqual?: number;
@@ -21,7 +21,7 @@ interface NumericValue {
     lessOrEqual?: number;
 }
 
-type NaturalSearchValue = string | number | RangeValue | NumericValue;
+export type NaturalSearchValue = string | number | RangeValue | NumericValue;
 
 /**
  * Groups are a list of values, that should be interpreted with AND condition

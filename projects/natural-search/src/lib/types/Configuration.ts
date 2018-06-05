@@ -1,6 +1,6 @@
 import { NaturalSearchDropdownComponent } from './DropdownComponent';
 import { Type } from '@angular/core';
-import { NaturalSearchValue } from '@ecodev/natural-search/lib/types/Values';
+import { NaturalSearchValue } from '../types/Values';
 
 export interface NaturalSearchBasicConfiguration {
     /**

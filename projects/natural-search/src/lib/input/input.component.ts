@@ -27,7 +27,7 @@ import { InputOutput } from '../classes/input-output';
 import { NaturalDropdownRef } from '../dropdown-container/dropdown-ref';
 import { ComponentType, PortalInjector } from '@angular/cdk/portal';
 import { NaturalSearchDropdownComponent } from '../types/DropdownComponent';
-import { NaturalSearchValue } from '@ecodev/natural-search/lib/types/Values';
+import { NaturalSearchValue } from '../types/Values';
 
 // Required to check invalid fields when initializing natural-search
 export class AlwaysErrorStateMatcher implements ErrorStateMatcher {
@@ -36,7 +36,7 @@ export class AlwaysErrorStateMatcher implements ErrorStateMatcher {
     }
 }
 
-type AnyDropdownComponent = NaturalSearchDropdownComponent<NaturalSearchValue>;
+export type AnyDropdownComponent = NaturalSearchDropdownComponent<NaturalSearchValue>;
 
 // bellow comment fix this : https://github.com/angular/angular/issues/18867
 // @dynamic
