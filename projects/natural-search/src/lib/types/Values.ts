@@ -20,8 +20,9 @@ export interface NumericValue {
     less?: number;
     lessOrEqual?: number;
 }
+export type SelectValue = any[];
 
-export type Value = string | number | RangeValue | NumericValue;
+export type Value = string | number | RangeValue | NumericValue | SelectValue;
 
 /**
  * Groups are a list of values, that should be interpreted with AND condition

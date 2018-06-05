@@ -4,12 +4,13 @@ import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
 import { TypeSelectConfiguration } from './TypeSelectConfiguration';
 import { DropdownComponent } from '../../types/DropdownComponent';
 import { MatSelectionList } from '@angular/material';
+import { SelectValue } from '../../types/Values';
 
 @Component({
     templateUrl: './type-select.component.html',
     styleUrls: ['./type-select.component.scss'],
 })
-export class TypeSelectComponent implements DropdownComponent<any[]>, OnInit {
+export class TypeSelectComponent implements DropdownComponent<SelectValue>, OnInit {
 
     @ViewChild(MatSelectionList) list: any;
     public configuration: TypeSelectConfiguration;
@@ -22,7 +23,7 @@ export class TypeSelectComponent implements DropdownComponent<any[]>, OnInit {
     ngOnInit() {
     }
 
-    public init(value: any[], configuration: TypeSelectConfiguration): void {
+    public init(value: SelectValue, configuration: TypeSelectConfiguration): void {
 
         this.configuration = configuration;
 
@@ -70,7 +71,7 @@ export class TypeSelectComponent implements DropdownComponent<any[]>, OnInit {
         }
     }
 
-    public getValue(): any[] {
+    public getValue(): SelectValue {
         if (this.configuration.multiple) {
             return this.selected.map(option => option);
         } else {
