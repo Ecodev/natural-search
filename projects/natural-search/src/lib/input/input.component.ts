@@ -23,11 +23,11 @@ import {
 import { ConfigurationSelectorComponent } from '../dropdown-components/configuration-selector/configuration-selector.component';
 import { NATURAL_DROPDOWN_DATA, NaturalDropdownService } from '../dropdown-container/dropdown.service';
 import { DropdownResult, Selection } from '../types/Values';
-import { InputOutput } from '../classes/input-output';
+import { getConfigurationFromSelection } from '../classes/utils';
 import { NaturalDropdownRef } from '../dropdown-container/dropdown-ref';
 import { ComponentType, PortalInjector } from '@angular/cdk/portal';
 import { DropdownComponent } from '../types/DropdownComponent';
-import { Value } from '../types/Values';
+import { FilterConditionField } from '../classes/graphql-doctrine.types';
 
 // Required to check invalid fields when initializing natural-search
 export class AlwaysErrorStateMatcher implements ErrorStateMatcher {
@@ -36,9 +36,7 @@ export class AlwaysErrorStateMatcher implements ErrorStateMatcher {
     }
 }
 
-export type AnyDropdownComponent = DropdownComponent<Value>;
-
-// bellow comment fix this : https://github.com/angular/angular/issues/18867
+// below comment fix this : https://github.com/angular/angular/issues/18867
 // @dynamic
 @Component({
     selector: 'natural-input',
@@ -61,13 +59,13 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
     public formCtrl: FormControl = new FormControl();
     private dropdownRef: NaturalDropdownRef;
 
-    private dropdownComponentRef: ComponentRef<AnyDropdownComponent>;
+    private dropdownComponentRef: ComponentRef<DropdownComponent>;
     public errorMatcher = new AlwaysErrorStateMatcher();
 
     public minlength = 5;
     public length = this.minlength;
 
-    public static isComponentValid(component: AnyDropdownComponent): ValidatorFn {
+    public static isComponentValid(component: DropdownComponent): ValidatorFn {
         return (): { [key: string]: boolean } => {
 
             if (!component.isValid()) {
@@ -114,7 +112,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
 
         } else if (this.configurations && this.selection) {
 
-            this.configuration = InputOutput.getConfigurationFromValue(this.configurations, this.selection);
+            this.configuration = getConfigurationFromSelection(this.configurations, this.selection);
 
             // If has configuration, means we need a component from external config
             // If hasn't a configuration, that means we are in global search mode
@@ -128,7 +126,9 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
                 this.formCtrl.setValue('');
 
             } else if (this.configuration || this.selection.attribute === this.searchAttributeName) {
-                this.formCtrl.setValue(this.selection.value);
+                if (this.selection) {
+                    this.formCtrl.setValue(this.selection.value.like.value);
+                }
 
             } else {
 
@@ -151,12 +151,12 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
 
         this.selectionChange.emit({
             attribute: this.configuration ? this.configuration.attribute : this.searchAttributeName,
-            value: this.formCtrl.value,
+            value: {like: {value: this.formCtrl.value}},
         });
 
     }
 
-    private createComponent(configuration: DropdownConfiguration): AnyDropdownComponent {
+    private createComponent(configuration: DropdownConfiguration): DropdownComponent {
         // Always destroy and recreate component
         // Todo : test if configuration has changed, if not re-use the component
         if (this.dropdownComponentRef) {
@@ -164,11 +164,11 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         const injector = new PortalInjector(this.injector, this.createInjectorTokens());
-        const factory = this.componentFactoryResolver.resolveComponentFactory<AnyDropdownComponent>(configuration.component);
+        const factory = this.componentFactoryResolver.resolveComponentFactory<DropdownComponent>(configuration.component);
         this.dropdownComponentRef = factory.create(injector);
 
         const dropdownComponent = this.dropdownComponentRef.instance;
-        dropdownComponent.init(this.selection.value as Value, configuration.configuration);
+        dropdownComponent.init(this.selection.value as FilterConditionField, configuration.configuration);
 
         return dropdownComponent;
     }

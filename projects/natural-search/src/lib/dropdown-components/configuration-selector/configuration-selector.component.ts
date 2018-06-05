@@ -4,12 +4,13 @@ import { NaturalSearchConfiguration, ItemConfiguration } from '../../types/Confi
 import { NATURAL_DROPDOWN_DATA } from '../../dropdown-container/dropdown.service';
 import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
 import { DropdownResult } from '../../types/Values';
+import { FilterConditionField } from '../../classes/graphql-doctrine.types';
 
 @Component({
     templateUrl: './configuration-selector.component.html',
     styleUrls: ['./configuration-selector.component.scss'],
 })
-export class ConfigurationSelectorComponent implements DropdownComponent<any>, OnInit {
+export class ConfigurationSelectorComponent implements DropdownComponent, OnInit {
 
     public configurations: NaturalSearchConfiguration;
 
@@ -26,14 +27,14 @@ export class ConfigurationSelectorComponent implements DropdownComponent<any>, O
     /**
      * Set value for component initialisation purposes
      */
-    public init(value: any, configuration?: ItemConfiguration): void {
+    public init(value: FilterConditionField, configuration?: ItemConfiguration): void {
     }
 
     /**
      * Get value, including rich object types
      */
-    public getValue(): any {
-        return undefined;
+    public getValue(): FilterConditionField {
+        return null;
     }
 
     /**

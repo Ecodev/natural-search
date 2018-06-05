@@ -1,74 +1,59 @@
-import { Injectable } from '@angular/core';
 import { isString } from 'lodash';
-import { DropdownConfiguration, NaturalSearchConfiguration } from '../types/Configuration';
-import { TypeNumericRangeComponent } from '../dropdown-components/type-numeric-range/type-numeric-range.component';
-import { TypeNumericComponent } from '../dropdown-components/type-numeric/type-numeric.component';
-import { TypeSelectComponent } from '../dropdown-components/type-select/type-select.component';
-import { NaturalSearchSelections } from '../types/Values';
-import { Filter, FilterConditionFields, FilterJoins } from './graphql-doctrine.types';
+import { NaturalSearchConfiguration } from '../types/Configuration';
+import { NaturalSearchSelections, Selection } from '../types/Values';
+import { Filter, FilterConditionField, FilterConditionFields, FilterJoins } from './graphql-doctrine.types';
+import { getConfigurationFromSelection } from './utils';
 
-@Injectable({
-    providedIn: 'root',
-})
-export class GraphQLDoctrineService {
+export function toGraphQLDoctrineFilter(configuration: NaturalSearchConfiguration, selections: NaturalSearchSelections): Filter {
 
-    toGraphQLDoctrineFilter(configuration: NaturalSearchConfiguration, values: NaturalSearchSelections): Filter {
+    const result: Filter = {joins: {}, conditions: [{fields: {}}]};
+    const fields: FilterConditionFields = result.conditions[0].fields;
+    const joins: FilterJoins = result.joins;
 
-        const result: Filter = {joins: {}, conditions: [{fields: {}}]};
-        const fields: FilterConditionFields = result.conditions[0].fields;
-        const joins: FilterJoins = result.joins;
+    for (const groupSelections of selections) {
+        for (const selection of groupSelections) {
+            const transformedSelection = transformSelection(configuration, selection);
+            const field = transformedSelection.attribute;
+            const value = transformedSelection.value;
 
-        for (const group of values) {
-            for (const naturalValue of group) {
-                const field = naturalValue.attribute;
-                const value = naturalValue.value;
-                const component = this.getComponent(configuration, field);
-
-                this.apply(component, joins, fields, field, value);
-            }
-        }
-
-        return result;
-    }
-
-    private apply(component, joins: FilterJoins, fields: FilterConditionFields, field: string, value: any): void {
-
-        // Apply join, then apply operator on that join, if field name has a '.'
-        const parts = field.split('.');
-        if (parts.length > 1) {
-            joins[parts[0]] = {filter: {conditions: [{fields: {}}]}};
-            fields = joins[parts[0]].filter.conditions[0].fields;
-            field = parts[1];
-        }
-
-        this.applyOperator(component, fields, field, value);
-    }
-
-    private applyOperator(component, fields: FilterConditionFields, field: string, value: any): void {
-        if (field === 'search') {
-            fields.custom = {search: {value: value}} as any;
-        } else if (field === 'from-to') {
-            fields.from = {greaterOrEqual: {value: this.yearToJulian(value.from, false)}};
-            fields.to = {lessOrEqual: {value: this.yearToJulian(value.to, true)}};
-        } else if (component === TypeNumericRangeComponent) {
-            fields[field] = {in: {values: value.map(v => v.value)}};
-        } else if (component === TypeSelectComponent) {
-            fields[field] = {in: {values: value.map(v => v.value)}};
-        } else if (isString(value)) {
-            fields[field] = {like: {value: '%' + value + '%'}};
+            applyJoinAndCondition(joins, fields, field, value);
         }
     }
 
-    private getComponent(configuration: NaturalSearchConfiguration, field: string) {
-        const a = configuration.find(v => v.attribute === field);
+    return result;
+}
 
-        return a ? (a as DropdownConfiguration).component : null;
+function applyJoinAndCondition(joins: FilterJoins, fields: FilterConditionFields, field: string, value: FilterConditionField): void {
+
+    // Apply join, then apply operator on that join, if field name has a '.'
+    const parts = field.split('.');
+    if (parts.length > 1) {
+        joins[parts[0]] = {filter: {conditions: [{fields: {}}]}};
+        fields = joins[parts[0]].filter.conditions[0].fields;
+        field = parts[1];
     }
 
-    private yearToJulian(year: number, endOfYear: boolean): number {
-        const date = new Date(year, endOfYear ? 11 : 0, endOfYear ? 31 : 1);
+    applyCondition(fields, field, value);
+}
 
-        return Math.trunc(date.getTime() / 86400000 + 2440587.5);
+function applyCondition(fields: FilterConditionFields, field: string, value: FilterConditionField): void {
+
+    // We assume a custom operator "search"
+    if (field === 'search') {
+        fields.custom = {search: {value: value.like.value}} as any;
+    } else if (value.between && field.match('-')) {
+
+        // split the "between" on two different fields to be able to filter intersecting ranges
+        const [field1, field2] = field.split('-');
+        fields[field1] = {greaterOrEqual: {value: value.between.from}};
+        fields[field2] = {lessOrEqual: {value: value.between.to}};
+    } else {
+        fields[field] = value;
     }
+}
 
+function transformSelection(configuration: NaturalSearchConfiguration, selection: Selection): Selection {
+    const config = getConfigurationFromSelection(configuration, selection);
+
+    return config && config.transform ? config.transform(selection) : selection;
 }

@@ -7,8 +7,10 @@ import {
     NaturalSearchConfiguration,
     TypeNumericComponent,
     TypeNumericRangeComponent,
-    TypeSelectComponent,
+    TypeSelectComponent, BasicConfiguration, DropdownConfiguration, FlagConfiguration,
 } from '@ecodev/natural-search';
+import { Filter } from '../../projects/natural-search/src/lib/classes/graphql-doctrine.types';
+import { toGraphQLDoctrineFilter } from '../../projects/natural-search/src/lib/classes/graphql-doctrine.service';
 
 @Component({
     selector: 'app-root',
@@ -20,7 +22,6 @@ export class AppComponent implements OnInit {
     @HostBinding('class') public theme = '';
 
     public config1: NaturalSearchConfiguration = [
-
         {
             display: 'Artist',
             attribute: 'artist',
@@ -109,27 +110,38 @@ export class AppComponent implements OnInit {
         },
     ];
 
+    public graphqlSelections: Filter;
     public selections: NaturalSearchSelections = [
         [
             {
                 attribute: 'artist',
-                value: 'picasso',
+                value: {
+                    like: {value: 'picasso'},
+                },
             },
             {
                 attribute: 'number',
-                value: 123,
+                value: {
+                    equal: {value: 123},
+                },
             },
             {
                 attribute: 'archived',
-                value: 'true',
+                value: {
+                    equal: {value: 'true'},
+                },
             },
             {
                 attribute: 'unsued',
-                value: 'unused value',
+                value: {
+                    equal: {value: 'unused value'},
+                },
             },
             {
                 attribute: 'search',
-                value: 'searched',
+                value: {
+                    like: {value: 'searched'},
+                },
             },
         ],
     ];
@@ -144,6 +156,10 @@ export class AppComponent implements OnInit {
             this.overlayContainer.getContainerElement().classList.add(newTheme);
             this.theme = newTheme;
         });
+    }
+
+    public updateFilter(selections: NaturalSearchSelections) {
+        this.graphqlSelections = toGraphQLDoctrineFilter(this.config, selections);
     }
 
 }

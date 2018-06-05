@@ -1,8 +1,8 @@
-// Basic, loosely typed structure for graphql-doctrine filters
+// Basic; loosely typed structure for graphql-doctrine filters
 
 export interface Filter {
-    joins?: FilterJoins,
-    conditions?: Array<FilterCondition>,
+    joins?: FilterJoins;
+    conditions?: Array<FilterCondition>;
 }
 
 export interface FilterJoins {
@@ -10,8 +10,8 @@ export interface FilterJoins {
 }
 
 export interface JoinOn {
-    type?: JoinType,
-    filter?: Filter,
+    type?: JoinType;
+    filter?: Filter;
 }
 
 // Join types to be used in DQL
@@ -22,11 +22,11 @@ export enum JoinType {
 
 export interface FilterCondition {
     // The logic operator to be used to append this condition
-    conditionLogic?: LogicalOperator | null,
+    conditionLogic?: LogicalOperator;
     // The logic operator to be used within all fields below
-    fieldsLogic?: LogicalOperator | null,
+    fieldsLogic?: LogicalOperator;
     // Fields on which we want to apply a condition
-    fields?: FilterConditionFields | null,
+    fields?: FilterConditionFields;
 }
 
 // Logical operator to be used in conditions
@@ -40,61 +40,74 @@ export interface FilterConditionFields {
 }
 
 export interface FilterConditionField {
-    between?: BetweenOperator | null,
-    equal?: EqualOperator | null,
-    greater?: GreaterOperator | null,
-    greaterOrEqual?: GreaterOrEqualOperator | null,
-    in?: InOperator | null,
-    less?: LessOperator | null,
-    lessOrEqual?: LessOrEqualOperator | null,
-    like?: LikeOperator | null,
-    null?: NullOperator | null,
+    between?: BetweenOperator;
+    equal?: EqualOperator;
+    greater?: GreaterOperator;
+    greaterOrEqual?: GreaterOrEqualOperator;
+    in?: InOperator;
+    less?: LessOperator;
+    lessOrEqual?: LessOrEqualOperator;
+    like?: LikeOperator;
+    null?: NullOperator;
+
+    // For relations
+    have?: HaveOperator;
+    empty?: EmptyOperator;
 }
 
-type Scalar = number | string | boolean;
+export type Scalar = number | string | boolean;
+
+export interface HaveOperator {
+    values: Array<string>;
+    not?: boolean;
+}
+
+export interface EmptyOperator {
+    not?: boolean;
+}
 
 export interface BetweenOperator {
-    from: Scalar,
-    to: Scalar,
-    not?: boolean | null,
+    from: Scalar;
+    to: Scalar;
+    not?: boolean;
 }
 
 export interface EqualOperator {
-    value: Scalar,
-    not?: boolean | null,
+    value: Scalar;
+    not?: boolean;
 }
 
 export interface GreaterOperator {
-    value: Scalar,
-    not?: boolean | null,
+    value: Scalar;
+    not?: boolean;
 }
 
 export interface GreaterOrEqualOperator {
-    value: Scalar,
-    not?: boolean | null,
+    value: Scalar;
+    not?: boolean;
 }
 
 export interface InOperator {
-    values: Array<Scalar>,
-    not?: boolean | null,
+    values: Array<Scalar>;
+    not?: boolean;
 }
 
 export interface LessOperator {
-    value: Scalar,
-    not?: boolean | null,
+    value: Scalar;
+    not?: boolean;
 }
 
 export interface LessOrEqualOperator {
-    value: Scalar,
-    not?: boolean | null,
+    value: Scalar;
+    not?: boolean;
 }
 
 export interface LikeOperator {
-    value: Scalar,
-    not?: boolean | null,
+    value: Scalar;
+    not?: boolean;
 }
 
 export interface NullOperator {
-    not?: boolean | null,
+    not?: boolean;
 }
 

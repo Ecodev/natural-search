@@ -1,6 +1,6 @@
 import { DropdownComponent } from './DropdownComponent';
 import { Type } from '@angular/core';
-import { Value } from '../types/Values';
+import { Selection } from './Values';
 import { TypeNumericConfiguration } from '../dropdown-components/type-numeric/TypeNumericConfiguration';
 import { TypeSelectConfiguration } from '../dropdown-components/type-select/TypeSelectConfiguration';
 import { TypeRangeConfiguration } from '../dropdown-components/type-numeric-range/TypeNumericRangeConfiguration';
@@ -21,13 +21,15 @@ export interface BasicConfiguration {
      * - artist.name
      */
     attribute: string;
+
+    transform?: (Selection) => Selection;
 }
 
 /**
  * Configuration for an item that uses a component in a dropdown
  */
 export interface DropdownConfiguration extends BasicConfiguration {
-    component: Type<DropdownComponent<Value>>;
+    component: Type<DropdownComponent>;
 
     /**
      * Anything that could be useful for the dropdown component

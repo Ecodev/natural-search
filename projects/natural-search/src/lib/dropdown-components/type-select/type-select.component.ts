@@ -4,13 +4,13 @@ import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
 import { TypeSelectConfiguration } from './TypeSelectConfiguration';
 import { DropdownComponent } from '../../types/DropdownComponent';
 import { MatSelectionList } from '@angular/material';
-import { SelectValue } from '../../types/Values';
+import { FilterConditionField } from '../../classes/graphql-doctrine.types';
 
 @Component({
     templateUrl: './type-select.component.html',
     styleUrls: ['./type-select.component.scss'],
 })
-export class TypeSelectComponent implements DropdownComponent<SelectValue>, OnInit {
+export class TypeSelectComponent implements DropdownComponent, OnInit {
 
     @ViewChild(MatSelectionList) list: any;
     public configuration: TypeSelectConfiguration;
@@ -23,7 +23,7 @@ export class TypeSelectComponent implements DropdownComponent<SelectValue>, OnIn
     ngOnInit() {
     }
 
-    public init(value: SelectValue, configuration: TypeSelectConfiguration): void {
+    public init(value: FilterConditionField, configuration: TypeSelectConfiguration): void {
 
         this.configuration = configuration;
 
@@ -32,13 +32,13 @@ export class TypeSelectComponent implements DropdownComponent<SelectValue>, OnIn
         }
 
         if (!configuration.multiple) {
-            value = [value];
+            // value = [value];
             this.list.selectedOptions._multiple = false;
         }
 
         // nav-list selector needs same references
         this.selected = configuration.items.filter((item) => {
-            for (const val of value) {
+            for (const val of value.in.values) {
                 if (configuration.matchItems(item, val)) {
                     return true;
                 }
@@ -71,7 +71,7 @@ export class TypeSelectComponent implements DropdownComponent<SelectValue>, OnIn
         }
     }
 
-    public getValue(): SelectValue {
+    public getValue(): FilterConditionField {
         if (this.configuration.multiple) {
             return this.selected.map(option => option);
         } else {

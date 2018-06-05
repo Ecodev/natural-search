@@ -1,16 +1,17 @@
 import { DropdownConfiguration } from './Configuration';
+import { FilterConditionField } from '../classes/graphql-doctrine.types';
 
-export interface DropdownComponent<T> {
+export interface DropdownComponent {
 
     /**
      * Set value for component initialisation purposes
      */
-    init(value: T, configuration?: DropdownConfiguration['configuration']): void;
+    init(value: FilterConditionField, configuration?: DropdownConfiguration['configuration']): void;
 
     /**
      * Get value, including rich object types
      */
-    getValue(): T;
+    getValue(): FilterConditionField;
 
     /**
      * Return current value as string

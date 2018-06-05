@@ -4,6 +4,7 @@ import { DropdownComponent } from '../../types/DropdownComponent';
 import { TypeNumericConfiguration } from './TypeNumericConfiguration';
 import { DropdownResult, Selection } from '../../types/Values';
 import { ErrorStateMatcher } from '@angular/material';
+import { FilterConditionField } from '../../classes/graphql-doctrine.types';
 
 export class InvalidWithValueStateMatcher implements ErrorStateMatcher {
     isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -15,7 +16,7 @@ export class InvalidWithValueStateMatcher implements ErrorStateMatcher {
     templateUrl: './type-numeric.component.html',
     styleUrls: ['./type-numeric.component.scss'],
 })
-export class TypeNumericComponent implements DropdownComponent<number>, OnInit {
+export class TypeNumericComponent implements DropdownComponent, OnInit {
 
     public value: Selection['value'];
     public configuration: TypeNumericConfiguration;
@@ -29,7 +30,7 @@ export class TypeNumericComponent implements DropdownComponent<number>, OnInit {
     ngOnInit() {
     }
 
-    public init(value: number, configuration: TypeNumericConfiguration): void {
+    public init(value: FilterConditionField, configuration: TypeNumericConfiguration): void {
         this.configuration = configuration ? configuration : {};
 
         this.formCtrl.setValidators([
@@ -38,11 +39,13 @@ export class TypeNumericComponent implements DropdownComponent<number>, OnInit {
             Validators.min(this.configuration.min),
         ]);
 
-        this.formCtrl.setValue(value);
+        if (value) {
+            this.formCtrl.setValue(value.equal.value);
+        }
     }
 
-    public getValue(): number {
-        return this.formCtrl.value;
+    public getValue(): FilterConditionField {
+        return {equal: {value: this.formCtrl.value}};
     }
 
     public getRenderedValue(): string {

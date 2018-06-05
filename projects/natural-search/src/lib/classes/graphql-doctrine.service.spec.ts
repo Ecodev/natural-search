@@ -1,10 +1,10 @@
-import { TestBed, inject } from '@angular/core/testing';
-import { Filter, GraphQLDoctrineService } from './graphql-doctrine.service';
+import { Filter } from './graphql-doctrine.types';
+import { toGraphQLDoctrineFilter } from './graphql-doctrine.service';
 import { NaturalSearchConfiguration } from '../types/Configuration';
 import { TypeNumericRangeComponent } from '../dropdown-components/type-numeric-range/type-numeric-range.component';
 import { TypeNumericComponent } from '../dropdown-components/type-numeric/type-numeric.component';
 import { TypeSelectComponent } from '../dropdown-components/type-select/type-select.component';
-import { NaturalSearchSelections } from '../types/Values';
+import { NaturalSearchSelections, Selection} from '../types/Values';
 
 function yearToJulian(year: number, endOfYear: boolean): number {
     const date = new Date(year, endOfYear ? 11 : 0, endOfYear ? 31 : 1);
@@ -13,11 +13,6 @@ function yearToJulian(year: number, endOfYear: boolean): number {
 }
 
 describe('NaturalFilterService', () => {
-    beforeEach(() => {
-        TestBed.configureTestingModule({
-            providers: [GraphQLDoctrineService],
-        });
-    });
 
     const configuration: NaturalSearchConfiguration = [
         {
@@ -28,10 +23,11 @@ describe('NaturalFilterService', () => {
             display: 'Datation',
             attribute: 'datings.from-to',
             component: TypeNumericRangeComponent,
-            configuration: {
-                transformValue: (v) => {
-                    return {from: yearToJulian(v.from, false), to: yearToJulian(v.to, true)};
-                },
+            transform: (s: Selection): Selection => {
+                s.value.between.from = yearToJulian(s.value.between.from as number, false);
+                s.value.between.to = yearToJulian(s.value.between.to as number, true);
+
+                return s;
             },
         },
         {
@@ -81,33 +77,39 @@ describe('NaturalFilterService', () => {
         [
             {
                 attribute: 'search',
-                value: 'foo',
+                value: {
+                    like: {
+                        value: 'foo',
+                    },
+                },
             },
             {
                 attribute: 'artists.name',
-                value: 'bar',
+                value: {
+                    like: {
+                        value: 'bar',
+                    },
+                },
             },
             {
                 attribute: 'datings.from-to',
                 value: {
-                    from: 1900,
-                    to: 2000,
+                    between: {
+                        from: 1900,
+                        to: 2000,
+                    },
                 },
             },
             {
                 attribute: 'visibility',
-                value: [
-                    {
-                        value: 'private',
-                        text: 'par moi',
-                        color: null,
+                value: {
+                    in: {
+                        values: [
+                            'private',
+                            'member',
+                        ],
                     },
-                    {
-                        value: 'member',
-                        text: 'par les membres',
-                        color: 'accent',
-                    },
-                ],
+                },
             },
         ],
     ];
@@ -118,7 +120,7 @@ describe('NaturalFilterService', () => {
                 filter: {
                     conditions: [{
                         fields: {
-                            name: {like: {value: '%bar%'}},
+                            name: {like: {value: 'bar'}},
                         },
                     }],
                 },
@@ -142,11 +144,7 @@ describe('NaturalFilterService', () => {
         }],
     };
 
-    it('should be created', inject([GraphQLDoctrineService], (service: GraphQLDoctrineService) => {
-        expect(service).toBeTruthy();
-    }));
-
-    it('should be created', inject([GraphQLDoctrineService], (service: GraphQLDoctrineService) => {
-        expect(service.toGraphQLDoctrineFilter(configuration, input)).toEqual(expected as any);
-    }));
+    it('should transform correctly', () => {
+        expect(toGraphQLDoctrineFilter(configuration, input)).toEqual(expected as any);
+    });
 });

@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { NaturalSearchConfiguration } from '../types/Configuration';
 import { GroupSelections, Selection } from '../types/Values';
 import { NaturalInputComponent } from '../input/input.component';
-import { InputOutput } from '../classes/input-output';
 
 @Component({
     selector: 'natural-group',

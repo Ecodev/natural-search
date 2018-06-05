@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective, NgForm, ValidatorFn, Validators } from '@angular/forms';
-import { DropdownResult, Selection, RangeValue } from '../../types/Values';
+import { Selection } from '../../types/Values';
 import { TypeRangeConfiguration } from './TypeNumericRangeConfiguration';
 import { ErrorStateMatcher } from '@angular/material';
 import { DropdownComponent } from '../../types/DropdownComponent';
+import { FilterConditionField } from '../../classes/graphql-doctrine.types';
 
 export class InvalidWithValueStateMatcher implements ErrorStateMatcher {
     isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -17,7 +18,7 @@ export class InvalidWithValueStateMatcher implements ErrorStateMatcher {
     templateUrl: './type-numeric-range.component.html',
     styleUrls: ['./type-numeric-range.component.scss'],
 })
-export class TypeNumericRangeComponent implements DropdownComponent<RangeValue>, OnInit {
+export class TypeNumericRangeComponent implements DropdownComponent, OnInit {
 
     public value: Selection['value'];
     public configuration: TypeRangeConfiguration;
@@ -62,7 +63,7 @@ export class TypeNumericRangeComponent implements DropdownComponent<RangeValue>,
     ngOnInit() {
     }
 
-    public init(value: RangeValue, configuration: TypeRangeConfiguration): void {
+    public init(value: FilterConditionField, configuration: TypeRangeConfiguration): void {
         this.configuration = configuration ? configuration : {};
 
         const rangeValidators = [
@@ -89,22 +90,24 @@ export class TypeNumericRangeComponent implements DropdownComponent<RangeValue>,
         ]);
 
         if (value) {
-            this.form.setValue(value);
+            this.form.setValue({from: value.between.from, to: value.between.to});
         }
 
     }
 
-    public getValue(): RangeValue {
+    public getValue(): FilterConditionField {
         return {
-            from: this.form.get('from').value,
-            to: this.form.get('to').value,
+            between: {
+                from: this.form.get('from').value,
+                to: this.form.get('to').value,
+            },
         };
     }
 
     public getRenderedValue(): string {
 
-        const from = this.getValue().from;
-        const to = this.getValue().to;
+        const from = parseFloat(this.getValue().between.from as string);
+        const to = parseFloat(this.getValue().between.to as string);
 
         if (!isNaN(from) && !isNaN(to)) {
             return from + ' - ' + to;

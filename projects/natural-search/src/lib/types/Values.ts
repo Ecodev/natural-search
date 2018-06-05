@@ -1,28 +1,13 @@
 import { ItemConfiguration } from './Configuration';
+import { FilterConditionField } from '../classes/graphql-doctrine.types';
 
 /**
  * Type for a search selection
  */
 export interface Selection {
     attribute: string;
-    value: Value | Value[];
+    value: FilterConditionField;
 }
-
-export interface RangeValue {
-    from: number;
-    to: number;
-}
-
-export interface NumericValue {
-    equal?: number;
-    greater?: number;
-    greaterOrEqual?: number;
-    less?: number;
-    lessOrEqual?: number;
-}
-export type SelectValue = any[];
-
-export type Value = string | number | RangeValue | NumericValue | SelectValue;
 
 /**
  * Groups are a list of values, that should be interpreted with AND condition
