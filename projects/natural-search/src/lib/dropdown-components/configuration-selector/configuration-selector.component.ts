@@ -1,15 +1,15 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { NaturalSearchDropdownComponent } from '../../types/DropdownComponent';
-import { NaturalSearchConfiguration, NaturalSearchItemConfiguration } from '../../types/Configuration';
+import { DropdownComponent } from '../../types/DropdownComponent';
+import { NaturalSearchConfiguration, ItemConfiguration } from '../../types/Configuration';
 import { NATURAL_DROPDOWN_DATA } from '../../dropdown-container/dropdown.service';
 import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
-import { NaturalSearchDropdownResult } from '../../types/Values';
+import { DropdownResult } from '../../types/Values';
 
 @Component({
     templateUrl: './configuration-selector.component.html',
     styleUrls: ['./configuration-selector.component.scss'],
 })
-export class ConfigurationSelectorComponent implements NaturalSearchDropdownComponent<any>, OnInit {
+export class ConfigurationSelectorComponent implements DropdownComponent<any>, OnInit {
 
     public configurations: NaturalSearchConfiguration;
 
@@ -26,7 +26,7 @@ export class ConfigurationSelectorComponent implements NaturalSearchDropdownComp
     /**
      * Set value for component initialisation purposes
      */
-    public init(value: any, configuration?: NaturalSearchItemConfiguration): void {
+    public init(value: any, configuration?: ItemConfiguration): void {
     }
 
     /**

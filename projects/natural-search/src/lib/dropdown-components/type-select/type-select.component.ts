@@ -2,14 +2,14 @@ import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { NATURAL_DROPDOWN_DATA } from '../../dropdown-container/dropdown.service';
 import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
 import { TypeSelectConfiguration } from './TypeSelectConfiguration';
-import { NaturalSearchDropdownComponent } from '../../types/DropdownComponent';
+import { DropdownComponent } from '../../types/DropdownComponent';
 import { MatSelectionList } from '@angular/material';
 
 @Component({
     templateUrl: './type-select.component.html',
     styleUrls: ['./type-select.component.scss'],
 })
-export class TypeSelectComponent implements NaturalSearchDropdownComponent<any[]>, OnInit {
+export class TypeSelectComponent implements DropdownComponent<any[]>, OnInit {
 
     @ViewChild(MatSelectionList) list: any;
     public configuration: TypeSelectConfiguration;

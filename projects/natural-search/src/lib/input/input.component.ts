@@ -16,18 +16,18 @@ import {
 import { ErrorStateMatcher, MatRipple } from '@angular/material';
 import { FormControl, FormGroupDirective, NgForm, ValidatorFn } from '@angular/forms';
 import {
-    NaturalSearchDropdownConfiguration,
-    NaturalSearchConfiguration, NaturalSearchFlagConfiguration,
-    NaturalSearchItemConfiguration,
+    DropdownConfiguration,
+    NaturalSearchConfiguration, FlagConfiguration,
+    ItemConfiguration,
 } from '../types/Configuration';
 import { ConfigurationSelectorComponent } from '../dropdown-components/configuration-selector/configuration-selector.component';
 import { NATURAL_DROPDOWN_DATA, NaturalDropdownService } from '../dropdown-container/dropdown.service';
-import { NaturalSearchDropdownResult, NaturalSearchSelection } from '../types/Values';
+import { DropdownResult, Selection } from '../types/Values';
 import { InputOutput } from '../classes/input-output';
 import { NaturalDropdownRef } from '../dropdown-container/dropdown-ref';
 import { ComponentType, PortalInjector } from '@angular/cdk/portal';
-import { NaturalSearchDropdownComponent } from '../types/DropdownComponent';
-import { NaturalSearchValue } from '../types/Values';
+import { DropdownComponent } from '../types/DropdownComponent';
+import { Value } from '../types/Values';
 
 // Required to check invalid fields when initializing natural-search
 export class AlwaysErrorStateMatcher implements ErrorStateMatcher {
@@ -36,7 +36,7 @@ export class AlwaysErrorStateMatcher implements ErrorStateMatcher {
     }
 }
 
-export type AnyDropdownComponent = NaturalSearchDropdownComponent<NaturalSearchValue>;
+export type AnyDropdownComponent = DropdownComponent<Value>;
 
 // bellow comment fix this : https://github.com/angular/angular/issues/18867
 // @dynamic
@@ -49,10 +49,10 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input() placeholder = 'Rechercher';
     @Input() configurations: NaturalSearchConfiguration;
-    @Input() configuration: NaturalSearchItemConfiguration;
+    @Input() configuration: ItemConfiguration;
     @Input() searchAttributeName = 'search';
-    @Input() selection: NaturalSearchSelection;
-    @Output() selectionChange = new EventEmitter<NaturalSearchSelection>();
+    @Input() selection: Selection;
+    @Output() selectionChange = new EventEmitter<Selection>();
     @Output() cleared = new EventEmitter<NaturalInputComponent>();
 
     @ViewChild(MatRipple) ripple: MatRipple;
@@ -119,7 +119,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
             // If has configuration, means we need a component from external config
             // If hasn't a configuration, that means we are in global search mode
             if (this.isDropdown()) {
-                const dropdownComponent = this.createComponent(this.configuration as NaturalSearchDropdownConfiguration);
+                const dropdownComponent = this.createComponent(this.configuration as DropdownConfiguration);
 
                 this.formCtrl.setValidators([NaturalInputComponent.isComponentValid(dropdownComponent)]);
                 this.formCtrl.setValue(dropdownComponent.getRenderedValue());
@@ -156,7 +156,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
 
     }
 
-    private createComponent(configuration: NaturalSearchDropdownConfiguration): AnyDropdownComponent {
+    private createComponent(configuration: DropdownConfiguration): AnyDropdownComponent {
         // Always destroy and recreate component
         // Todo : test if configuration has changed, if not re-use the component
         if (this.dropdownComponentRef) {
@@ -168,7 +168,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         this.dropdownComponentRef = factory.create(injector);
 
         const dropdownComponent = this.dropdownComponentRef.instance;
-        dropdownComponent.init(this.selection.value as NaturalSearchValue, configuration.configuration);
+        dropdownComponent.init(this.selection.value as Value, configuration.configuration);
 
         return dropdownComponent;
     }
@@ -227,7 +227,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         const injectorTokens = this.createInjectorTokens(data);
 
         this.dropdownRef = this.dropdown.open(ConfigurationSelectorComponent, this.element, injectorTokens);
-        this.dropdownRef.closed.subscribe((result: NaturalSearchDropdownResult) => {
+        this.dropdownRef.closed.subscribe((result: DropdownResult) => {
             this.dropdownRef = null;
             if (result !== undefined) {
                 if (result.configuration) {
@@ -253,9 +253,9 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         };
 
         const injectorTokens = this.createInjectorTokens(data);
-        const component = (this.configuration as NaturalSearchDropdownConfiguration).component;
+        const component = (this.configuration as DropdownConfiguration).component;
         this.dropdownRef = this.dropdown.open(component, this.element, injectorTokens);
-        this.dropdownRef.closed.subscribe((result: NaturalSearchDropdownResult) => {
+        this.dropdownRef.closed.subscribe((result: DropdownResult) => {
             this.dropdownRef = null;
             if (result !== undefined) {
                 this.setValue(result);
@@ -264,14 +264,14 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     public isDropdown(): boolean {
-        return !!(this.configuration && (this.configuration as NaturalSearchDropdownConfiguration).component);
+        return !!(this.configuration && (this.configuration as DropdownConfiguration).component);
     }
 
     private isFlag(): boolean {
-        return !!(this.configuration && (this.configuration as NaturalSearchFlagConfiguration).value);
+        return !!(this.configuration && (this.configuration as FlagConfiguration).value);
     }
 
-    public setConfiguration(config: NaturalSearchItemConfiguration) {
+    public setConfiguration(config: ItemConfiguration) {
         this.configuration = config;
 
         if (this.isDropdown()) {
@@ -279,7 +279,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
 
         } else if (this.isFlag()) {
             this.setValue({
-                value: (config as NaturalSearchFlagConfiguration).value,
+                value: (config as FlagConfiguration).value,
                 rendered: null,
             });
 
@@ -288,7 +288,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         }
     }
 
-    public setValue(result: NaturalSearchDropdownResult) {
+    public setValue(result: DropdownResult) {
         this.formCtrl.setValue(result.rendered);
         this.selectionChange.emit({
             attribute: this.configuration.attribute,

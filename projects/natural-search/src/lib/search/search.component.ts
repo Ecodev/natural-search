@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChildren } from '@angular/core';
 import { NaturalInputComponent } from '../input/input.component';
 import { NaturalSearchConfiguration } from '../types/Configuration';
-import { NaturalSearchGroupSelections, NaturalSearchSelection, NaturalSearchSelections } from '../types/Values';
+import { GroupSelections, Selection, NaturalSearchSelections } from '../types/Values';
 
 @Component({
     selector: 'natural-search',
@@ -26,7 +26,7 @@ export class NaturalSearchComponent implements OnInit, OnChanges {
     ngOnChanges(changes: SimpleChanges) {
     }
 
-    public setGroupSelection(groupSelections: NaturalSearchGroupSelections, index: number): void {
+    public setGroupSelection(groupSelections: GroupSelections, index: number): void {
         const groups = this.selections.slice(0);
         groups[index] = groupSelections;
         this.selections = groups;

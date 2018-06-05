@@ -1,11 +1,11 @@
-import { NaturalSearchDropdownComponent } from './DropdownComponent';
+import { DropdownComponent } from './DropdownComponent';
 import { Type } from '@angular/core';
-import { NaturalSearchValue } from '../types/Values';
+import { Value } from '../types/Values';
 import { TypeNumericConfiguration } from '../dropdown-components/type-numeric/TypeNumericConfiguration';
 import { TypeSelectConfiguration } from '../dropdown-components/type-select/TypeSelectConfiguration';
 import { TypeRangeConfiguration } from '../dropdown-components/type-numeric-range/TypeNumericRangeConfiguration';
 
-export interface NaturalSearchBasicConfiguration {
+export interface BasicConfiguration {
     /**
      * The label to be used in the GUI
      */
@@ -26,19 +26,19 @@ export interface NaturalSearchBasicConfiguration {
 /**
  * Configuration for an item that uses a component in a dropdown
  */
-export interface NaturalSearchDropdownConfiguration extends NaturalSearchBasicConfiguration {
-    component: Type<NaturalSearchDropdownComponent<NaturalSearchValue>>;
+export interface DropdownConfiguration extends BasicConfiguration {
+    component: Type<DropdownComponent<Value>>;
 
     /**
      * Anything that could be useful for the dropdown component
      */
-    configuration?: TypeSelectConfiguration | TypeNumericConfiguration | TypeRangeConfiguration | NaturalSearchItemConfiguration;
+    configuration?: TypeSelectConfiguration | TypeNumericConfiguration | TypeRangeConfiguration | ItemConfiguration;
 }
 
 /**
  * Configuration for an item that is only a flag (set or unset)
  */
-export interface NaturalSearchFlagConfiguration extends NaturalSearchBasicConfiguration {
+export interface FlagConfiguration extends BasicConfiguration {
 
     /**
      * The value to be returned when the flag is set
@@ -46,13 +46,13 @@ export interface NaturalSearchFlagConfiguration extends NaturalSearchBasicConfig
     value: any;
 }
 
-export type NaturalSearchItemConfiguration =
-    NaturalSearchBasicConfiguration |
-    NaturalSearchDropdownConfiguration |
-    NaturalSearchFlagConfiguration;
+export type ItemConfiguration =
+    BasicConfiguration |
+    DropdownConfiguration |
+    FlagConfiguration;
 
 /**
  * Exhaustive list of configurations
  */
-export interface NaturalSearchConfiguration extends Array<NaturalSearchItemConfiguration> {
+export interface NaturalSearchConfiguration extends Array<ItemConfiguration> {
 }

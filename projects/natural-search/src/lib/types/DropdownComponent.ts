@@ -1,12 +1,11 @@
-import { NaturalSearchDropdownResult } from './Values';
-import { NaturalSearchDropdownConfiguration } from './Configuration';
+import { DropdownConfiguration } from './Configuration';
 
-export interface NaturalSearchDropdownComponent<T> {
+export interface DropdownComponent<T> {
 
     /**
      * Set value for component initialisation purposes
      */
-    init(value: T, configuration?: NaturalSearchDropdownConfiguration['configuration']): void;
+    init(value: T, configuration?: DropdownConfiguration['configuration']): void;
 
     /**
      * Get value, including rich object types

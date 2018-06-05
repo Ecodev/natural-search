@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
-import { NaturalSearchDropdownComponent } from '../../types/DropdownComponent';
+import { DropdownComponent } from '../../types/DropdownComponent';
 import { TypeNumericConfiguration } from './TypeNumericConfiguration';
-import { NaturalSearchDropdownResult, NaturalSearchSelection } from '../../types/Values';
+import { DropdownResult, Selection } from '../../types/Values';
 import { ErrorStateMatcher } from '@angular/material';
 
 export class InvalidWithValueStateMatcher implements ErrorStateMatcher {
@@ -15,9 +15,9 @@ export class InvalidWithValueStateMatcher implements ErrorStateMatcher {
     templateUrl: './type-numeric.component.html',
     styleUrls: ['./type-numeric.component.scss'],
 })
-export class TypeNumericComponent implements NaturalSearchDropdownComponent<number>, OnInit {
+export class TypeNumericComponent implements DropdownComponent<number>, OnInit {
 
-    public value: NaturalSearchSelection['value'];
+    public value: Selection['value'];
     public configuration: TypeNumericConfiguration;
     public formCtrl: FormControl = new FormControl();
     public matcher = new InvalidWithValueStateMatcher();

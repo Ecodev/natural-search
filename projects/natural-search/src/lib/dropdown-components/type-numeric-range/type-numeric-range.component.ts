@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective, NgForm, ValidatorFn, Validators } from '@angular/forms';
-import { NaturalSearchDropdownResult, NaturalSearchSelection, RangeValue } from '../../types/Values';
+import { DropdownResult, Selection, RangeValue } from '../../types/Values';
 import { TypeRangeConfiguration } from './TypeNumericRangeConfiguration';
 import { ErrorStateMatcher } from '@angular/material';
-import { NaturalSearchDropdownComponent } from '../../types/DropdownComponent';
+import { DropdownComponent } from '../../types/DropdownComponent';
 
 export class InvalidWithValueStateMatcher implements ErrorStateMatcher {
     isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -17,9 +17,9 @@ export class InvalidWithValueStateMatcher implements ErrorStateMatcher {
     templateUrl: './type-numeric-range.component.html',
     styleUrls: ['./type-numeric-range.component.scss'],
 })
-export class TypeNumericRangeComponent implements NaturalSearchDropdownComponent<RangeValue>, OnInit {
+export class TypeNumericRangeComponent implements DropdownComponent<RangeValue>, OnInit {
 
-    public value: NaturalSearchSelection['value'];
+    public value: Selection['value'];
     public configuration: TypeRangeConfiguration;
     public matcher = new InvalidWithValueStateMatcher();
 

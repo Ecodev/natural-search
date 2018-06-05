@@ -1,5 +1,5 @@
-import { NaturalSearchConfiguration, NaturalSearchItemConfiguration } from '../types/Configuration';
-import { NaturalSearchSelection } from '../types/Values';
+import { NaturalSearchConfiguration, ItemConfiguration } from '../types/Configuration';
+import { Selection } from '../types/Values';
 
 export class InputOutput {
 
@@ -7,7 +7,7 @@ export class InputOutput {
     }
 
     public static getConfigurationFromValue(configuration: NaturalSearchConfiguration,
-                                            value: NaturalSearchSelection): NaturalSearchItemConfiguration {
+                                            value: Selection): ItemConfiguration {
 
         for (const c of configuration) {
             if (c.attribute === value.attribute) {

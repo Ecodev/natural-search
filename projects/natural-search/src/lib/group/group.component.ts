@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { NaturalSearchConfiguration } from '../types/Configuration';
-import { NaturalSearchGroupSelections, NaturalSearchSelection } from '../types/Values';
+import { GroupSelections, Selection } from '../types/Values';
 import { NaturalInputComponent } from '../input/input.component';
 import { InputOutput } from '../classes/input-output';
 
@@ -14,8 +14,8 @@ export class NaturalGroupComponent implements OnInit, OnChanges {
     @ViewChild('newValueInput') newValueInput: NaturalInputComponent;
 
     @Input() configurations: NaturalSearchConfiguration;
-    @Input() groupSelections: NaturalSearchGroupSelections;
-    @Output() groupSelectionsChange = new EventEmitter<NaturalSearchGroupSelections>();
+    @Input() groupSelections: GroupSelections;
+    @Output() groupSelectionsChange = new EventEmitter<GroupSelections>();
 
     constructor() {
     }
@@ -26,14 +26,14 @@ export class NaturalGroupComponent implements OnInit, OnChanges {
     ngOnChanges(changes: SimpleChanges) {
     }
 
-    public updateInput(value: NaturalSearchSelection, index: number) {
+    public updateInput(value: Selection, index: number) {
         const values = this.groupSelections.slice(0);
         values[index] = value;
         this.groupSelections = values;
         this.groupSelectionsChange.emit(values);
     }
 
-    public addInput(selection?: NaturalSearchSelection): void {
+    public addInput(selection?: Selection): void {
         this.newValueInput.clear();
         this.groupSelections = this.groupSelections.concat([selection]);
         this.groupSelectionsChange.emit(this.groupSelections);
