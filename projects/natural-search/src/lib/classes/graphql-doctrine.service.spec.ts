@@ -24,8 +24,8 @@ describe('NaturalFilterService', () => {
             attribute: 'datings.from-to',
             component: TypeNumericRangeComponent,
             transform: (s: Selection): Selection => {
-                s.value.between.from = yearToJulian(s.value.between.from as number, false);
-                s.value.between.to = yearToJulian(s.value.between.to as number, true);
+                s.condition.between.from = yearToJulian(s.condition.between.from as number, false);
+                s.condition.between.to = yearToJulian(s.condition.between.to as number, true);
 
                 return s;
             },
@@ -77,7 +77,7 @@ describe('NaturalFilterService', () => {
         [
             {
                 attribute: 'search',
-                value: {
+                condition: {
                     like: {
                         value: 'foo',
                     },
@@ -85,7 +85,7 @@ describe('NaturalFilterService', () => {
             },
             {
                 attribute: 'artists.name',
-                value: {
+                condition: {
                     like: {
                         value: 'bar',
                     },
@@ -93,7 +93,7 @@ describe('NaturalFilterService', () => {
             },
             {
                 attribute: 'datings.from-to',
-                value: {
+                condition: {
                     between: {
                         from: 1900,
                         to: 2000,
@@ -102,7 +102,7 @@ describe('NaturalFilterService', () => {
             },
             {
                 attribute: 'visibility',
-                value: {
+                condition: {
                     in: {
                         values: [
                             'private',

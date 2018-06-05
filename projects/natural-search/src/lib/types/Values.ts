@@ -6,7 +6,7 @@ import { FilterConditionField } from '../classes/graphql-doctrine.types';
  */
 export interface Selection {
     attribute: string;
-    value: FilterConditionField;
+    condition: FilterConditionField;
 }
 
 /**
@@ -27,7 +27,7 @@ export interface NaturalSearchSelections extends Array<GroupSelections> {
  * Used internally for dropdown
  */
 export interface DropdownResult {
-    value?: Selection['value'];
+    condition?: FilterConditionField;
     rendered?: string;
     configuration?: ItemConfiguration;
 }

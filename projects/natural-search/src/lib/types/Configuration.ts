@@ -22,6 +22,12 @@ export interface BasicConfiguration {
      */
     attribute: string;
 
+    /**
+     * A function to transform the selection before it is applied onto the filter.
+     *
+     * This would typically be useful to do unit conversion so the GUI has some user
+     * friendly values, but the API works with a "low-level" unit.
+     */
     transform?: (Selection) => Selection;
 }
 
@@ -45,7 +51,7 @@ export interface FlagConfiguration extends BasicConfiguration {
     /**
      * The value to be returned when the flag is set
      */
-    value: any;
+    condition: any;
 }
 
 export type ItemConfiguration =

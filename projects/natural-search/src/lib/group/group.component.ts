@@ -25,9 +25,9 @@ export class NaturalGroupComponent implements OnInit, OnChanges {
     ngOnChanges(changes: SimpleChanges) {
     }
 
-    public updateInput(value: Selection, index: number) {
+    public updateInput(selection: Selection, index: number) {
         const values = this.groupSelections.slice(0);
-        values[index] = value;
+        values[index] = selection;
         this.groupSelections = values;
         this.groupSelectionsChange.emit(values);
     }

@@ -20,7 +20,7 @@ export class InvalidWithValueStateMatcher implements ErrorStateMatcher {
 })
 export class TypeNumericRangeComponent implements DropdownComponent, OnInit {
 
-    public value: Selection['value'];
+    public value: Selection['condition'];
     public configuration: TypeRangeConfiguration;
     public matcher = new InvalidWithValueStateMatcher();
 
@@ -63,7 +63,7 @@ export class TypeNumericRangeComponent implements DropdownComponent, OnInit {
     ngOnInit() {
     }
 
-    public init(value: FilterConditionField, configuration: TypeRangeConfiguration): void {
+    public init(condition: FilterConditionField, configuration: TypeRangeConfiguration): void {
         this.configuration = configuration ? configuration : {};
 
         const rangeValidators = [
@@ -89,13 +89,13 @@ export class TypeNumericRangeComponent implements DropdownComponent, OnInit {
             TypeNumericRangeComponent.ToGtFrom(), // From < To
         ]);
 
-        if (value) {
-            this.form.setValue({from: value.between.from, to: value.between.to});
+        if (condition) {
+            this.form.setValue({from: condition.between.from, to: condition.between.to});
         }
 
     }
 
-    public getValue(): FilterConditionField {
+    public getCondition(): FilterConditionField {
         return {
             between: {
                 from: this.form.get('from').value,
@@ -106,8 +106,8 @@ export class TypeNumericRangeComponent implements DropdownComponent, OnInit {
 
     public getRenderedValue(): string {
 
-        const from = parseFloat(this.getValue().between.from as string);
-        const to = parseFloat(this.getValue().between.to as string);
+        const from = parseFloat(this.getCondition().between.from as string);
+        const to = parseFloat(this.getCondition().between.to as string);
 
         if (!isNaN(from) && !isNaN(to)) {
             return from + ' - ' + to;

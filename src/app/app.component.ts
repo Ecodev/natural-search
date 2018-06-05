@@ -87,7 +87,9 @@ export class AppComponent implements OnInit {
         {
             display: 'With archives',
             attribute: 'archived',
-            value: true,
+            condition: {
+                equal: {value: true},
+            },
         },
     ];
 
@@ -106,7 +108,9 @@ export class AppComponent implements OnInit {
         {
             display: 'With archives',
             attribute: 'archived',
-            value: 'true',
+            condition: {
+                equal: {value: true},
+            },
         },
     ];
 
@@ -115,31 +119,31 @@ export class AppComponent implements OnInit {
         [
             {
                 attribute: 'artist',
-                value: {
+                condition: {
                     like: {value: 'picasso'},
                 },
             },
             {
                 attribute: 'number',
-                value: {
+                condition: {
                     equal: {value: 123},
                 },
             },
             {
                 attribute: 'archived',
-                value: {
+                condition: {
                     equal: {value: 'true'},
                 },
             },
             {
                 attribute: 'unsued',
-                value: {
+                condition: {
                     equal: {value: 'unused value'},
                 },
             },
             {
                 attribute: 'search',
-                value: {
+                condition: {
                     like: {value: 'searched'},
                 },
             },

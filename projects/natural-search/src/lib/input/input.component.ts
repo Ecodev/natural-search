@@ -127,7 +127,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
 
             } else if (this.configuration || this.selection.attribute === this.searchAttributeName) {
                 if (this.selection) {
-                    this.formCtrl.setValue(this.selection.value.like.value);
+                    this.formCtrl.setValue(this.selection.condition.like.value);
                 }
 
             } else {
@@ -151,7 +151,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
 
         this.selectionChange.emit({
             attribute: this.configuration ? this.configuration.attribute : this.searchAttributeName,
-            value: {like: {value: this.formCtrl.value}},
+            condition: {like: {value: this.formCtrl.value}},
         });
 
     }
@@ -168,7 +168,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         this.dropdownComponentRef = factory.create(injector);
 
         const dropdownComponent = this.dropdownComponentRef.instance;
-        dropdownComponent.init(this.selection.value as FilterConditionField, configuration.configuration);
+        dropdownComponent.init(this.selection.condition as FilterConditionField, configuration.configuration);
 
         return dropdownComponent;
     }
@@ -232,7 +232,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
             if (result !== undefined) {
                 if (result.configuration) {
                     this.setConfiguration(result.configuration);
-                } else if (result.value) {
+                } else if (result.condition) {
                     this.setValue(result);
                 }
 
@@ -249,7 +249,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
 
         const data = {
             configuration: this.configuration,
-            value: this.selection ? this.selection.value : null,
+            value: this.selection ? this.selection.condition : null,
         };
 
         const injectorTokens = this.createInjectorTokens(data);
@@ -268,7 +268,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     private isFlag(): boolean {
-        return !!(this.configuration && (this.configuration as FlagConfiguration).value);
+        return !!(this.configuration && (this.configuration as FlagConfiguration).condition);
     }
 
     public setConfiguration(config: ItemConfiguration) {
@@ -279,7 +279,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
 
         } else if (this.isFlag()) {
             this.setValue({
-                value: (config as FlagConfiguration).value,
+                condition: (config as FlagConfiguration).condition,
                 rendered: null,
             });
 
@@ -292,7 +292,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         this.formCtrl.setValue(result.rendered);
         this.selectionChange.emit({
             attribute: this.configuration.attribute,
-            value: result.value,
+            condition: result.condition,
         });
     }
 

@@ -4,14 +4,14 @@ import { FilterConditionField } from '../classes/graphql-doctrine.types';
 export interface DropdownComponent {
 
     /**
-     * Set value for component initialisation purposes
+     * Set condition for component initialisation purposes
      */
-    init(value: FilterConditionField, configuration?: DropdownConfiguration['configuration']): void;
+    init(condition: FilterConditionField, configuration?: DropdownConfiguration['configuration']): void;
 
     /**
-     * Get value, including rich object types
+     * Get condition, including rich object types
      */
-    getValue(): FilterConditionField;
+    getCondition(): FilterConditionField;
 
     /**
      * Return current value as string

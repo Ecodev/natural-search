@@ -23,11 +23,11 @@ export class TypeSelectComponent implements DropdownComponent, OnInit {
     ngOnInit() {
     }
 
-    public init(value: FilterConditionField, configuration: TypeSelectConfiguration): void {
+    public init(condition: FilterConditionField, configuration: TypeSelectConfiguration): void {
 
         this.configuration = configuration;
 
-        if (!value) {
+        if (!condition) {
             return;
         }
 
@@ -38,7 +38,7 @@ export class TypeSelectComponent implements DropdownComponent, OnInit {
 
         // nav-list selector needs same references
         this.selected = configuration.items.filter((item) => {
-            for (const val of value.in.values) {
+            for (const val of condition.in.values) {
                 if (configuration.matchItems(item, val)) {
                     return true;
                 }
@@ -65,13 +65,13 @@ export class TypeSelectComponent implements DropdownComponent, OnInit {
     public closeIfSingleAndHasValue() {
         if (!this.configuration.multiple && this.selected.length) {
             this.dropdownRef.close({
-                value: this.getValue(),
+                condition: this.getCondition(),
                 rendered: this.getRenderedValue(),
             });
         }
     }
 
-    public getValue(): FilterConditionField {
+    public getCondition(): FilterConditionField {
         if (this.configuration.multiple) {
             return this.selected.map(option => option);
         } else {

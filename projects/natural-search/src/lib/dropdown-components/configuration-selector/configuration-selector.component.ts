@@ -25,15 +25,15 @@ export class ConfigurationSelectorComponent implements DropdownComponent, OnInit
     }
 
     /**
-     * Set value for component initialisation purposes
+     * Set condition for component initialisation purposes
      */
-    public init(value: FilterConditionField, configuration?: ItemConfiguration): void {
+    public init(condition: FilterConditionField, configuration?: ItemConfiguration): void {
     }
 
     /**
      * Get value, including rich object types
      */
-    public getValue(): FilterConditionField {
+    public getCondition(): FilterConditionField {
         return null;
     }
 

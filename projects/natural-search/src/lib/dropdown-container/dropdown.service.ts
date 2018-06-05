@@ -44,7 +44,7 @@ export class NaturalDropdownService {
             const componentValueIsValid = dropdownRef.componentInstance.isValid();
             if (componentValueIsValid) {
                 dropdownRef.close({
-                    value: dropdownRef.componentInstance.getValue(),
+                    condition: dropdownRef.componentInstance.getCondition(),
                     rendered: dropdownRef.componentInstance.getRenderedValue(),
                 });
             } else {
