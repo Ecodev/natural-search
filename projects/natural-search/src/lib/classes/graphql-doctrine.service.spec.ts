@@ -67,8 +67,6 @@ describe('NaturalFilterService', () => {
                     },
                 ],
                 multiple: true,
-                displayWith: (item) => item.text,
-                matchItems: (a, b) => a.value === b.value,
             },
         },
     ];

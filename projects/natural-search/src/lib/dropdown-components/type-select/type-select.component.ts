@@ -1,10 +1,10 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { NATURAL_DROPDOWN_DATA } from '../../dropdown-container/dropdown.service';
 import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
-import { TypeSelectConfiguration } from './TypeSelectConfiguration';
+import { TypeSelectConfiguration, TypeSelectItem } from './TypeSelectConfiguration';
 import { DropdownComponent } from '../../types/DropdownComponent';
 import { MatSelectionList } from '@angular/material';
-import { FilterConditionField } from '../../classes/graphql-doctrine.types';
+import { FilterConditionField, Scalar } from '../../classes/graphql-doctrine.types';
 
 @Component({
     templateUrl: './type-select.component.html',
@@ -14,7 +14,7 @@ export class TypeSelectComponent implements DropdownComponent, OnInit {
 
     @ViewChild(MatSelectionList) list: any;
     public configuration: TypeSelectConfiguration;
-    public selected;
+    public selected: Scalar[];
 
     constructor(@Inject(NATURAL_DROPDOWN_DATA) public data: any,
                 protected dropdownRef: NaturalDropdownRef) {
@@ -35,31 +35,35 @@ export class TypeSelectComponent implements DropdownComponent, OnInit {
             // value = [value];
             this.list.selectedOptions._multiple = false;
         }
-
         // nav-list selector needs same references
-        this.selected = configuration.items.filter((item) => {
-            for (const val of condition.in.values) {
-                if (configuration.matchItems(item, val)) {
-                    return true;
-                }
-            }
-        });
+
+        // Reload selection
+        const possibleIds = configuration.items.map(item => this.getId(item));
+        if (condition.in) {
+            this.selected = condition.in.values.filter(id => possibleIds.includes(id));
+        } else {
+            this.selected = [];
+        }
     }
 
-    public getDisplay(item) {
-        if (!!this.configuration.displayWith) {
-            return this.configuration.displayWith(item);
+    private getId(item: TypeSelectItem): Scalar {
+        if (typeof item === 'object' && item) {
+            return item.id || item.value;
         }
 
-        if (typeof item === 'string') {
-            return item;
-        }
+        return item as Scalar;
+    }
 
-        if (item && item.name) {
+    public getDisplay(item: TypeSelectItem): Scalar {
+        if (typeof item === 'object' && item && item.name) {
             return item.name;
         }
 
-        return item;
+        return item as Scalar;
+    }
+
+    private getItemById(id: Scalar): TypeSelectItem {
+        return this.configuration.items.find(item => this.getId(item) === id);
     }
 
     public closeIfSingleAndHasValue() {
@@ -72,11 +76,9 @@ export class TypeSelectComponent implements DropdownComponent, OnInit {
     }
 
     public getCondition(): FilterConditionField {
-        if (this.configuration.multiple) {
-            return this.selected.map(option => option);
-        } else {
-            return this.selected[0];
-        }
+        return {
+            in: {values: this.selected},
+        };
     }
 
     public getRenderedValue(): string {
@@ -85,7 +87,7 @@ export class TypeSelectComponent implements DropdownComponent, OnInit {
             return '';
         }
 
-        return this.selected.map(option => this.getDisplay(option)).join(', ');
+        return this.selected.map(id => this.getDisplay(this.getItemById(id))).join(', ');
     }
 
     public isValid(): boolean {

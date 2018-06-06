@@ -1,7 +1,13 @@
+import { Scalar } from '../../classes/graphql-doctrine.types';
+
+export type TypeSelectItem = Scalar | {
+    id: Scalar;
+    value: Scalar;
+    name: Scalar;
+};
+
 export interface TypeSelectConfiguration {
-    items: any[];
+    items: TypeSelectItem[];
     multiple?: boolean;
-    displayWith?: (item: any) => string;
-    matchItems?: (a: any, b: any) => string;
 }
 

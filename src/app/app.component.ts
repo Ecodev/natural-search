@@ -56,8 +56,6 @@ export class AppComponent implements OnInit {
                     },
                 ],
                 multiple: false,
-                displayWith: (item) => item.name,
-                matchItems: (a, b) => a.id === b.id,
             },
         },
         {
@@ -80,8 +78,6 @@ export class AppComponent implements OnInit {
                     },
                 ],
                 multiple: true,
-                displayWith: (item) => item.name,
-                matchItems: (a, b) => a.id === b.id,
             },
         },
         {
@@ -117,6 +113,12 @@ export class AppComponent implements OnInit {
     public graphqlSelections: Filter;
     public selections: NaturalSearchSelections = [
         [
+            {
+                attribute: 'select',
+                condition: {
+                    in: {values: [2]},
+                },
+            },
             {
                 attribute: 'artist',
                 condition: {
@@ -167,7 +169,7 @@ export class AppComponent implements OnInit {
     }
 
     public stringify(s): string {
-        return JSON.stringify(s)
+        return JSON.stringify(s);
     }
 
 }
