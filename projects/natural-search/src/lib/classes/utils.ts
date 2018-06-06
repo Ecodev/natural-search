@@ -4,6 +4,6 @@ import { Selection } from '../types/Values';
 export function getConfigurationFromSelection(configuration: NaturalSearchConfiguration,
                                               selection: Selection): ItemConfiguration {
 
-    return configuration.find(v => v.attribute === selection.attribute);
+    return configuration ? configuration.find(v => v.attribute === selection.attribute) : null;
 }
 
