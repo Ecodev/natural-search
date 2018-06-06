@@ -166,4 +166,8 @@ export class AppComponent implements OnInit {
         this.graphqlSelections = toGraphQLDoctrineFilter(this.config, selections);
     }
 
+    public stringify(s): string {
+        return JSON.stringify(s)
+    }
+
 }

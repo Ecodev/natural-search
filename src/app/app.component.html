@@ -30,6 +30,11 @@
                 <pre class="debug" fxFlex><strong>Config: </strong>{{ config | json }}</pre>
                 <pre class="debug" fxFlex><strong>Selections: </strong>{{ selections | json }}</pre>
                 <pre class="debug" fxFlex><strong>GraphQL selections: </strong>{{ graphqlSelections | json }}</pre>
+                <pre class="debug" fxFlex><strong>JSON serialized length: </strong>
+
+Selections: {{ stringify(selections)?.length }}
+GraphQL selections: {{ stringify(graphqlSelections)?.length }}
+                </pre>
             </div>
         </div>
     </mat-sidenav-container>
