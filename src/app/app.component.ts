@@ -3,11 +3,11 @@ import { ThemeService } from './shared/services/theme.service';
 import { OverlayContainer } from '@angular/cdk/overlay';
 
 import {
-    NaturalSearchSelections,
     NaturalSearchConfiguration,
+    NaturalSearchSelections,
     TypeNumericComponent,
     TypeNumericRangeComponent,
-    TypeSelectComponent, BasicConfiguration, DropdownConfiguration, FlagConfiguration,
+    TypeSelectComponent,
 } from '@ecodev/natural-search';
 import { Filter } from '../../projects/natural-search/src/lib/classes/graphql-doctrine.types';
 import { toGraphQLDoctrineFilter } from '../../projects/natural-search/src/lib/classes/graphql-doctrine.service';

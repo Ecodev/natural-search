@@ -1,4 +1,4 @@
-import { NaturalSearchConfiguration, ItemConfiguration } from '../types/Configuration';
+import { ItemConfiguration, NaturalSearchConfiguration } from '../types/Configuration';
 import { Selection } from '../types/Values';
 
 export function getConfigurationFromSelection(configuration: NaturalSearchConfiguration,

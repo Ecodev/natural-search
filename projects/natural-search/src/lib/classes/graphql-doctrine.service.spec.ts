@@ -2,9 +2,8 @@ import { Filter } from './graphql-doctrine.types';
 import { toGraphQLDoctrineFilter } from './graphql-doctrine.service';
 import { NaturalSearchConfiguration } from '../types/Configuration';
 import { TypeNumericRangeComponent } from '../dropdown-components/type-numeric-range/type-numeric-range.component';
-import { TypeNumericComponent } from '../dropdown-components/type-numeric/type-numeric.component';
 import { TypeSelectComponent } from '../dropdown-components/type-select/type-select.component';
-import { NaturalSearchSelections, Selection} from '../types/Values';
+import { NaturalSearchSelections, Selection } from '../types/Values';
 
 function yearToJulian(year: number, endOfYear: boolean): number {
     const date = new Date(year, endOfYear ? 11 : 0, endOfYear ? 31 : 1);

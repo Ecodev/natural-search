@@ -1,9 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { DropdownComponent } from '../../types/DropdownComponent';
-import { NaturalSearchConfiguration, ItemConfiguration } from '../../types/Configuration';
+import { ItemConfiguration, NaturalSearchConfiguration } from '../../types/Configuration';
 import { NATURAL_DROPDOWN_DATA } from '../../dropdown-container/dropdown.service';
 import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
-import { DropdownResult } from '../../types/Values';
 import { FilterConditionField } from '../../classes/graphql-doctrine.types';
 
 @Component({

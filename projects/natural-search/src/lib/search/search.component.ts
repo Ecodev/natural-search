@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChildren } from '@angular/core';
 import { NaturalInputComponent } from '../input/input.component';
 import { NaturalSearchConfiguration } from '../types/Configuration';
-import { GroupSelections, Selection, NaturalSearchSelections } from '../types/Values';
+import { GroupSelections, NaturalSearchSelections } from '../types/Values';
 
 @Component({
     selector: 'natural-search',

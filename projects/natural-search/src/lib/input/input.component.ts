@@ -17,15 +17,16 @@ import { ErrorStateMatcher, MatRipple } from '@angular/material';
 import { FormControl, FormGroupDirective, NgForm, ValidatorFn } from '@angular/forms';
 import {
     DropdownConfiguration,
-    NaturalSearchConfiguration, FlagConfiguration,
+    FlagConfiguration,
     ItemConfiguration,
+    NaturalSearchConfiguration,
 } from '../types/Configuration';
 import { ConfigurationSelectorComponent } from '../dropdown-components/configuration-selector/configuration-selector.component';
 import { NATURAL_DROPDOWN_DATA, NaturalDropdownService } from '../dropdown-container/dropdown.service';
 import { DropdownResult, Selection } from '../types/Values';
 import { getConfigurationFromSelection } from '../classes/utils';
 import { NaturalDropdownRef } from '../dropdown-container/dropdown-ref';
-import { ComponentType, PortalInjector } from '@angular/cdk/portal';
+import { PortalInjector } from '@angular/cdk/portal';
 import { DropdownComponent } from '../types/DropdownComponent';
 import { FilterConditionField } from '../classes/graphql-doctrine.types';
 

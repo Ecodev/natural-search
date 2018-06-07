@@ -1,9 +1,14 @@
-import { TestBed, async } from '@angular/core/testing';
+import { async, TestBed } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
 import {
-    MatButtonModule, MatCheckboxModule,
-    MatDialogModule, MatFormFieldModule, MatIconModule, MatInputModule, MatListModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatListModule,
     MatSidenavModule,
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
