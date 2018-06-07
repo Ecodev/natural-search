@@ -40,13 +40,13 @@ export class TypeSelectComponent implements DropdownComponent, OnInit {
         // Reload selection
         const possibleIds = configuration.items.map(item => this.getId(item));
         if (condition.in) {
-            this.selected = condition.in.values.filter(id => possibleIds.includes(id));
+            this.selected = condition.in.values.filter(id => typeof possibleIds.find(i => i === id) !== 'undefined');
         } else {
             this.selected = [];
         }
     }
 
-    private getId(item: TypeSelectItem): Scalar {
+    public getId(item: TypeSelectItem): Scalar {
         if (typeof item === 'object' && item) {
             return item.id || item.value;
         }
