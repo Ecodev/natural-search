@@ -9,7 +9,7 @@
         "lint": "ng lint",
         "e2e": "ng e2e",
         "build-lib": "ng build natural-search && cp -v README.md dist/natural-search/ && gulp copy:themes",
-        "build-docs": "git rm -rf --ignore-unmatch docs/ && yarn build-lib && ng build demo --prod --aot --output-path docs --base-href /natural-search/ && cp docs/index.html docs/404.html && git add docs/ && git commit docs/ -m 'Update documentation'",
+        "build-docs": "yarn build-lib && ng build demo --prod --aot --base-href /natural-search/ && cp dist/demo/index.html dist/demo/404.html",
         "release": "yarn build-lib && cd dist/natural-search/ && yarn publish --access public",
         "llink": "cd node_modules/@ecodev/natural-search && yarn unlink && yarn link"
     },
