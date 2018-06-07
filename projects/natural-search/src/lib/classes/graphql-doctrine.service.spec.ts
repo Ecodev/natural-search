@@ -1,8 +1,6 @@
 import { Filter } from './graphql-doctrine.types';
 import { toGraphQLDoctrineFilter } from './graphql-doctrine.service';
 import { NaturalSearchConfiguration } from '../types/Configuration';
-import { TypeNumericRangeComponent } from '../dropdown-components/type-numeric-range/type-numeric-range.component';
-import { TypeSelectComponent } from '../dropdown-components/type-select/type-select.component';
 import { NaturalSearchSelections, Selection } from '../types/Values';
 
 function yearToJulian(year: number, endOfYear: boolean): number {
@@ -11,17 +9,12 @@ function yearToJulian(year: number, endOfYear: boolean): number {
     return Math.trunc(date.getTime() / 86400000 + 2440587.5);
 }
 
-describe('NaturalFilterService', () => {
+describe('toGraphQLDoctrineFilter', () => {
 
     const configuration: NaturalSearchConfiguration = [
         {
-            display: 'Institution',
-            field: 'locality.name',
-        },
-        {
             display: 'Datation',
             field: 'datings.from-to',
-            component: TypeNumericRangeComponent,
             transform: (s: Selection): Selection => {
                 s.condition.between.from = yearToJulian(s.condition.between.from as number, false);
                 s.condition.between.to = yearToJulian(s.condition.between.to as number, true);
@@ -30,118 +23,215 @@ describe('NaturalFilterService', () => {
             },
         },
         {
-            display: 'Datation pour les geeks en Julian',
-            field: 'datings.from-to',
-            component: TypeNumericRangeComponent,
-            configuration: {},
-        },
-        {
-            display: 'Artiste',
-            field: 'artists.name',
-        },
-        {
-            display: 'Institution',
-            field: 'institution.name',
-        },
-        {
-            display: 'Visibilité',
-            field: 'visibility',
-            component: TypeSelectComponent,
-            configuration: {
-                items: [
-                    {
-                        value: 'private',
-                        text: 'par moi',
-                        color: null,
-                    },
-                    {
-                        value: 'member',
-                        text: 'par les membres',
-                        color: 'accent',
-                    },
-                    {
-                        value: 'public',
-                        text: 'par tout le monde',
-                        color: 'primary',
-                    },
-                ],
-                multiple: true,
+            display: 'Name',
+            field: 'name',
+            transform: (s: Selection): Selection => {
+                s.condition.like.value = '%' + s.condition.like.value + '%';
+
+                return s;
             },
         },
     ];
 
-    const input: NaturalSearchSelections = [
-        [
-            {
-                field: 'search',
-                condition: {
-                    like: {
-                        value: 'foo',
-                    },
-                },
-            },
-            {
-                field: 'artists.name',
-                condition: {
-                    like: {
-                        value: 'bar',
-                    },
-                },
-            },
-            {
-                field: 'datings.from-to',
-                condition: {
-                    between: {
-                        from: 1900,
-                        to: 2000,
-                    },
-                },
-            },
-            {
-                field: 'visibility',
-                condition: {
-                    in: {
-                        values: [
-                            'private',
-                            'member',
-                        ],
-                    },
-                },
-            },
-        ],
-    ];
-
-    const expected: Filter = {
-        joins: {
-            artists: {
-                filter: {
-                    conditions: [{
-                        fields: {
-                            name: {like: {value: 'bar'}},
+    it('should do simple thing', () => {
+        const input: NaturalSearchSelections = [
+            [
+                {
+                    field: 'visibility',
+                    condition: {
+                        in: {
+                            values: [
+                                'private',
+                                'member',
+                            ],
                         },
-                    }],
+                    },
                 },
-            },
-            datings: {
-                filter: {
-                    conditions: [{
-                        fields: {
-                            from: {greaterOrEqual: {value: 2415020}},
-                            to: {lessOrEqual: {value: 2451909}},
-                        },
-                    }],
-                },
-            },
-        },
-        conditions: [{
-            fields: {
-                custom: ({search: {value: 'foo'}}) as any,
-                visibility: {in: {values: ['private', 'member']}},
-            },
-        }],
-    };
+            ],
+        ];
 
-    it('should transform correctly', () => {
+        const expected: Filter = {
+            joins: {},
+            conditions: [{
+                fields: {
+                    visibility: {in: {values: ['private', 'member']}},
+                },
+            }],
+        };
+
+        expect(toGraphQLDoctrineFilter(configuration, input)).toEqual(expected as any);
+    });
+
+    it('should transform value', () => {
+        const input: NaturalSearchSelections = [
+            [
+                {
+                    field: 'name',
+                    condition: {
+                        like: {
+                            value: 'foo',
+                        },
+                    },
+                },
+            ],
+        ];
+
+        const expected: Filter = {
+            joins: {},
+            conditions: [{
+                fields: {
+                    name: {like: {value: '%foo%'}},
+                },
+            }],
+        };
+
+        expect(toGraphQLDoctrineFilter(configuration, input)).toEqual(expected as any);
+    });
+
+    it('should handle search with custom operator', () => {
+        const input: NaturalSearchSelections = [
+            [
+                {
+                    field: 'search',
+                    condition: {
+                        like: {
+                            value: 'foo',
+                        },
+                    },
+                },
+            ],
+        ];
+
+        const expected: Filter = {
+            joins: {},
+            conditions: [{
+                fields: {
+                    custom: ({search: {value: 'foo'}}) as any,
+                },
+            }],
+        };
+
+        expect(toGraphQLDoctrineFilter(configuration, input)).toEqual(expected as any);
+    });
+
+    it('should join a relation', () => {
+        const input: NaturalSearchSelections = [
+            [
+                {
+                    field: 'artists.name',
+                    condition: {
+                        like: {
+                            value: 'bar',
+                        },
+                    },
+                },
+            ],
+        ];
+
+        const expected: Filter = {
+            joins: {
+                artists: {
+                    filter: {
+                        conditions: [{
+                            fields: {
+                                name: {like: {value: 'bar'}},
+                            },
+                        }],
+                    },
+                },
+            },
+            conditions: [{fields: {}}],
+        };
+
+        expect(toGraphQLDoctrineFilter(configuration, input)).toEqual(expected as any);
+    });
+
+    it('should use `between` on single field', () => {
+        const input: NaturalSearchSelections = [
+            [
+                {
+                    field: 'year',
+                    condition: {
+                        between: {
+                            from: 1900,
+                            to: 2000,
+                        },
+                    },
+                },
+            ],
+        ];
+
+        const expected: Filter = {
+            joins: {},
+            conditions: [{
+                fields: {
+                    year: {between: {from: 1900, to: 2000}},
+                },
+            }],
+        };
+
+        expect(toGraphQLDoctrineFilter(configuration, input)).toEqual(expected as any);
+    });
+
+    it('should use `between` on two fields', () => {
+        const input: NaturalSearchSelections = [
+            [
+                {
+                    field: 'field1-field2',
+                    condition: {
+                        between: {
+                            from: 1900,
+                            to: 2000,
+                        },
+                    },
+                },
+            ],
+        ];
+
+        const expected: Filter = {
+            joins: {},
+            conditions: [{
+                fields: {
+                    field1: {greaterOrEqual: {value: 1900}},
+                    field2: {lessOrEqual: {value: 2000}},
+                },
+            }],
+        };
+
+        expect(toGraphQLDoctrineFilter(configuration, input)).toEqual(expected as any);
+    });
+
+    it('should use `between` on two fields and transform', () => {
+        const input: NaturalSearchSelections = [
+            [
+                {
+                    field: 'datings.from-to',
+                    condition: {
+                        between: {
+                            from: 1900,
+                            to: 2000,
+                        },
+                    },
+                },
+            ],
+        ];
+
+        const expected: Filter = {
+            joins: {
+                datings: {
+                    filter: {
+                        conditions: [{
+                            fields: {
+                                from: {greaterOrEqual: {value: 2415020}},
+                                to: {lessOrEqual: {value: 2451909}},
+                            },
+                        }],
+                    },
+                },
+            },
+            conditions: [{fields: {}}],
+        };
+
         expect(toGraphQLDoctrineFilter(configuration, input)).toEqual(expected as any);
     });
 });

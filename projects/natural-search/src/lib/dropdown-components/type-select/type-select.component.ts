@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, ViewChild } from '@angular/core';
 import { NATURAL_DROPDOWN_DATA } from '../../dropdown-container/dropdown.service';
 import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
 import { TypeSelectConfiguration, TypeSelectItem } from './TypeSelectConfiguration';
@@ -10,45 +10,44 @@ import { FilterConditionField, Scalar } from '../../classes/graphql-doctrine.typ
     templateUrl: './type-select.component.html',
     styleUrls: ['./type-select.component.scss'],
 })
-export class TypeSelectComponent implements DropdownComponent, OnInit {
+export class TypeSelectComponent implements DropdownComponent {
 
-    @ViewChild(MatSelectionList) list: any;
+    @ViewChild(MatSelectionList) list: MatSelectionList;
     public configuration: TypeSelectConfiguration;
-    public selected: Scalar[];
+    public selected: Scalar[] = [];
+
+    private readonly defaults: TypeSelectConfiguration = {
+        items: [],
+        multiple: true,
+    };
 
     constructor(@Inject(NATURAL_DROPDOWN_DATA) public data: any,
                 protected dropdownRef: NaturalDropdownRef) {
-    }
-
-    ngOnInit() {
+        this.configuration = this.defaults;
     }
 
     public init(condition: FilterConditionField, configuration: TypeSelectConfiguration): void {
+        const defaults = {items: [], multiple: true};
+        this.configuration = {...defaults, ...configuration};
 
-        this.configuration = configuration;
-
-        if (!condition) {
-            return;
+        if (!this.isMultiple()) {
+            (this.list.selectedOptions as any)._multiple = false;
         }
 
-        if (!configuration.multiple) {
-            // value = [value];
-            this.list.selectedOptions._multiple = false;
-        }
-        // nav-list selector needs same references
-
-        // Reload selection
-        const possibleIds = configuration.items.map(item => this.getId(item));
-        if (condition.in) {
+        // Reload selection, according to possible values from configuration
+        if (condition && condition.in) {
+            const possibleIds = this.configuration.items.map(item => this.getId(item));
             this.selected = condition.in.values.filter(id => typeof possibleIds.find(i => i === id) !== 'undefined');
-        } else {
-            this.selected = [];
         }
+    }
+
+    private isMultiple(): boolean {
+        return this.configuration.multiple;
     }
 
     public getId(item: TypeSelectItem): Scalar {
         if (typeof item === 'object' && item) {
-            return item.id || item.value;
+            return (item as any).id || (item as any).value;
         }
 
         return item as Scalar;
@@ -66,8 +65,8 @@ export class TypeSelectComponent implements DropdownComponent, OnInit {
         return this.configuration.items.find(item => this.getId(item) === id);
     }
 
-    public closeIfSingleAndHasValue() {
-        if (!this.configuration.multiple && this.selected.length) {
+    public closeIfSingleAndHasValue(): void {
+        if (!this.isMultiple() && this.isValid()) {
             this.dropdownRef.close({
                 condition: this.getCondition(),
                 rendered: this.getRenderedValue(),
@@ -82,7 +81,6 @@ export class TypeSelectComponent implements DropdownComponent, OnInit {
     }
 
     public getRenderedValue(): string {
-
         if (!this.selected) {
             return '';
         }
@@ -91,12 +89,6 @@ export class TypeSelectComponent implements DropdownComponent, OnInit {
     }
 
     public isValid(): boolean {
-
-        if (!this.selected) {
-            return false;
-        }
-
         return this.selected.length > 0;
     }
-
 }

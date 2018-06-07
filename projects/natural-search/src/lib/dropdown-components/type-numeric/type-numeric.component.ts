@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { DropdownComponent } from '../../types/DropdownComponent';
 import { TypeNumericConfiguration } from './TypeNumericConfiguration';
@@ -15,22 +15,15 @@ export class InvalidWithValueStateMatcher implements ErrorStateMatcher {
     templateUrl: './type-numeric.component.html',
     styleUrls: ['./type-numeric.component.scss'],
 })
-export class TypeNumericComponent implements DropdownComponent, OnInit {
+export class TypeNumericComponent implements DropdownComponent {
 
     public condition: FilterConditionField;
-    public configuration: TypeNumericConfiguration;
+    public configuration: TypeNumericConfiguration = {};
     public formCtrl: FormControl = new FormControl();
     public matcher = new InvalidWithValueStateMatcher();
 
-    // @Inject(NATURAL_DROPDOWN_DATA) public data: any
-    constructor() {
-    }
-
-    ngOnInit() {
-    }
-
     public init(condition: FilterConditionField, configuration: TypeNumericConfiguration): void {
-        this.configuration = configuration ? configuration : {};
+        this.configuration = configuration || {};
 
         this.formCtrl.setValidators([
             Validators.required,
@@ -48,11 +41,10 @@ export class TypeNumericComponent implements DropdownComponent, OnInit {
     }
 
     public getRenderedValue(): string {
-        return this.formCtrl.value;
+        return this.formCtrl.value === null ? '' : this.formCtrl.value + '';
     }
 
     public isValid(): boolean {
         return this.formCtrl.valid;
     }
-
 }

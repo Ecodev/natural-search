@@ -37,8 +37,8 @@ export class AppComponent implements OnInit {
             component: TypeNumericComponent,
         },
         {
-            display: 'Select',
-            field: 'select',
+            display: 'Select single',
+            field: 'single',
             component: TypeSelectComponent,
             configuration: {
                 items: [
@@ -59,8 +59,8 @@ export class AppComponent implements OnInit {
             },
         },
         {
-            display: 'Checkbox',
-            field: 'checkbox',
+            display: 'Select multiple',
+            field: 'multiple',
             component: TypeSelectComponent,
             configuration: {
                 items: [
@@ -114,7 +114,7 @@ export class AppComponent implements OnInit {
     public selections: NaturalSearchSelections = [
         [
             {
-                field: 'select',
+                field: 'single',
                 condition: {
                     in: {values: [2]},
                 },
