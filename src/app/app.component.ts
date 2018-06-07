@@ -24,21 +24,21 @@ export class AppComponent implements OnInit {
     public config1: NaturalSearchConfiguration = [
         {
             display: 'Artist',
-            attribute: 'artist',
+            field: 'artist',
         },
         {
             display: 'Range',
-            attribute: 'range',
+            field: 'range',
             component: TypeNumericRangeComponent,
         },
         {
             display: 'Number',
-            attribute: 'number',
+            field: 'number',
             component: TypeNumericComponent,
         },
         {
             display: 'Select',
-            attribute: 'select',
+            field: 'select',
             component: TypeSelectComponent,
             configuration: {
                 items: [
@@ -60,7 +60,7 @@ export class AppComponent implements OnInit {
         },
         {
             display: 'Checkbox',
-            attribute: 'checkbox',
+            field: 'checkbox',
             component: TypeSelectComponent,
             configuration: {
                 items: [
@@ -82,7 +82,7 @@ export class AppComponent implements OnInit {
         },
         {
             display: 'With archives',
-            attribute: 'archived',
+            field: 'archived',
             condition: {
                 equal: {value: true},
             },
@@ -95,7 +95,7 @@ export class AppComponent implements OnInit {
     public config2: NaturalSearchConfiguration = [
         {
             display: 'Number',
-            attribute: 'number',
+            field: 'number',
             component: TypeNumericComponent,
             configuration: {
                 max: 100,
@@ -103,7 +103,7 @@ export class AppComponent implements OnInit {
         },
         {
             display: 'With archives',
-            attribute: 'archived',
+            field: 'archived',
             condition: {
                 equal: {value: true},
             },
@@ -114,37 +114,37 @@ export class AppComponent implements OnInit {
     public selections: NaturalSearchSelections = [
         [
             {
-                attribute: 'select',
+                field: 'select',
                 condition: {
                     in: {values: [2]},
                 },
             },
             {
-                attribute: 'artist',
+                field: 'artist',
                 condition: {
                     like: {value: 'picasso'},
                 },
             },
             {
-                attribute: 'number',
+                field: 'number',
                 condition: {
                     equal: {value: 123},
                 },
             },
             {
-                attribute: 'archived',
+                field: 'archived',
                 condition: {
                     equal: {value: 'true'},
                 },
             },
             {
-                attribute: 'unsued',
+                field: 'unsued',
                 condition: {
                     equal: {value: 'unused value'},
                 },
             },
             {
-                attribute: 'search',
+                field: 'search',
                 condition: {
                     like: {value: 'searched'},
                 },

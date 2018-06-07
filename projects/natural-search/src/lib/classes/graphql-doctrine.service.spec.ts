@@ -16,11 +16,11 @@ describe('NaturalFilterService', () => {
     const configuration: NaturalSearchConfiguration = [
         {
             display: 'Institution',
-            attribute: 'locality.name',
+            field: 'locality.name',
         },
         {
             display: 'Datation',
-            attribute: 'datings.from-to',
+            field: 'datings.from-to',
             component: TypeNumericRangeComponent,
             transform: (s: Selection): Selection => {
                 s.condition.between.from = yearToJulian(s.condition.between.from as number, false);
@@ -31,21 +31,21 @@ describe('NaturalFilterService', () => {
         },
         {
             display: 'Datation pour les geeks en Julian',
-            attribute: 'datings.from-to',
+            field: 'datings.from-to',
             component: TypeNumericRangeComponent,
             configuration: {},
         },
         {
             display: 'Artiste',
-            attribute: 'artists.name',
+            field: 'artists.name',
         },
         {
             display: 'Institution',
-            attribute: 'institution.name',
+            field: 'institution.name',
         },
         {
             display: 'Visibilité',
-            attribute: 'visibility',
+            field: 'visibility',
             component: TypeSelectComponent,
             configuration: {
                 items: [
@@ -73,7 +73,7 @@ describe('NaturalFilterService', () => {
     const input: NaturalSearchSelections = [
         [
             {
-                attribute: 'search',
+                field: 'search',
                 condition: {
                     like: {
                         value: 'foo',
@@ -81,7 +81,7 @@ describe('NaturalFilterService', () => {
                 },
             },
             {
-                attribute: 'artists.name',
+                field: 'artists.name',
                 condition: {
                     like: {
                         value: 'bar',
@@ -89,7 +89,7 @@ describe('NaturalFilterService', () => {
                 },
             },
             {
-                attribute: 'datings.from-to',
+                field: 'datings.from-to',
                 condition: {
                     between: {
                         from: 1900,
@@ -98,7 +98,7 @@ describe('NaturalFilterService', () => {
                 },
             },
             {
-                attribute: 'visibility',
+                field: 'visibility',
                 condition: {
                     in: {
                         values: [

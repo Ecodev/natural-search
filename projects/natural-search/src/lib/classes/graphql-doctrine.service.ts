@@ -13,7 +13,7 @@ export function toGraphQLDoctrineFilter(configuration: NaturalSearchConfiguratio
     for (const groupSelections of selections) {
         for (const selection of groupSelections) {
             const transformedSelection = transformSelection(configuration, selection);
-            const field = transformedSelection.attribute;
+            const field = transformedSelection.field;
             const value = transformedSelection.condition;
 
             applyJoinAndCondition(joins, fields, field, value);

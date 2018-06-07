@@ -49,7 +49,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
     @Input() placeholder = 'Rechercher';
     @Input() configurations: NaturalSearchConfiguration;
     @Input() configuration: ItemConfiguration;
-    @Input() searchAttributeName = 'search';
+    @Input() searchFieldName = 'search';
     @Input() selection: Selection;
     @Output() selectionChange = new EventEmitter<Selection>();
     @Output() cleared = new EventEmitter<NaturalInputComponent>();
@@ -126,7 +126,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
             } else if (this.isFlag()) {
                 this.formCtrl.setValue('');
 
-            } else if (this.configuration || this.selection.attribute === this.searchAttributeName) {
+            } else if (this.configuration || this.selection.field === this.searchFieldName) {
                 if (this.selection) {
                     this.formCtrl.setValue(this.selection.condition.like.value);
                 }
@@ -151,7 +151,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         this.selectionChange.emit({
-            attribute: this.configuration ? this.configuration.attribute : this.searchAttributeName,
+            field: this.configuration ? this.configuration.field : this.searchFieldName,
             condition: {like: {value: this.formCtrl.value}},
         });
 
@@ -292,7 +292,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
     public setValue(result: DropdownResult) {
         this.formCtrl.setValue(result.rendered);
         this.selectionChange.emit({
-            attribute: this.configuration.attribute,
+            field: this.configuration.field,
             condition: result.condition,
         });
     }

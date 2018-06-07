@@ -12,7 +12,7 @@ export interface BasicConfiguration {
     display: string;
 
     /**
-     * The attribute, or field, this item should apply to.
+     * The field this item should apply to.
      *
      * In most cases it should be the property name of the model. Something like:
      *
@@ -20,7 +20,7 @@ export interface BasicConfiguration {
      * - description
      * - artist.name
      */
-    attribute: string;
+    field: string;
 
     /**
      * A function to transform the selection before it is applied onto the filter.

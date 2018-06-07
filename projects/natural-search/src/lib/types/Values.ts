@@ -5,7 +5,7 @@ import { FilterConditionField } from '../classes/graphql-doctrine.types';
  * Type for a search selection
  */
 export interface Selection {
-    attribute: string;
+    field: string;
     condition: FilterConditionField;
 }
 
