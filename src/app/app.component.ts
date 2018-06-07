@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
     public config1: NaturalSearchConfiguration = [
         {
             display: 'Artist',
-            field: 'artist',
+            field: 'artist.name',
         },
         {
             display: 'Range',
@@ -119,7 +119,7 @@ export class AppComponent implements OnInit {
                 },
             },
             {
-                field: 'artist',
+                field: 'artist.name',
                 condition: {
                     like: {value: 'picasso'},
                 },
