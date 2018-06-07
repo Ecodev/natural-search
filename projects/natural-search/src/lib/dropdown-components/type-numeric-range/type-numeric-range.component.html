@@ -3,9 +3,9 @@
     <mat-form-field>
         <input matInput type="number" placeholder="De" formControlName="from" [errorStateMatcher]="matcher">
         <mat-error>
-            <span *ngIf="form.hasError('toGtFrom')">{{ form.get('from').value }} > {{ form.get('to').value }}</span>
-            <span *ngIf="form.get('from').hasError('min') && !form.hasError('toGtFrom')">< {{configuration.min}}</span>
-            <span *ngIf="form.get('from').hasError('max') && !form.hasError('toGtFrom')">> {{configuration.max}}</span>
+            <span *ngIf="form.hasError('toGreaterThanFrom')">{{ form.get('from').value }} > {{ form.get('to').value }}</span>
+            <span *ngIf="form.get('from').hasError('min') && !form.hasError('toGreaterThanFrom')">< {{configuration.min}}</span>
+            <span *ngIf="form.get('from').hasError('max') && !form.hasError('toGreaterThanFrom')">> {{configuration.max}}</span>
             <span *ngIf="form.get('from').hasError('required')">*</span>
         </mat-error>
     </mat-form-field>
@@ -13,8 +13,8 @@
     <mat-form-field>
         <input matInput type="number" placeholder="à" formControlName="to" [errorStateMatcher]="matcher">
         <mat-error>
-            <span *ngIf="form.get('to').hasError('min') && !form.hasError('toGtFrom')">< {{configuration.min}}</span>
-            <span *ngIf="form.get('to').hasError('max') && !form.hasError('toGtFrom')">> {{configuration.max}}</span>
+            <span *ngIf="form.get('to').hasError('min') && !form.hasError('toGreaterThanFrom')">< {{configuration.min}}</span>
+            <span *ngIf="form.get('to').hasError('max') && !form.hasError('toGreaterThanFrom')">> {{configuration.max}}</span>
             <span *ngIf="form.get('to').hasError('required')">*</span>
         </mat-error>
     </mat-form-field>

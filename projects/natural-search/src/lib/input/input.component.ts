@@ -37,8 +37,17 @@ export class AlwaysErrorStateMatcher implements ErrorStateMatcher {
     }
 }
 
-// below comment fix this : https://github.com/angular/angular/issues/18867
-// @dynamic
+function isComponentValid(component: DropdownComponent): ValidatorFn {
+    return (): { [key: string]: boolean } => {
+
+        if (!component.isValid()) {
+            return {component: true};
+        }
+
+        return null;
+    };
+}
+
 @Component({
     selector: 'natural-input',
     templateUrl: './input.component.html',
@@ -65,17 +74,6 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
 
     public minlength = 5;
     public length = this.minlength;
-
-    public static isComponentValid(component: DropdownComponent): ValidatorFn {
-        return (): { [key: string]: boolean } => {
-
-            if (!component.isValid()) {
-                return {component: true};
-            }
-
-            return null;
-        };
-    }
 
     constructor(private element: ElementRef,
                 private dropdown: NaturalDropdownService,
@@ -120,7 +118,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
             if (this.isDropdown()) {
                 const dropdownComponent = this.createComponent(this.configuration as DropdownConfiguration);
 
-                this.formCtrl.setValidators([NaturalInputComponent.isComponentValid(dropdownComponent)]);
+                this.formCtrl.setValidators([isComponentValid(dropdownComponent)]);
                 this.formCtrl.setValue(dropdownComponent.getRenderedValue());
 
             } else if (this.isFlag()) {

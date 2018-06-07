@@ -12,8 +12,38 @@ export class InvalidWithValueStateMatcher implements ErrorStateMatcher {
     }
 }
 
-// below comment fix this : https://github.com/angular/angular/issues/18867
-// @dynamic
+/**
+ * At least one value set
+ */
+function atLeastOneValue(): ValidatorFn {
+    return (control: FormControl): { [key: string]: boolean } => {
+        const from = parseFloat(control.get('from').value);
+        const to = parseFloat(control.get('to').value);
+
+        if (isNaN(from) && isNaN(to)) {
+            return {'required': true};
+        }
+
+        return null;
+    };
+}
+
+/**
+ * From > To
+ */
+function toGreaterThanFrom(): ValidatorFn {
+    return (control: FormControl): { [key: string]: boolean } => {
+        const from = parseFloat(control.get('from').value);
+        const to = parseFloat(control.get('to').value);
+
+        if (!isNaN(from) && !isNaN(to) && from >= to) {
+            return {'toGreaterThanFrom': true};
+        }
+
+        return null;
+    };
+}
+
 @Component({
     templateUrl: './type-numeric-range.component.html',
     styleUrls: ['./type-numeric-range.component.scss'],
@@ -35,34 +65,6 @@ export class TypeNumericRangeComponent implements DropdownComponent {
         fromRequired: true,
         toRequired: true,
     };
-
-    // From || To
-    public static AtLeastOneValue(): ValidatorFn {
-        return (control: FormControl): { [key: string]: boolean } => {
-            const from = parseFloat(control.get('from').value);
-            const to = parseFloat(control.get('to').value);
-
-            if (isNaN(from) && isNaN(to)) {
-                return {'required': true};
-            }
-
-            return null;
-        };
-    }
-
-    // From > To
-    public static ToGtFrom(): ValidatorFn {
-        return (control: FormControl): { [key: string]: boolean } => {
-            const from = parseFloat(control.get('from').value);
-            const to = parseFloat(control.get('to').value);
-
-            if (!isNaN(from) && !isNaN(to) && from >= to) {
-                return {'toGtFrom': true};
-            }
-
-            return null;
-        };
-    }
 
     constructor() {
         this.configuration = this.defaults;
@@ -90,8 +92,8 @@ export class TypeNumericRangeComponent implements DropdownComponent {
         this.form.get('to').setValidators(toValidators);
 
         this.form.setValidators([
-            TypeNumericRangeComponent.AtLeastOneValue(), // At least one value set
-            TypeNumericRangeComponent.ToGtFrom(), // From < To
+            atLeastOneValue(),
+            toGreaterThanFrom(), // From < To
         ]);
 
         if (condition) {
