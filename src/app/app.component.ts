@@ -10,7 +10,8 @@ import {
     TypeSelectComponent,
 } from '@ecodev/natural-search';
 import { Filter } from '../../projects/natural-search/src/lib/classes/graphql-doctrine.types';
-import { toGraphQLDoctrineFilter } from '../../projects/natural-search/src/lib/classes/graphql-doctrine.service';
+import { toGraphQLDoctrineFilter } from '../../projects/natural-search/src/lib/classes/graphql-doctrine';
+import { toUrl } from '../../projects/natural-search/src/lib/classes/url';
 
 @Component({
     selector: 'app-root',
@@ -171,4 +172,7 @@ export class AppComponent implements OnInit {
         return JSON.stringify(s);
     }
 
+    public toUrl(s): string {
+        return toUrl(s);
+    }
 }

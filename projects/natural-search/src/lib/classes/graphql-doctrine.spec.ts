@@ -1,5 +1,5 @@
 import { Filter } from './graphql-doctrine.types';
-import { toGraphQLDoctrineFilter } from './graphql-doctrine.service';
+import { toGraphQLDoctrineFilter } from './graphql-doctrine';
 import { NaturalSearchConfiguration } from '../types/Configuration';
 import { NaturalSearchSelections, Selection } from '../types/Values';
 

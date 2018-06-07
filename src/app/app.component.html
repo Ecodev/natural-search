@@ -32,8 +32,17 @@
                 <pre class="debug" fxFlex><strong>GraphQL selections: </strong>{{ graphqlSelections | json }}</pre>
                 <pre class="debug" fxFlex><strong>JSON serialized length: </strong>
 
-Selections: {{ stringify(selections)?.length }}
-GraphQL selections: {{ stringify(graphqlSelections)?.length }}
+Selections:
+    {{ stringify(selections)?.length }}
+    {{ stringify(selections) }}
+
+GraphQL selections:
+    {{ stringify(graphqlSelections)?.length }}
+    {{ stringify(graphqlSelections) }}
+
+Compressed selections:
+    {{ toUrl(selections)?.length }}
+    {{ toUrl(selections) }}
                 </pre>
             </div>
         </div>
