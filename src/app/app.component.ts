@@ -90,7 +90,6 @@ export class AppComponent implements OnInit {
     ];
 
     public config: NaturalSearchConfiguration = this.config1;
-    public output;
 
     public config2: NaturalSearchConfiguration = [
         {

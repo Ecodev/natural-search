@@ -51,7 +51,6 @@ describe('toGraphQLDoctrineFilter', () => {
         ];
 
         const expected: Filter = {
-            joins: {},
             conditions: [{
                 fields: {
                     visibility: {in: {values: ['private', 'member']}},
@@ -77,7 +76,6 @@ describe('toGraphQLDoctrineFilter', () => {
         ];
 
         const expected: Filter = {
-            joins: {},
             conditions: [{
                 fields: {
                     name: {like: {value: '%foo%'}},
@@ -103,7 +101,6 @@ describe('toGraphQLDoctrineFilter', () => {
         ];
 
         const expected: Filter = {
-            joins: {},
             conditions: [{
                 fields: {
                     custom: ({search: {value: 'foo'}}) as any,
@@ -140,7 +137,6 @@ describe('toGraphQLDoctrineFilter', () => {
                     },
                 },
             },
-            conditions: [{fields: {}}],
         };
 
         expect(toGraphQLDoctrineFilter(configuration, input)).toEqual(expected as any);
@@ -162,7 +158,6 @@ describe('toGraphQLDoctrineFilter', () => {
         ];
 
         const expected: Filter = {
-            joins: {},
             conditions: [{
                 fields: {
                     year: {between: {from: 1900, to: 2000}},
@@ -189,7 +184,6 @@ describe('toGraphQLDoctrineFilter', () => {
         ];
 
         const expected: Filter = {
-            joins: {},
             conditions: [{
                 fields: {
                     field1: {greaterOrEqual: {value: 1900}},
@@ -229,7 +223,6 @@ describe('toGraphQLDoctrineFilter', () => {
                     },
                 },
             },
-            conditions: [{fields: {}}],
         };
 
         expect(toGraphQLDoctrineFilter(configuration, input)).toEqual(expected as any);

@@ -6,9 +6,8 @@ import { getConfigurationFromSelection } from './utils';
 
 export function toGraphQLDoctrineFilter(configuration: NaturalSearchConfiguration, selections: NaturalSearchSelections): Filter {
 
-    const result: Filter = {joins: {}, conditions: [{fields: {}}]};
-    const fields: FilterConditionFields = result.conditions[0].fields;
-    const joins: FilterJoins = result.joins;
+    const fields: FilterConditionFields = {};
+    const joins: FilterJoins = {};
 
     for (const groupSelections of selections) {
         for (const selection of groupSelections) {
@@ -18,6 +17,15 @@ export function toGraphQLDoctrineFilter(configuration: NaturalSearchConfiguratio
 
             applyJoinAndCondition(joins, fields, field, value);
         }
+    }
+
+    const result: Filter = {};
+    if (Object.keys(joins).length) {
+        result.joins = joins;
+    }
+
+    if (Object.keys(fields).length) {
+        result.conditions = [{fields: fields}];
     }
 
     return result;
