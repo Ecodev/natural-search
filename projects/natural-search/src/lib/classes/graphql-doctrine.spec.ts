@@ -84,6 +84,9 @@ describe('toGraphQLDoctrineFilter', () => {
         };
 
         expect(toGraphQLDoctrineFilter(configuration, input)).toEqual(expected as any);
+
+        // Original value must not have been touched
+        expect(input[0][0].condition.like.value).toEqual('foo');
     });
 
     it('should handle search with custom operator', () => {

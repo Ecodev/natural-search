@@ -3,6 +3,7 @@ import { NaturalSearchConfiguration } from '../types/Configuration';
 import { NaturalSearchSelections, Selection } from '../types/Values';
 import { Filter, FilterConditionField, FilterConditionFields, FilterJoins } from './graphql-doctrine.types';
 import { getConfigurationFromSelection } from './utils';
+import { deepClone } from './utils';
 
 export function toGraphQLDoctrineFilter(configuration: NaturalSearchConfiguration, selections: NaturalSearchSelections): Filter {
 
@@ -63,5 +64,5 @@ function applyCondition(fields: FilterConditionFields, field: string, condition:
 function transformSelection(configuration: NaturalSearchConfiguration, selection: Selection): Selection {
     const config = getConfigurationFromSelection(configuration, selection);
 
-    return config && config.transform ? config.transform(selection) : selection;
+    return config && config.transform ? config.transform(deepClone(selection)) : selection;
 }

@@ -1,5 +1,6 @@
 import { isString } from 'lodash';
 import { NaturalSearchSelections } from '../types/Values';
+import { deepClone } from './utils';
 
 export function toUrl(selections: NaturalSearchSelections): string {
 
@@ -31,8 +32,4 @@ export function fromUrl(selections: string): NaturalSearchSelections {
     }
 
     return s;
-}
-
-function deepClone(obj: any): any {
-    return JSON.parse(JSON.stringify(obj));
 }
