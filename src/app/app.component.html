@@ -18,7 +18,12 @@
                 </a>
             </div>
 
-            <natural-search [configurations]="config" [(selections)]="selections" (selectionsChange)="updateFilter($event)" [multipleGroups]="true"></natural-search>
+            <natural-search [configurations]="config"
+                            [(selections)]="selections"
+                            (selectionsChange)="updateFilter($event)"
+                            [multipleGroups]="true"
+                            [allowGroups]="true"
+            ></natural-search>
 
             <div fxLayout="row" fxLayoutGap="20px">
                 <button mat-raised-button color="primary" (click)="config = config1">Config 1</button>
