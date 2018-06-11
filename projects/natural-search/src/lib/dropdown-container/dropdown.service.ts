@@ -70,7 +70,10 @@ export class NaturalDropdownService {
     private getPosition(element): FlexibleConnectedPositionStrategy {
 
         return this.overlay.position()
-            .flexibleConnectedTo(element).withPositions([{
+            .flexibleConnectedTo(element)
+            .withFlexibleDimensions(true)
+            .withPush(false)
+            .withPositions([{
                 originX: 'start',
                 originY: 'bottom',
                 overlayX: 'start',
