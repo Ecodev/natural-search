@@ -26,7 +26,7 @@ export interface FilterCondition {
     // The logic operator to be used within all fields below
     fieldsLogic?: LogicalOperator;
     // Fields on which we want to apply a condition
-    fields?: FilterConditionFields;
+    fields?: Array<FilterConditionFields>;
 }
 
 // Logical operator to be used in conditions

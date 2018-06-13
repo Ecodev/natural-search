@@ -1,4 +1,4 @@
-import { Filter } from './graphql-doctrine.types';
+import { Filter, LogicalOperator } from './graphql-doctrine.types';
 import { toGraphQLDoctrineFilter } from './graphql-doctrine';
 import { NaturalSearchConfiguration } from '../types/Configuration';
 import { NaturalSearchSelections, Selection } from '../types/Values';
@@ -52,9 +52,9 @@ describe('toGraphQLDoctrineFilter', () => {
 
         const expected: Filter = {
             conditions: [{
-                fields: {
+                fields: [{
                     visibility: {in: {values: ['private', 'member']}},
-                },
+                }],
             }],
         };
 
@@ -77,9 +77,9 @@ describe('toGraphQLDoctrineFilter', () => {
 
         const expected: Filter = {
             conditions: [{
-                fields: {
+                fields: [{
                     name: {like: {value: '%foo%'}},
-                },
+                }],
             }],
         };
 
@@ -105,9 +105,9 @@ describe('toGraphQLDoctrineFilter', () => {
 
         const expected: Filter = {
             conditions: [{
-                fields: {
+                fields: [{
                     custom: ({search: {value: 'foo'}}) as any,
-                },
+                }],
             }],
         };
 
@@ -133,9 +133,9 @@ describe('toGraphQLDoctrineFilter', () => {
                 artists: {
                     filter: {
                         conditions: [{
-                            fields: {
+                            fields: [{
                                 name: {like: {value: 'bar'}},
-                            },
+                            }],
                         }],
                     },
                 },
@@ -162,9 +162,9 @@ describe('toGraphQLDoctrineFilter', () => {
 
         const expected: Filter = {
             conditions: [{
-                fields: {
+                fields: [{
                     year: {between: {from: 1900, to: 2000}},
-                },
+                }],
             }],
         };
 
@@ -188,10 +188,10 @@ describe('toGraphQLDoctrineFilter', () => {
 
         const expected: Filter = {
             conditions: [{
-                fields: {
+                fields: [{
                     field1: {greaterOrEqual: {value: 1900}},
                     field2: {lessOrEqual: {value: 2000}},
-                },
+                }],
             }],
         };
 
@@ -218,14 +218,115 @@ describe('toGraphQLDoctrineFilter', () => {
                 datings: {
                     filter: {
                         conditions: [{
-                            fields: {
+                            fields: [{
                                 from: {greaterOrEqual: {value: 2415020}},
                                 to: {lessOrEqual: {value: 2451909}},
-                            },
+                            }],
                         }],
                     },
                 },
             },
+        };
+
+        expect(toGraphQLDoctrineFilter(configuration, input)).toEqual(expected as any);
+    });
+
+    it('should concat same field in the same array of fields', () => {
+        const input: NaturalSearchSelections = [
+            [
+                {
+                    field: 'name',
+                    condition: {like: {value: 'foo'}},
+                },
+                {
+                    field: 'name',
+                    condition: {like: {value: 'bar'}},
+                },
+            ],
+        ];
+
+        const expected: Filter = {
+            conditions: [{
+                fields: [
+                    {name: {like: {value: '%foo%'}}},
+                    {name: {like: {value: '%bar%'}}},
+                ],
+            }],
+        };
+
+        expect(toGraphQLDoctrineFilter(configuration, input)).toEqual(expected as any);
+    });
+
+    it('should concat same join', () => {
+        const input: NaturalSearchSelections = [
+            [
+                {
+                    field: 'artists.name',
+                    condition: {like: {value: 'foo'}},
+                },
+                {
+                    field: 'artists.name',
+                    condition: {like: {value: 'bar'}},
+                },
+            ],
+        ];
+
+        // TODO: not sure if this really is the result we want ...
+        const expected: Filter = {
+            joins: {
+                artists: {
+                    filter: {
+                        conditions: [
+                            {
+                                fields: [
+                                    {name: {like: {value: 'foo'}}},
+                                ],
+                            },
+                            {
+                                conditionLogic: LogicalOperator.OR,
+                                fields: [
+                                    {name: {like: {value: 'bar'}}},
+                                ],
+                            },
+                        ],
+                    },
+                },
+            },
+        };
+
+        expect(toGraphQLDoctrineFilter(configuration, input)).toEqual(expected as any);
+    });
+
+    it('should group with OR', () => {
+        const input: NaturalSearchSelections = [
+            [
+                {
+                    field: 'name',
+                    condition: {like: {value: 'foo'}},
+                },
+            ],
+            [
+                {
+                    field: 'name',
+                    condition: {like: {value: 'bar'}},
+                },
+            ],
+        ];
+
+        const expected: Filter = {
+            conditions: [
+                {
+                    fields: [
+                        {name: {like: {value: '%foo%'}}},
+                    ],
+                },
+                {
+                    conditionLogic: LogicalOperator.OR,
+                    fields: [
+                        {name: {like: {value: '%bar%'}}},
+                    ],
+                },
+            ],
         };
 
         expect(toGraphQLDoctrineFilter(configuration, input)).toEqual(expected as any);
