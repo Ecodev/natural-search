@@ -5,7 +5,7 @@
            type="text"
            [formControl]="formCtrl"
            [placeholder]="configuration ? configuration.display : placeholder"
-           [readonly]="isDropdown() && selection"
+           [readonly]="isDropdown() && selection || isFlag()"
            (blur)="search()"
            (keydown.enter)="search()"
            [errorStateMatcher]="errorMatcher"
