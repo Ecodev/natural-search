@@ -11,7 +11,7 @@
         "build-lib": "ng build natural-search && cp -v README.md dist/natural-search/ && gulp copy:themes",
         "build-docs": "yarn build-lib && ng build demo --prod --aot --base-href /natural-search/ && cp dist/demo/index.html dist/demo/404.html",
         "release": "yarn build-lib && cd dist/natural-search/ && yarn publish --access public",
-        "llink": "cd node_modules/@ecodev/natural-search && yarn unlink && yarn link"
+        "llink": "cd dist/natural-search && yarn unlink && yarn link"
     },
     "private": true,
     "dependencies": {
