@@ -263,7 +263,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         return !!(this.configuration && (this.configuration as DropdownConfiguration).component);
     }
 
-    private isFlag(): boolean {
+    public isFlag(): boolean {
         return !!(this.configuration && (this.configuration as FlagConfiguration).condition);
     }
 
