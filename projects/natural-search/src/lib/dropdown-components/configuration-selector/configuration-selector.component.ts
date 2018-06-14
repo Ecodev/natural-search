@@ -58,4 +58,8 @@ export class ConfigurationSelectorComponent implements DropdownComponent, OnInit
         return !!this.selection;
     }
 
+    public isDirty(): boolean {
+        return true;
+    }
+
 }

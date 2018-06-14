@@ -47,4 +47,9 @@ export class TypeNumericComponent implements DropdownComponent {
     public isValid(): boolean {
         return this.formCtrl.valid;
     }
+
+    public isDirty(): boolean {
+        return this.formCtrl.dirty;
+    }
+
 }

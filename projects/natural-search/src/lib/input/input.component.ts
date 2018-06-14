@@ -15,12 +15,7 @@ import {
 } from '@angular/core';
 import { ErrorStateMatcher, MatRipple } from '@angular/material';
 import { FormControl, FormGroupDirective, NgForm, ValidatorFn } from '@angular/forms';
-import {
-    DropdownConfiguration,
-    FlagConfiguration,
-    ItemConfiguration,
-    NaturalSearchConfiguration,
-} from '../types/Configuration';
+import { DropdownConfiguration, FlagConfiguration, ItemConfiguration, NaturalSearchConfiguration } from '../types/Configuration';
 import { ConfigurationSelectorComponent } from '../dropdown-components/configuration-selector/configuration-selector.component';
 import { NATURAL_DROPDOWN_DATA, NaturalDropdownService } from '../dropdown-container/dropdown.service';
 import { DropdownResult, Selection } from '../types/Values';
@@ -148,10 +143,12 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
             return;
         }
 
-        this.selectionChange.emit({
-            field: this.configuration ? this.configuration.field : this.searchFieldName,
-            condition: {like: {value: this.formCtrl.value}},
-        });
+        if (this.formCtrl.valid && this.formCtrl.dirty) {
+            this.selectionChange.emit({
+                field: this.configuration ? this.configuration.field : this.searchFieldName,
+                condition: {like: {value: this.formCtrl.value}},
+            });
+        }
 
     }
 

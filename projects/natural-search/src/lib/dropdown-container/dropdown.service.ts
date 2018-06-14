@@ -41,8 +41,7 @@ export class NaturalDropdownService {
         // When click on backdrop, validate result.. ?
         const backdropSub = overlayRef.backdropClick().subscribe(() => {
             dropdownContainer.close();
-            const componentValueIsValid = dropdownRef.componentInstance.isValid();
-            if (componentValueIsValid) {
+            if (dropdownRef.componentInstance.isValid() && dropdownRef.componentInstance.isDirty()) {
                 dropdownRef.close({
                     condition: dropdownRef.componentInstance.getCondition(),
                     rendered: dropdownRef.componentInstance.getRenderedValue(),
@@ -70,16 +69,18 @@ export class NaturalDropdownService {
     private getPosition(element): FlexibleConnectedPositionStrategy {
 
         return this.overlay.position()
-            .flexibleConnectedTo(element)
-            .withFlexibleDimensions(true)
-            .withPush(false)
-            .withPositions([{
-                originX: 'start',
-                originY: 'bottom',
-                overlayX: 'start',
-                overlayY: 'top',
-                offsetY: 10,
-            }]);
+                   .flexibleConnectedTo(element)
+                   .withFlexibleDimensions(true)
+                   .withPush(false)
+                   .withPositions([
+                       {
+                           originX: 'start',
+                           originY: 'bottom',
+                           overlayX: 'start',
+                           overlayY: 'top',
+                           offsetY: 10,
+                       },
+                   ]);
     }
 
 }

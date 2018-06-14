@@ -23,4 +23,9 @@ export interface DropdownComponent {
      */
     isValid(): boolean;
 
+    /**
+     * Returns true if the dropdown value has change
+     */
+    isDirty(): boolean;
+
 }

@@ -21,13 +21,18 @@ export class TypeSelectComponent implements DropdownComponent {
         multiple: true,
     };
 
+    private dirty = false;
+
     constructor(@Inject(NATURAL_DROPDOWN_DATA) public data: any,
                 protected dropdownRef: NaturalDropdownRef) {
         this.configuration = this.defaults;
     }
 
     public init(condition: FilterConditionField, configuration: TypeSelectConfiguration): void {
-        const defaults = {items: [], multiple: true};
+        const defaults = {
+            items: [],
+            multiple: true,
+        };
         this.configuration = {...defaults, ...configuration};
 
         if (!this.isMultiple()) {
@@ -66,6 +71,7 @@ export class TypeSelectComponent implements DropdownComponent {
     }
 
     public closeIfSingleAndHasValue(): void {
+        this.dirty = true;
         if (!this.isMultiple() && this.isValid()) {
             this.dropdownRef.close({
                 condition: this.getCondition(),
@@ -91,4 +97,9 @@ export class TypeSelectComponent implements DropdownComponent {
     public isValid(): boolean {
         return this.selected.length > 0;
     }
+
+    public isDirty(): boolean {
+        return this.dirty;
+    }
+
 }

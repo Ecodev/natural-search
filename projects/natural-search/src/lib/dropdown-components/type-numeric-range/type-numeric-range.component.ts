@@ -128,4 +128,10 @@ export class TypeNumericRangeComponent implements DropdownComponent {
     public isValid(): boolean {
         return this.form.valid;
     }
+
+
+    public isDirty(): boolean {
+        return this.form.dirty;
+    }
+
 }
