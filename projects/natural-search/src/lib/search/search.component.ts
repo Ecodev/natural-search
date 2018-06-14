@@ -15,7 +15,6 @@ export class NaturalSearchComponent implements OnInit, OnChanges {
     @Input() configurations: NaturalSearchConfiguration;
     @Input() multipleGroups: false;
     @Input() selections: NaturalSearchSelections;
-    @Input() allowGroups: false;
 
     @Output() selectionsChange = new EventEmitter<NaturalSearchSelections>();
 
