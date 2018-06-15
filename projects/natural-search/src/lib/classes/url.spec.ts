@@ -30,4 +30,31 @@ describe('url', () => {
         expect(back).toEqual(input);
     });
 
+    it('should return null for null', () => {
+        expect(toUrl(null)).toBeNull();
+    });
+
+    it('should return null for empty selection', () => {
+        expect(toUrl([])).toBeNull();
+    });
+
+    it('should return null for empty group', () => {
+        expect(toUrl([[]])).toBeNull();
+    });
+
+    it('should return empty selection for null', () => {
+        expect(fromUrl(null)).toEqual([[]]);
+    });
+
+    it('should return empty selection for empty string', () => {
+        expect(fromUrl('')).toEqual([[]]);
+    });
+
+    it('should return empty selection for empty selection', () => {
+        expect(fromUrl('[]')).toEqual([[]]);
+    });
+
+    it('should return empty selection for empty group', () => {
+        expect(fromUrl('[[]]')).toEqual([[]]);
+    });
 });

@@ -2,7 +2,15 @@ import { isString } from 'lodash';
 import { NaturalSearchSelections } from '../types/Values';
 import { deepClone } from './utils';
 
-export function toUrl(selections: NaturalSearchSelections): string {
+/**
+ * Returns a string representation of the selection that can be used in URL.
+ *
+ * The string can be parsed back with `fromUrl()`
+ */
+export function toUrl(selections: NaturalSearchSelections): string | null {
+    if (!selections || !selections.length) {
+        return null;
+    }
 
     const s = deepClone(selections);
     for (const a of s) {
@@ -15,13 +23,23 @@ export function toUrl(selections: NaturalSearchSelections): string {
         }
     }
 
-    return JSON.stringify(s);
+    const result = JSON.stringify(s);
+
+    return result === '[[]]' ? null : result;
 }
 
+/**
+ * Parse a string, probably coming from URL, into a selection
+ */
 export function fromUrl(selections: string): NaturalSearchSelections {
-    const s = JSON.parse(selections) as NaturalSearchSelections;
 
-    for (const a of s) {
+    if (!selections || !selections.length) {
+        return [[]];
+    }
+
+    const result = JSON.parse(selections) as NaturalSearchSelections;
+
+    for (const a of result) {
         for (const b of a) {
             b.field = b['f'];
             b.condition = b['c'];
@@ -31,5 +49,9 @@ export function fromUrl(selections: string): NaturalSearchSelections {
         }
     }
 
-    return s;
+    if (result.length === 0) {
+        result.push([]);
+    }
+
+    return result;
 }
