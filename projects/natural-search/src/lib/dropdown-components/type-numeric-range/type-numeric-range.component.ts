@@ -4,7 +4,7 @@ import { Selection } from '../../types/Values';
 import { TypeRangeConfiguration } from './TypeNumericRangeConfiguration';
 import { ErrorStateMatcher } from '@angular/material';
 import { DropdownComponent } from '../../types/DropdownComponent';
-import { FilterConditionField } from '../../classes/graphql-doctrine.types';
+import { FilterGroupConditionField } from '../../classes/graphql-doctrine.types';
 
 export class InvalidWithValueStateMatcher implements ErrorStateMatcher {
     isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -70,7 +70,7 @@ export class TypeNumericRangeComponent implements DropdownComponent {
         this.configuration = this.defaults;
     }
 
-    public init(condition: FilterConditionField, configuration: TypeRangeConfiguration): void {
+    public init(condition: FilterGroupConditionField, configuration: TypeRangeConfiguration): void {
         this.configuration = {...this.defaults, ...configuration};
 
         const rangeValidators = [
@@ -101,7 +101,7 @@ export class TypeNumericRangeComponent implements DropdownComponent {
         }
     }
 
-    public getCondition(): FilterConditionField {
+    public getCondition(): FilterGroupConditionField {
         return {
             between: {
                 from: this.form.get('from').value,

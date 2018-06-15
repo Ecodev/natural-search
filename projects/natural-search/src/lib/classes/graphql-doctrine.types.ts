@@ -1,32 +1,30 @@
 // Basic; loosely typed structure for graphql-doctrine filters
 
 export interface Filter {
-    joins?: FilterJoins;
-    conditions?: Array<FilterCondition>;
+    groups?: Array<FilterGroup> | null;
 }
 
-export interface FilterJoins {
+export interface FilterGroup {
+    // The logic operator to be used to append this group
+    groupLogic?: LogicalOperator | null;
+    // The logic operator to be used within all conditions in this group
+    conditionsLogic?: LogicalOperator | null;
+    // Optional joins to either filter the query or fetch related objects from DB in a single query
+    joins?: FilterGroupJoin | null;
+    // Conditions to be applied on fields
+    conditions?: Array<FilterGroupCondition> | null;
+}
+
+export interface FilterGroupJoin {
     [key: string]: JoinOn;
 }
 
 export interface JoinOn {
-    type?: JoinType;
-    filter?: Filter;
-}
-
-// Join types to be used in DQL
-export enum JoinType {
-    innerJoin = 'innerJoin',
-    leftJoin = 'leftJoin',
-}
-
-export interface FilterCondition {
-    // The logic operator to be used to append this condition
-    conditionLogic?: LogicalOperator;
-    // The logic operator to be used within all fields below
-    fieldsLogic?: LogicalOperator;
-    // Fields on which we want to apply a condition
-    fields?: Array<FilterConditionFields>;
+    type?: JoinType | null;
+    // Optional joins to either filter the query or fetch related objects from DB in a single query
+    joins?: FilterGroupJoin | null;
+    // Conditions to be applied on fields
+    conditions?: Array<FilterGroupCondition> | null;
 }
 
 // Logical operator to be used in conditions
@@ -35,11 +33,17 @@ export enum LogicalOperator {
     OR = 'OR',
 }
 
-export interface FilterConditionFields {
-    [key: string]: FilterConditionField;
+// Join types to be used in DQL
+export enum JoinType {
+    innerJoin = 'innerJoin',
+    leftJoin = 'leftJoin',
 }
 
-export interface FilterConditionField {
+export interface FilterGroupCondition {
+    [key: string]: FilterGroupConditionField;
+}
+
+export interface FilterGroupConditionField {
     between?: BetweenOperator;
     equal?: EqualOperator;
     greater?: GreaterOperator;

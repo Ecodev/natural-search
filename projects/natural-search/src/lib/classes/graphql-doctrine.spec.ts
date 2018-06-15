@@ -33,6 +33,18 @@ describe('toGraphQLDoctrineFilter', () => {
         },
     ];
 
+    it('should return empty output for null', () => {
+        expect(toGraphQLDoctrineFilter(configuration, null)).toEqual({});
+    });
+
+    it('should return empty output for empty selection', () => {
+        expect(toGraphQLDoctrineFilter(configuration, [])).toEqual({});
+    });
+
+    it('should return empty output for empty group', () => {
+        expect(toGraphQLDoctrineFilter(configuration, [[]])).toEqual({});
+    });
+
     it('should do simple thing', () => {
         const input: NaturalSearchSelections = [
             [
@@ -51,8 +63,8 @@ describe('toGraphQLDoctrineFilter', () => {
         ];
 
         const expected: Filter = {
-            conditions: [{
-                fields: [{
+            groups: [{
+                conditions: [{
                     visibility: {in: {values: ['private', 'member']}},
                 }],
             }],
@@ -76,8 +88,8 @@ describe('toGraphQLDoctrineFilter', () => {
         ];
 
         const expected: Filter = {
-            conditions: [{
-                fields: [{
+            groups: [{
+                conditions: [{
                     name: {like: {value: '%foo%'}},
                 }],
             }],
@@ -104,8 +116,8 @@ describe('toGraphQLDoctrineFilter', () => {
         ];
 
         const expected: Filter = {
-            conditions: [{
-                fields: [{
+            groups: [{
+                conditions: [{
                     custom: ({search: {value: 'foo'}}) as any,
                 }],
             }],
@@ -129,17 +141,17 @@ describe('toGraphQLDoctrineFilter', () => {
         ];
 
         const expected: Filter = {
-            joins: {
-                artists: {
-                    filter: {
-                        conditions: [{
-                            fields: [{
+            groups: [
+                {
+                    joins: {
+                        artists: {
+                            conditions: [{
                                 name: {like: {value: 'bar'}},
                             }],
-                        }],
+                        },
                     },
                 },
-            },
+            ],
         };
 
         expect(toGraphQLDoctrineFilter(configuration, input)).toEqual(expected as any);
@@ -161,8 +173,8 @@ describe('toGraphQLDoctrineFilter', () => {
         ];
 
         const expected: Filter = {
-            conditions: [{
-                fields: [{
+            groups: [{
+                conditions: [{
                     year: {between: {from: 1900, to: 2000}},
                 }],
             }],
@@ -187,8 +199,8 @@ describe('toGraphQLDoctrineFilter', () => {
         ];
 
         const expected: Filter = {
-            conditions: [{
-                fields: [{
+            groups: [{
+                conditions: [{
                     field1: {greaterOrEqual: {value: 1900}},
                     field2: {lessOrEqual: {value: 2000}},
                 }],
@@ -214,18 +226,18 @@ describe('toGraphQLDoctrineFilter', () => {
         ];
 
         const expected: Filter = {
-            joins: {
-                datings: {
-                    filter: {
-                        conditions: [{
-                            fields: [{
+            groups: [
+                {
+                    joins: {
+                        datings: {
+                            conditions: [{
                                 from: {greaterOrEqual: {value: 2415020}},
                                 to: {lessOrEqual: {value: 2451909}},
                             }],
-                        }],
+                        },
                     },
                 },
-            },
+            ],
         };
 
         expect(toGraphQLDoctrineFilter(configuration, input)).toEqual(expected as any);
@@ -246,8 +258,8 @@ describe('toGraphQLDoctrineFilter', () => {
         ];
 
         const expected: Filter = {
-            conditions: [{
-                fields: [
+            groups: [{
+                conditions: [
                     {name: {like: {value: '%foo%'}}},
                     {name: {like: {value: '%bar%'}}},
                 ],
@@ -257,41 +269,70 @@ describe('toGraphQLDoctrineFilter', () => {
         expect(toGraphQLDoctrineFilter(configuration, input)).toEqual(expected as any);
     });
 
-    it('should concat same join', () => {
+    it('should merge unique joins', () => {
         const input: NaturalSearchSelections = [
             [
                 {
                     field: 'artists.name',
-                    condition: {like: {value: 'foo'}},
+                    condition: {like: {value: 'John'}},
                 },
                 {
                     field: 'artists.name',
+                    condition: {like: {value: 'Jane'}},
+                },
+            ],
+            [
+                {
+                    field: 'artists.name',
+                    condition: {like: {value: 'Jake'}},
+                },
+                {
+                    field: 'city.name',
+                    condition: {like: {value: 'New York'}},
+                },
+                {
+                    field: 'name',
+                    condition: {like: {value: 'foo'}},
+                },
+                {
+                    field: 'name',
                     condition: {like: {value: 'bar'}},
                 },
             ],
         ];
 
-        // TODO: not sure if this really is the result we want ...
-        const expected: Filter = {
-            joins: {
-                artists: {
-                    filter: {
-                        conditions: [
-                            {
-                                fields: [
-                                    {name: {like: {value: 'foo'}}},
-                                ],
-                            },
-                            {
-                                conditionLogic: LogicalOperator.OR,
-                                fields: [
-                                    {name: {like: {value: 'bar'}}},
-                                ],
-                            },
-                        ],
+        const expected = {
+            groups: [
+                {
+                    joins: {
+                        artists: {
+                            conditions: [
+                                {name: {like: {value: 'John'}}},
+                                {name: {like: {value: 'Jane'}}},
+                            ],
+                        },
                     },
                 },
-            },
+                {
+                    groupLogic: 'OR',
+                    joins: {
+                        artists: {
+                            conditions: [
+                                {name: {like: {value: 'Jake'}}},
+                            ],
+                        },
+                        city: {
+                            conditions: [
+                                {name: {like: {value: 'New York'}}},
+                            ],
+                        },
+                    },
+                    conditions: [
+                        {name: {like: {value: '%foo%'}}},
+                        {name: {like: {value: '%bar%'}}},
+                    ],
+                },
+            ],
         };
 
         expect(toGraphQLDoctrineFilter(configuration, input)).toEqual(expected as any);
@@ -314,15 +355,15 @@ describe('toGraphQLDoctrineFilter', () => {
         ];
 
         const expected: Filter = {
-            conditions: [
+            groups: [
                 {
-                    fields: [
+                    conditions: [
                         {name: {like: {value: '%foo%'}}},
                     ],
                 },
                 {
-                    conditionLogic: LogicalOperator.OR,
-                    fields: [
+                    groupLogic: LogicalOperator.OR,
+                    conditions: [
                         {name: {like: {value: '%bar%'}}},
                     ],
                 },

@@ -7,7 +7,7 @@ import { MatListModule } from '@angular/material';
 import { NaturalDropdownContainerComponent } from '../../dropdown-container/dropdown-container.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { FilterConditionField } from '../../classes/graphql-doctrine.types';
+import { FilterGroupConditionField } from '../../classes/graphql-doctrine.types';
 import { TypeSelectConfiguration } from './TypeSelectConfiguration';
 
 describe('TypeSelectComponent', () => {
@@ -15,7 +15,7 @@ describe('TypeSelectComponent', () => {
     let fixture: ComponentFixture<TypeSelectComponent>;
     let dialogCloseSpy: jasmine.Spy;
 
-    const condition: FilterConditionField = {
+    const condition: FilterGroupConditionField = {
         in: {values: ['bar', 'baz']},
     };
 
@@ -101,11 +101,11 @@ describe('TypeSelectComponent', () => {
     });
 
     it('should get condition', () => {
-        const empty: FilterConditionField = {
+        const empty: FilterGroupConditionField = {
             in: {values: []},
         };
 
-        const notEmpty: FilterConditionField = {
+        const notEmpty: FilterGroupConditionField = {
             in: {values: ['bar', 'baz']},
         };
 

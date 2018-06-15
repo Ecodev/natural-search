@@ -5,14 +5,14 @@ import { NATURAL_DROPDOWN_DATA, NaturalDropdownService } from '../../dropdown-co
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule, MatInputModule } from '@angular/material';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { FilterConditionField } from '../../classes/graphql-doctrine.types';
+import { FilterGroupConditionField } from '../../classes/graphql-doctrine.types';
 import { TypeNumericConfiguration } from '@ecodev/natural-search';
 
 describe('TypeNumericComponent', () => {
     let component: TypeNumericComponent;
     let fixture: ComponentFixture<TypeNumericComponent>;
 
-    const condition: FilterConditionField = {
+    const condition: FilterGroupConditionField = {
         equal: {value: 123},
     };
 
@@ -54,11 +54,11 @@ describe('TypeNumericComponent', () => {
     });
 
     it('should get condition', () => {
-        const empty: FilterConditionField = {
+        const empty: FilterGroupConditionField = {
             equal: {value: null},
         };
 
-        const notEmpty: FilterConditionField = {
+        const notEmpty: FilterGroupConditionField = {
             equal: {value: 123},
         };
 

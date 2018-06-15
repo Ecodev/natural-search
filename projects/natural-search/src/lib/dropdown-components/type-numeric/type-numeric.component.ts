@@ -3,7 +3,7 @@ import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/fo
 import { DropdownComponent } from '../../types/DropdownComponent';
 import { TypeNumericConfiguration } from './TypeNumericConfiguration';
 import { ErrorStateMatcher } from '@angular/material';
-import { FilterConditionField } from '../../classes/graphql-doctrine.types';
+import { FilterGroupConditionField } from '../../classes/graphql-doctrine.types';
 
 export class InvalidWithValueStateMatcher implements ErrorStateMatcher {
     isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -17,12 +17,12 @@ export class InvalidWithValueStateMatcher implements ErrorStateMatcher {
 })
 export class TypeNumericComponent implements DropdownComponent {
 
-    public condition: FilterConditionField;
+    public condition: FilterGroupConditionField;
     public configuration: TypeNumericConfiguration = {};
     public formCtrl: FormControl = new FormControl();
     public matcher = new InvalidWithValueStateMatcher();
 
-    public init(condition: FilterConditionField, configuration: TypeNumericConfiguration): void {
+    public init(condition: FilterGroupConditionField, configuration: TypeNumericConfiguration): void {
         this.configuration = configuration || {};
 
         this.formCtrl.setValidators([
@@ -36,7 +36,7 @@ export class TypeNumericComponent implements DropdownComponent {
         }
     }
 
-    public getCondition(): FilterConditionField {
+    public getCondition(): FilterGroupConditionField {
         return {equal: {value: this.formCtrl.value}};
     }
 

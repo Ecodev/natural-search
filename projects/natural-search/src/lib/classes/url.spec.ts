@@ -25,7 +25,6 @@ describe('url', () => {
 
         // Original selection should not have been modified
         expect(input[0][0].field).toBe('visibility');
-        console.log(url);
 
         const back = fromUrl(url);
         expect(back).toEqual(input);

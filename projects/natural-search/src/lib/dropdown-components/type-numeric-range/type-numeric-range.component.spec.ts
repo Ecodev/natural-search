@@ -4,14 +4,14 @@ import { TypeNumericRangeComponent } from './type-numeric-range.component';
 import { MatFormFieldModule, MatInputModule } from '@angular/material';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FilterConditionField } from '../../classes/graphql-doctrine.types';
+import { FilterGroupConditionField } from '../../classes/graphql-doctrine.types';
 import { TypeRangeConfiguration } from './TypeNumericRangeConfiguration';
 
 describe('TypeNumericRangeComponent', () => {
     let component: TypeNumericRangeComponent;
     let fixture: ComponentFixture<TypeNumericRangeComponent>;
 
-    const condition: FilterConditionField = {
+    const condition: FilterGroupConditionField = {
         between: {from: 12, to: 18},
     };
 
@@ -47,11 +47,11 @@ describe('TypeNumericRangeComponent', () => {
     });
 
     it('should get condition', () => {
-        const empty: FilterConditionField = {
+        const empty: FilterGroupConditionField = {
             between: {from: null, to: null},
         };
 
-        const notEmpty: FilterConditionField = {
+        const notEmpty: FilterGroupConditionField = {
             between: {from: 12, to: 18},
         };
 

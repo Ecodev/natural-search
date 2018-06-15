@@ -1,12 +1,12 @@
 import { ItemConfiguration } from './Configuration';
-import { FilterConditionField } from '../classes/graphql-doctrine.types';
+import { FilterGroupConditionField } from '../classes/graphql-doctrine.types';
 
 /**
  * Type for a search selection
  */
 export interface Selection {
     field: string;
-    condition: FilterConditionField;
+    condition: FilterGroupConditionField;
 }
 
 /**
@@ -27,7 +27,7 @@ export interface NaturalSearchSelections extends Array<GroupSelections> {
  * Used internally for dropdown
  */
 export interface DropdownResult {
-    condition?: FilterConditionField;
+    condition?: FilterGroupConditionField;
     rendered?: string;
     configuration?: ItemConfiguration;
 }

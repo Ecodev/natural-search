@@ -3,7 +3,7 @@ import { DropdownComponent } from '../../types/DropdownComponent';
 import { ItemConfiguration, NaturalSearchConfiguration } from '../../types/Configuration';
 import { NATURAL_DROPDOWN_DATA } from '../../dropdown-container/dropdown.service';
 import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
-import { FilterConditionField } from '../../classes/graphql-doctrine.types';
+import { FilterGroupConditionField } from '../../classes/graphql-doctrine.types';
 
 @Component({
     templateUrl: './configuration-selector.component.html',
@@ -26,13 +26,13 @@ export class ConfigurationSelectorComponent implements DropdownComponent, OnInit
     /**
      * Set condition for component initialisation purposes
      */
-    public init(condition: FilterConditionField, configuration?: ItemConfiguration): void {
+    public init(condition: FilterGroupConditionField, configuration?: ItemConfiguration): void {
     }
 
     /**
      * Get value, including rich object types
      */
-    public getCondition(): FilterConditionField {
+    public getCondition(): FilterGroupConditionField {
         return null;
     }
 

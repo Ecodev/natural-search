@@ -4,7 +4,7 @@ import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
 import { TypeSelectConfiguration, TypeSelectItem } from './TypeSelectConfiguration';
 import { DropdownComponent } from '../../types/DropdownComponent';
 import { MatSelectionList } from '@angular/material';
-import { FilterConditionField, Scalar } from '../../classes/graphql-doctrine.types';
+import { FilterGroupConditionField, Scalar } from '../../classes/graphql-doctrine.types';
 
 @Component({
     templateUrl: './type-select.component.html',
@@ -28,7 +28,7 @@ export class TypeSelectComponent implements DropdownComponent {
         this.configuration = this.defaults;
     }
 
-    public init(condition: FilterConditionField, configuration: TypeSelectConfiguration): void {
+    public init(condition: FilterGroupConditionField, configuration: TypeSelectConfiguration): void {
         const defaults = {
             items: [],
             multiple: true,
@@ -80,7 +80,7 @@ export class TypeSelectComponent implements DropdownComponent {
         }
     }
 
-    public getCondition(): FilterConditionField {
+    public getCondition(): FilterGroupConditionField {
         return {
             in: {values: this.selected},
         };

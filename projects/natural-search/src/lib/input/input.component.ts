@@ -23,7 +23,7 @@ import { getConfigurationFromSelection } from '../classes/utils';
 import { NaturalDropdownRef } from '../dropdown-container/dropdown-ref';
 import { PortalInjector } from '@angular/cdk/portal';
 import { DropdownComponent } from '../types/DropdownComponent';
-import { FilterConditionField } from '../classes/graphql-doctrine.types';
+import { FilterGroupConditionField } from '../classes/graphql-doctrine.types';
 
 // Required to check invalid fields when initializing natural-search
 export class AlwaysErrorStateMatcher implements ErrorStateMatcher {
@@ -164,7 +164,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         this.dropdownComponentRef = factory.create(injector);
 
         const dropdownComponent = this.dropdownComponentRef.instance;
-        dropdownComponent.init(this.selection.condition as FilterConditionField, configuration.configuration);
+        dropdownComponent.init(this.selection.condition as FilterGroupConditionField, configuration.configuration);
 
         return dropdownComponent;
     }
