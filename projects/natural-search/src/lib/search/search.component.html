@@ -1,19 +1,27 @@
-<div class="groupWrapper" *ngFor="let groupSelections of selections; let i = index; let last = last">
+<div class="natural-search">
+    <div class="groupsWrapper">
+        <div class="groupWrapper" *ngFor="let groupSelections of selections; let i = index; let last = last">
 
-    <natural-group [groupSelections]="groupSelections" [configurations]="configurations"
-                   (groupSelectionsChange)="setGroupSelection($event, i)"></natural-group>
+            <natural-group [groupSelections]="groupSelections"
+                           [configurations]="configurations"
+                           (groupSelectionsChange)="setGroupSelection($event, i)"
+            ></natural-group>
 
-    <button mat-icon-button *ngIf="selections.length > 1" (click)="removeGroup(i)">
-        <mat-icon>remove</mat-icon>
+            <button mat-icon-button *ngIf="selections.length > 1" (click)="removeGroup(i)">
+                <mat-icon>remove</mat-icon>
+            </button>
+
+            <button mat-icon-button *ngIf="last && multipleGroups" (click)="addGroup()">
+                <mat-icon>add</mat-icon>
+            </button>
+
+            <!-- Spaceholder to keep fields alignment (prevent to push until end of line)--->
+            <div class="spacer" *ngIf="!last"></div>
+
+        </div>
+    </div>
+
+    <button mat-icon-button (click)="clear()">
+        <mat-icon>close</mat-icon>
     </button>
-
-    <button mat-icon-button *ngIf="last && multipleGroups" (click)="addGroup()">
-        <mat-icon>add</mat-icon>
-    </button>
-
-    <!-- Spaceholder-->
-    <button mat-icon-button *ngIf="!last">
-        <mat-icon></mat-icon>
-    </button>
-
 </div>

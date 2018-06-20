@@ -47,4 +47,9 @@ export class NaturalSearchComponent implements OnInit, OnChanges {
         this.selections = groups;
         this.selectionsChange.emit(groups);
     }
+
+    public clear() {
+        this.selectionsChange.emit([[]]);
+
+    }
 }
