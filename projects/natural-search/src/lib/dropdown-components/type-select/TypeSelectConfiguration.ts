@@ -1,4 +1,5 @@
 import { Scalar } from '../../classes/graphql-doctrine.types';
+import { Observable } from 'rxjs';
 
 export type TypeSelectItem = Scalar | {
     id: Scalar;
@@ -9,7 +10,7 @@ export type TypeSelectItem = Scalar | {
 };
 
 export interface TypeSelectConfiguration {
-    items: TypeSelectItem[];
+    items: TypeSelectItem[] | Observable<TypeSelectItem[]>;
     multiple?: boolean;
 }
 

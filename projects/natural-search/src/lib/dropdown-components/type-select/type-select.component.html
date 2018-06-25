@@ -1,5 +1,5 @@
 <mat-selection-list [(ngModel)]="selected" (ngModelChange)="closeIfSingleAndHasValue()">
-    <mat-list-option *ngFor="let item of configuration?.items" [value]="getId(item)" checkboxPosition="before">
+    <mat-list-option *ngFor="let item of items" [value]="getId(item)" checkboxPosition="before">
         {{ getDisplay(item) }}
     </mat-list-option>
 </mat-selection-list>

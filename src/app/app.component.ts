@@ -12,6 +12,8 @@ import {
 import { Filter } from '../../projects/natural-search/src/lib/classes/graphql-doctrine.types';
 import { toGraphQLDoctrineFilter } from '../../projects/natural-search/src/lib/classes/graphql-doctrine';
 import { toUrl } from '../../projects/natural-search/src/lib/classes/url';
+import { timer } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
     selector: 'app-root',
@@ -82,6 +84,29 @@ export class AppComponent implements OnInit {
             },
         },
         {
+            display: 'Select 2s delayed',
+            field: 'delayed',
+            component: TypeSelectComponent,
+            configuration: {
+                items: timer(2000).pipe(map(() => [
+                        {
+                            id: 1,
+                            name: 'Option A',
+                        },
+                        {
+                            id: 2,
+                            name: 'Option B',
+                        },
+                        {
+                            id: 3,
+                            name: 'Option C',
+                        },
+                    ],
+                )),
+                multiple: true,
+            },
+        },
+        {
             display: 'With archives',
             field: 'archived',
             condition: {
@@ -113,6 +138,12 @@ export class AppComponent implements OnInit {
     public graphqlSelections: Filter;
     public selections: NaturalSearchSelections = [
         [
+            {
+                field: 'delayed',
+                condition: {
+                    in: {values: [1]},
+                },
+            },
             {
                 field: 'single',
                 condition: {

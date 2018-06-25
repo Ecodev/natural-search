@@ -1,22 +1,24 @@
-import { Component, Inject, ViewChild } from '@angular/core';
+import { Component, Inject, ViewChild, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { NATURAL_DROPDOWN_DATA } from '../../dropdown-container/dropdown.service';
 import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
 import { TypeSelectConfiguration, TypeSelectItem } from './TypeSelectConfiguration';
 import { DropdownComponent } from '../../types/DropdownComponent';
 import { MatSelectionList } from '@angular/material';
 import { FilterGroupConditionField, Scalar } from '../../classes/graphql-doctrine.types';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 @Component({
     templateUrl: './type-select.component.html',
     styleUrls: ['./type-select.component.scss'],
 })
-export class TypeSelectComponent implements DropdownComponent {
+export class TypeSelectComponent implements DropdownComponent, OnDestroy {
 
     public renderedValue = new BehaviorSubject<string>('');
     @ViewChild(MatSelectionList) list: MatSelectionList;
     public configuration: TypeSelectConfiguration;
     public selected: Scalar[] = [];
+    public items: TypeSelectItem[] = [];
+    private subscription: Subscription;
 
     private readonly defaults: TypeSelectConfiguration = {
         items: [],
@@ -26,27 +28,46 @@ export class TypeSelectComponent implements DropdownComponent {
     private dirty = false;
 
     constructor(@Inject(NATURAL_DROPDOWN_DATA) public data: any,
-                protected dropdownRef: NaturalDropdownRef) {
+                protected dropdownRef: NaturalDropdownRef,
+                private changeDetectorRef: ChangeDetectorRef) {
         this.configuration = this.defaults;
     }
 
+    ngOnDestroy(): void {
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
+    }
+
     public init(condition: FilterGroupConditionField, configuration: TypeSelectConfiguration): void {
-        const defaults = {
-            items: [],
-            multiple: true,
-        };
-        this.configuration = {...defaults, ...configuration};
+        this.configuration = {...this.defaults, ...configuration};
 
         if (!this.isMultiple()) {
             (this.list.selectedOptions as any)._multiple = false;
         }
 
-        // Reload selection, according to possible values from configuration
-        if (condition && condition.in) {
-            const possibleIds = this.configuration.items.map(item => this.getId(item));
-            this.selected = condition.in.values.filter(id => typeof possibleIds.find(i => i === id) !== 'undefined');
-            this.renderedValue.next(this.getRenderedValue());
+        const wantedIds = (condition && condition.in) ? condition.in.values : [];
+        if (Array.isArray(this.configuration.items)) {
+            this.items = this.configuration.items;
+            this.reloadSelection(wantedIds);
+        } else {
+            this.subscription = this.configuration.items.subscribe(items => {
+                this.items = items;
+                this.reloadSelection(wantedIds);
+
+                // Without this, the dropdown would not show its content until user interact with the page (click or key press)
+                this.changeDetectorRef.markForCheck();
+            });
         }
+    }
+
+    /**
+     * Reload selection, according to possible values from configuration
+     */
+    private reloadSelection(wantedIds: Scalar[]): void {
+        const possibleIds = this.items.map(item => this.getId(item));
+        this.selected = wantedIds.filter(id => typeof possibleIds.find(i => i === id) !== 'undefined');
+        this.renderedValue.next(this.getRenderedValue());
     }
 
     private isMultiple(): boolean {
@@ -70,7 +91,7 @@ export class TypeSelectComponent implements DropdownComponent {
     }
 
     private getItemById(id: Scalar): TypeSelectItem {
-        return this.configuration.items.find(item => this.getId(item) === id);
+        return this.items.find(item => this.getId(item) === id);
     }
 
     public closeIfSingleAndHasValue(): void {

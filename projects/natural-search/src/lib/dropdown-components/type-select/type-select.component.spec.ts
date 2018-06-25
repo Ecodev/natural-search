@@ -8,7 +8,8 @@ import { NaturalDropdownContainerComponent } from '../../dropdown-container/drop
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FilterGroupConditionField } from '../../classes/graphql-doctrine.types';
-import { TypeSelectConfiguration } from './TypeSelectConfiguration';
+import { TypeSelectConfiguration, TypeSelectItem } from './TypeSelectConfiguration';
+import { BehaviorSubject } from 'rxjs';
 
 describe('TypeSelectComponent', () => {
     let component: TypeSelectComponent;
@@ -33,6 +34,14 @@ describe('TypeSelectComponent', () => {
             {id: 'bar', name: 'bar label'},
             {id: 'baz', name: 'baz label'},
         ],
+    };
+
+    const configObservable: TypeSelectConfiguration = {
+        items: new BehaviorSubject<TypeSelectItem[]>([
+            {id: 'foo', name: 'foo label'},
+            {id: 'bar', name: 'bar label'},
+            {id: 'baz', name: 'baz label'},
+        ]),
     };
 
     const configSingle: TypeSelectConfiguration = {
@@ -119,6 +128,9 @@ describe('TypeSelectComponent', () => {
 
         component.init(condition, configObject);
         expect(component.getCondition()).toEqual(notEmpty);
+
+        component.init(condition, configObservable);
+        expect(component.getCondition()).toEqual(notEmpty);
     });
 
     it('should rendered value joined by comma', () => {
@@ -131,6 +143,9 @@ describe('TypeSelectComponent', () => {
         expect(component.renderedValue.value).toBe('bar, baz');
 
         component.init(condition, configObject);
+        expect(component.renderedValue.value).toBe('bar label, baz label');
+
+        component.init(condition, configObservable);
         expect(component.renderedValue.value).toBe('bar label, baz label');
     });
 
