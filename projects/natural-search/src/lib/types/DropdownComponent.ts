@@ -1,7 +1,13 @@
 import { DropdownConfiguration } from './Configuration';
 import { FilterGroupConditionField } from '../classes/graphql-doctrine.types';
+import { BehaviorSubject } from 'rxjs';
 
 export interface DropdownComponent {
+
+    /**
+     * Observable of current value as string
+     */
+    renderedValue: BehaviorSubject<string>;
 
     /**
      * Set condition for component initialisation purposes
@@ -12,11 +18,6 @@ export interface DropdownComponent {
      * Get condition, including rich object types
      */
     getCondition(): FilterGroupConditionField;
-
-    /**
-     * Return current value as string
-     */
-    getRenderedValue(): string;
 
     /**
      * Returns true if dropdown value is valid

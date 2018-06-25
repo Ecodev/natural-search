@@ -4,6 +4,7 @@ import { DropdownComponent } from '../../types/DropdownComponent';
 import { TypeNumericConfiguration } from './TypeNumericConfiguration';
 import { ErrorStateMatcher } from '@angular/material';
 import { FilterGroupConditionField } from '../../classes/graphql-doctrine.types';
+import { BehaviorSubject } from 'rxjs';
 
 export class InvalidWithValueStateMatcher implements ErrorStateMatcher {
     isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -17,6 +18,7 @@ export class InvalidWithValueStateMatcher implements ErrorStateMatcher {
 })
 export class TypeNumericComponent implements DropdownComponent {
 
+    public renderedValue = new BehaviorSubject<string>('');
     public condition: FilterGroupConditionField;
     public configuration: TypeNumericConfiguration = {};
     public formCtrl: FormControl = new FormControl();
@@ -24,6 +26,10 @@ export class TypeNumericComponent implements DropdownComponent {
 
     public init(condition: FilterGroupConditionField, configuration: TypeNumericConfiguration): void {
         this.configuration = configuration || {};
+
+        this.formCtrl.valueChanges.subscribe(value => {
+            this.renderedValue.next(value === null ? '' : this.formCtrl.value + '');
+        });
 
         this.formCtrl.setValidators([
             Validators.required,
@@ -38,10 +44,6 @@ export class TypeNumericComponent implements DropdownComponent {
 
     public getCondition(): FilterGroupConditionField {
         return {equal: {value: this.formCtrl.value}};
-    }
-
-    public getRenderedValue(): string {
-        return this.formCtrl.value === null ? '' : this.formCtrl.value + '';
     }
 
     public isValid(): boolean {

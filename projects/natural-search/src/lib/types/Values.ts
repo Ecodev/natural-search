@@ -28,6 +28,5 @@ export interface NaturalSearchSelections extends Array<GroupSelections> {
  */
 export interface DropdownResult {
     condition?: FilterGroupConditionField;
-    rendered?: string;
     configuration?: ItemConfiguration;
 }

@@ -4,12 +4,15 @@ import { ItemConfiguration, NaturalSearchConfiguration } from '../../types/Confi
 import { NATURAL_DROPDOWN_DATA } from '../../dropdown-container/dropdown.service';
 import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
 import { FilterGroupConditionField } from '../../classes/graphql-doctrine.types';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
     templateUrl: './configuration-selector.component.html',
     styleUrls: ['./configuration-selector.component.scss'],
 })
 export class ConfigurationSelectorComponent implements DropdownComponent, OnInit {
+    // Never has a real value
+    public renderedValue = new BehaviorSubject<string>('');
 
     public configurations: NaturalSearchConfiguration;
 
@@ -34,13 +37,6 @@ export class ConfigurationSelectorComponent implements DropdownComponent, OnInit
      */
     public getCondition(): FilterGroupConditionField {
         return null;
-    }
-
-    /**
-     * Return current value as string
-     */
-    public getRenderedValue(): string {
-        return '';
     }
 
     /**

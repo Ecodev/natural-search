@@ -44,7 +44,6 @@ export class NaturalDropdownService {
             if (dropdownRef.componentInstance.isValid() && dropdownRef.componentInstance.isDirty()) {
                 dropdownRef.close({
                     condition: dropdownRef.componentInstance.getCondition(),
-                    rendered: dropdownRef.componentInstance.getRenderedValue(),
                 });
             } else {
                 dropdownRef.close();

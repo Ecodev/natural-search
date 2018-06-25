@@ -15,7 +15,12 @@ import {
 } from '@angular/core';
 import { ErrorStateMatcher, MatRipple } from '@angular/material';
 import { FormControl, FormGroupDirective, NgForm, ValidatorFn } from '@angular/forms';
-import { DropdownConfiguration, FlagConfiguration, ItemConfiguration, NaturalSearchConfiguration } from '../types/Configuration';
+import {
+    DropdownConfiguration,
+    FlagConfiguration,
+    ItemConfiguration,
+    NaturalSearchConfiguration,
+} from '../types/Configuration';
 import { ConfigurationSelectorComponent } from '../dropdown-components/configuration-selector/configuration-selector.component';
 import { NATURAL_DROPDOWN_DATA, NaturalDropdownService } from '../dropdown-container/dropdown.service';
 import { DropdownResult, Selection } from '../types/Values';
@@ -114,8 +119,9 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
                 const dropdownComponent = this.createComponent(this.configuration as DropdownConfiguration);
 
                 this.formCtrl.setValidators([isComponentValid(dropdownComponent)]);
-                this.formCtrl.setValue(dropdownComponent.getRenderedValue());
-
+                dropdownComponent.renderedValue.subscribe(value => {
+                    this.formCtrl.setValue(value);
+                });
             } else if (this.isFlag()) {
                 this.formCtrl.setValue('');
 
@@ -280,7 +286,6 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         } else if (this.isFlag()) {
             this.setValue({
                 condition: (config as FlagConfiguration).condition,
-                rendered: null,
             });
 
         } else {
@@ -289,7 +294,6 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     public setValue(result: DropdownResult) {
-        this.formCtrl.setValue(result.rendered);
         this.selectionChange.emit({
             field: this.configuration.field,
             condition: result.condition,

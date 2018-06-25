@@ -122,16 +122,16 @@ describe('TypeSelectComponent', () => {
     });
 
     it('should rendered value joined by comma', () => {
-        expect(component.getRenderedValue()).toBe('');
+        expect(component.renderedValue.value).toBe('');
 
         component.init(null, null);
-        expect(component.getRenderedValue()).toBe('');
+        expect(component.renderedValue.value).toBe('');
 
         component.init(condition, configScalar);
-        expect(component.getRenderedValue()).toBe('bar, baz');
+        expect(component.renderedValue.value).toBe('bar, baz');
 
         component.init(condition, configObject);
-        expect(component.getRenderedValue()).toBe('bar label, baz label');
+        expect(component.renderedValue.value).toBe('bar label, baz label');
     });
 
     it('should validate if at least one selection', () => {
@@ -162,7 +162,6 @@ describe('TypeSelectComponent', () => {
 
         expect(dialogCloseSpy).toHaveBeenCalledWith({
             condition: {in: {values: ['bar', 'baz']}},
-            rendered: 'bar, baz',
         });
     });
 });

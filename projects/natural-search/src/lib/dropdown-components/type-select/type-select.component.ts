@@ -5,6 +5,7 @@ import { TypeSelectConfiguration, TypeSelectItem } from './TypeSelectConfigurati
 import { DropdownComponent } from '../../types/DropdownComponent';
 import { MatSelectionList } from '@angular/material';
 import { FilterGroupConditionField, Scalar } from '../../classes/graphql-doctrine.types';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
     templateUrl: './type-select.component.html',
@@ -12,6 +13,7 @@ import { FilterGroupConditionField, Scalar } from '../../classes/graphql-doctrin
 })
 export class TypeSelectComponent implements DropdownComponent {
 
+    public renderedValue = new BehaviorSubject<string>('');
     @ViewChild(MatSelectionList) list: MatSelectionList;
     public configuration: TypeSelectConfiguration;
     public selected: Scalar[] = [];
@@ -43,6 +45,7 @@ export class TypeSelectComponent implements DropdownComponent {
         if (condition && condition.in) {
             const possibleIds = this.configuration.items.map(item => this.getId(item));
             this.selected = condition.in.values.filter(id => typeof possibleIds.find(i => i === id) !== 'undefined');
+            this.renderedValue.next(this.getRenderedValue());
         }
     }
 
@@ -72,11 +75,14 @@ export class TypeSelectComponent implements DropdownComponent {
 
     public closeIfSingleAndHasValue(): void {
         this.dirty = true;
-        if (!this.isMultiple() && this.isValid()) {
-            this.dropdownRef.close({
-                condition: this.getCondition(),
-                rendered: this.getRenderedValue(),
-            });
+        if (this.isValid()) {
+            this.renderedValue.next(this.getRenderedValue());
+
+            if (!this.isMultiple()) {
+                this.dropdownRef.close({
+                    condition: this.getCondition(),
+                });
+            }
         }
     }
 
@@ -86,7 +92,7 @@ export class TypeSelectComponent implements DropdownComponent {
         };
     }
 
-    public getRenderedValue(): string {
+    private getRenderedValue(): string {
         if (!this.selected) {
             return '';
         }

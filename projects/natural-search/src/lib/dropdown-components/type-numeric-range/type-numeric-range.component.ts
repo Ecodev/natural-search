@@ -5,6 +5,7 @@ import { TypeRangeConfiguration } from './TypeNumericRangeConfiguration';
 import { ErrorStateMatcher } from '@angular/material';
 import { DropdownComponent } from '../../types/DropdownComponent';
 import { FilterGroupConditionField } from '../../classes/graphql-doctrine.types';
+import { BehaviorSubject } from 'rxjs';
 
 export class InvalidWithValueStateMatcher implements ErrorStateMatcher {
     isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -50,6 +51,7 @@ function toGreaterThanFrom(): ValidatorFn {
 })
 export class TypeNumericRangeComponent implements DropdownComponent {
 
+    public renderedValue = new BehaviorSubject<string>('');
     public value: Selection['condition'];
     public configuration: TypeRangeConfiguration;
     public matcher = new InvalidWithValueStateMatcher();
@@ -72,6 +74,10 @@ export class TypeNumericRangeComponent implements DropdownComponent {
 
     public init(condition: FilterGroupConditionField, configuration: TypeRangeConfiguration): void {
         this.configuration = {...this.defaults, ...configuration};
+
+        this.form.valueChanges.subscribe(() => {
+            this.renderedValue.next(this.getRenderedValue());
+        });
 
         const rangeValidators = [
             Validators.min(this.configuration.min),
@@ -110,7 +116,7 @@ export class TypeNumericRangeComponent implements DropdownComponent {
         };
     }
 
-    public getRenderedValue(): string {
+    private getRenderedValue(): string {
         const from = parseFloat(this.getCondition().between.from as string);
         const to = parseFloat(this.getCondition().between.to as string);
 
@@ -128,7 +134,6 @@ export class TypeNumericRangeComponent implements DropdownComponent {
     public isValid(): boolean {
         return this.form.valid;
     }
-
 
     public isDirty(): boolean {
         return this.form.dirty;

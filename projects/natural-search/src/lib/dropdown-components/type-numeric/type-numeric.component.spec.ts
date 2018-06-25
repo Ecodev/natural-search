@@ -75,16 +75,16 @@ describe('TypeNumericComponent', () => {
     });
 
     it('should rendered value as string', () => {
-        expect(component.getRenderedValue()).toBe('');
+        expect(component.renderedValue.value).toBe('');
 
         component.init(null, null);
-        expect(component.getRenderedValue()).toBe('');
+        expect(component.renderedValue.value).toBe('');
 
         component.init(condition, config);
-        expect(component.getRenderedValue()).toBe('123');
+        expect(component.renderedValue.value).toBe('123');
 
         component.init(condition, configWithRules);
-        expect(component.getRenderedValue()).toBe('123');
+        expect(component.renderedValue.value).toBe('123');
     });
 
     it('should validate according to rules', () => {
