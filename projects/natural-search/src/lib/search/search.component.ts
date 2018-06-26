@@ -25,6 +25,15 @@ export class NaturalSearchComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges) {
+
+        if (!this.selections) {
+            this.selections = [[]];
+        }
+
+        if (!this.configurations) {
+            this.configurations = [];
+        }
+
     }
 
     public setGroupSelection(groupSelections: GroupSelections, index: number): void {
@@ -50,6 +59,5 @@ export class NaturalSearchComponent implements OnInit, OnChanges {
 
     public clear() {
         this.selectionsChange.emit([[]]);
-
     }
 }
