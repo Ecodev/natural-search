@@ -1,7 +1,14 @@
 <form [formGroup]="form">
 
     <mat-form-field>
-        <input matInput type="number" placeholder="De" formControlName="from" [errorStateMatcher]="matcher">
+        <input matInput
+               type="number"
+               placeholder="De"
+               formControlName="from"
+               [errorStateMatcher]="matcher"
+               [min]="configuration.min"
+               [max]="configuration.max"
+               [step]="configuration.step">
         <mat-error>
             <span *ngIf="form.hasError('toGreaterThanFrom')">{{ form.get('from').value }} > {{ form.get('to').value }}</span>
             <span *ngIf="form.get('from').hasError('min') && !form.hasError('toGreaterThanFrom')">< {{configuration.min}}</span>
@@ -11,7 +18,14 @@
     </mat-form-field>
 
     <mat-form-field>
-        <input matInput type="number" placeholder="à" formControlName="to" [errorStateMatcher]="matcher">
+        <input matInput
+               type="number"
+               placeholder="à"
+               formControlName="to"
+               [errorStateMatcher]="matcher"
+               [min]="configuration.min"
+               [max]="configuration.max"
+               [step]="configuration.step">
         <mat-error>
             <span *ngIf="form.get('to').hasError('min') && !form.hasError('toGreaterThanFrom')">< {{configuration.min}}</span>
             <span *ngIf="form.get('to').hasError('max') && !form.hasError('toGreaterThanFrom')">> {{configuration.max}}</span>

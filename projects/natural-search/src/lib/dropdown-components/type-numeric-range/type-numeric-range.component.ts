@@ -63,6 +63,7 @@ export class TypeNumericRangeComponent implements DropdownComponent {
     private readonly defaults: TypeRangeConfiguration = {
         min: null,
         max: null,
+        step: null,
         fromRequired: true,
         toRequired: true,
     };
