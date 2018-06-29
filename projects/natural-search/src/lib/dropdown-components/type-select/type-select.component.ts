@@ -9,7 +9,6 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 
 @Component({
     templateUrl: './type-select.component.html',
-    styleUrls: ['./type-select.component.scss'],
 })
 export class TypeSelectComponent implements DropdownComponent, OnDestroy {
 
