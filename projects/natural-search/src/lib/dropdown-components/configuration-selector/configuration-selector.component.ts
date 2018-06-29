@@ -25,12 +25,6 @@ export class ConfigurationSelectorComponent implements DropdownComponent {
     }
 
     /**
-     * Set condition for component initialisation purposes
-     */
-    public init(condition: FilterGroupConditionField | null, configuration?: ItemConfiguration | null): void {
-    }
-
-    /**
      * Get value, including rich object types
      */
     public getCondition(): FilterGroupConditionField {

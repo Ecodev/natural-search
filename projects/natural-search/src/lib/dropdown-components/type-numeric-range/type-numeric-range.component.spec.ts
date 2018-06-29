@@ -6,10 +6,18 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FilterGroupConditionField } from '../../classes/graphql-doctrine.types';
 import { TypeRangeConfiguration } from './TypeNumericRangeConfiguration';
+import {
+    NATURAL_DROPDOWN_DATA,
+    NaturalDropDownData,
+} from '../../dropdown-container/dropdown.service';
 
 describe('TypeNumericRangeComponent', () => {
     let component: TypeNumericRangeComponent;
     let fixture: ComponentFixture<TypeNumericRangeComponent>;
+    const data: NaturalDropDownData = {
+        condition: null,
+        configuration: null,
+    };
 
     const condition: FilterGroupConditionField = {
         between: {from: 12, to: 18},
@@ -33,16 +41,26 @@ describe('TypeNumericRangeComponent', () => {
                 MatFormFieldModule,
                 MatInputModule,
             ],
+            providers: [
+                {
+                    provide: NATURAL_DROPDOWN_DATA,
+                    useValue: data,
+                },
+            ],
         }).compileComponents();
     }));
 
-    beforeEach(() => {
+    function createComponent(c: FilterGroupConditionField | null, configuration: TypeRangeConfiguration | null) {
+        data.condition = c;
+        data.configuration = configuration;
+        TestBed.overrideProvider(NATURAL_DROPDOWN_DATA, {useValue: data});
         fixture = TestBed.createComponent<TypeNumericRangeComponent>(TypeNumericRangeComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
-    });
+    }
 
     it('should create', () => {
+        createComponent(null, null);
         expect(component).toBeTruthy();
     });
 
@@ -55,41 +73,35 @@ describe('TypeNumericRangeComponent', () => {
             between: {from: 12, to: 18},
         };
 
+        createComponent(null, null);
         expect(component.getCondition()).toEqual(empty);
 
-        component.init(null, null);
-        expect(component.getCondition()).toEqual(empty);
-
-        component.init(condition, config);
+        createComponent(condition, config);
         expect(component.getCondition()).toEqual(notEmpty);
 
-        component.init(condition, configWithRules);
+        createComponent(condition, configWithRules);
         expect(component.getCondition()).toEqual(notEmpty);
     });
 
     it('should rendered value as string', () => {
+        createComponent(null, null);
         expect(component.renderedValue.value).toBe('');
 
-        component.init(null, null);
-        expect(component.renderedValue.value).toBe('');
-
-        component.init(condition, config);
+        createComponent(condition, config);
         expect(component.renderedValue.value).toBe('12 - 18');
 
-        component.init(condition, configWithRules);
+        createComponent(condition, configWithRules);
         expect(component.renderedValue.value).toBe('12 - 18');
     });
 
     it('should validate according to rules', () => {
+        createComponent(null, null);
+        expect(component.isValid()).toBe(false);
+
+        createComponent(condition, config);
         expect(component.isValid()).toBe(true);
 
-        component.init(null, null);
-        expect(component.isValid()).toBe(true);
-
-        component.init(condition, config);
-        expect(component.isValid()).toBe(true);
-
-        component.init(condition, configWithRules);
+        createComponent(condition, configWithRules);
         expect(component.isValid()).toBe(false);
     });
 });

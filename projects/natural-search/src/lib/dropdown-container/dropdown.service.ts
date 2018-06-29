@@ -42,10 +42,6 @@ export class NaturalDropdownService {
         const contentRef = containerRef.instance.attachComponentPortal<any>(componentPortal);
         dropdownRef.componentInstance = contentRef.instance;
 
-        // Init type component value,
-        const data = customInjectorTokens.get(NATURAL_DROPDOWN_DATA) as NaturalDropDownData;
-        contentRef.instance.init(data.condition, data.configuration);
-
         // Start animation that shows menu
         dropdownContainer.startAnimation();
 

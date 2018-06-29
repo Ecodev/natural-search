@@ -1,10 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroupDirective, NgForm, Validators, ValidatorFn } from '@angular/forms';
 import { DropdownComponent } from '../../types/DropdownComponent';
 import { TypeNumericConfiguration } from './TypeNumericConfiguration';
 import { ErrorStateMatcher } from '@angular/material';
 import { FilterGroupConditionField } from '../../classes/graphql-doctrine.types';
 import { BehaviorSubject } from 'rxjs';
+import { NATURAL_DROPDOWN_DATA, NaturalDropDownData } from '../../dropdown-container/dropdown.service';
+import { ConfigurationSelectorConfiguration } from '../configuration-selector/ConfigurationSelectorConfiguration';
+import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
 
 export class InvalidWithValueStateMatcher implements ErrorStateMatcher {
     isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -23,8 +26,8 @@ export class TypeNumericComponent implements DropdownComponent {
     public formCtrl: FormControl = new FormControl();
     public matcher = new InvalidWithValueStateMatcher();
 
-    public init(condition: FilterGroupConditionField | null, configuration: TypeNumericConfiguration | null): void {
-        this.configuration = configuration || {};
+    constructor(@Inject(NATURAL_DROPDOWN_DATA) data: NaturalDropDownData) {
+        this.configuration = data.configuration as TypeNumericConfiguration || {};
 
         this.formCtrl.valueChanges.subscribe(value => {
             this.renderedValue.next(value === null ? '' : this.formCtrl.value + '');
@@ -41,8 +44,8 @@ export class TypeNumericComponent implements DropdownComponent {
 
         this.formCtrl.setValidators(validators);
 
-        if (condition && condition.equal) {
-            this.formCtrl.setValue(condition.equal.value);
+        if (data.condition && data.condition.equal) {
+            this.formCtrl.setValue(data.condition.equal.value);
         }
     }
 

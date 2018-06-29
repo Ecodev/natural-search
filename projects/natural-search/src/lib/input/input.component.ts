@@ -179,10 +179,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         const factory = this.componentFactoryResolver.resolveComponentFactory<DropdownComponent>(configuration.component);
         this.dropdownComponentRef = factory.create(injector);
 
-        const dropdownComponent = this.dropdownComponentRef.instance;
-        dropdownComponent.init(data.condition, data.configuration);
-
-        return dropdownComponent;
+        return this.dropdownComponentRef.instance;
     }
 
     private createInjectorTokens(data: NaturalDropDownData): WeakMap<any, NaturalDropdownRef | NaturalDropDownData | null> {

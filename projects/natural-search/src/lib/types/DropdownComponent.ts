@@ -10,11 +10,6 @@ export interface DropdownComponent {
     renderedValue: BehaviorSubject<string>;
 
     /**
-     * Set condition for component initialisation purposes
-     */
-    init(condition: FilterGroupConditionField | null, configuration: DropdownConfiguration['configuration'] | null): void;
-
-    /**
      * Get condition, including rich object types
      */
     getCondition(): FilterGroupConditionField;

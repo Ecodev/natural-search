@@ -1,4 +1,4 @@
-import { Component, Inject, ViewChild, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, Inject, ViewChild, OnDestroy, ChangeDetectorRef, OnInit } from '@angular/core';
 import { NATURAL_DROPDOWN_DATA, NaturalDropDownData } from '../../dropdown-container/dropdown.service';
 import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
 import { TypeSelectConfiguration, TypeSelectItem } from './TypeSelectConfiguration';
@@ -10,14 +10,14 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 @Component({
     templateUrl: './type-select.component.html',
 })
-export class TypeSelectComponent implements DropdownComponent, OnDestroy {
+export class TypeSelectComponent implements DropdownComponent, OnInit, OnDestroy {
 
     public renderedValue = new BehaviorSubject<string>('');
     @ViewChild(MatSelectionList) list: MatSelectionList;
     public configuration: TypeSelectConfiguration;
     public selected: Scalar[] = [];
     public items: TypeSelectItem[] = [];
-    private subscription: Subscription;
+    private readonly subscription: Subscription;
 
     private readonly defaults: TypeSelectConfiguration = {
         items: [],
@@ -29,23 +29,9 @@ export class TypeSelectComponent implements DropdownComponent, OnDestroy {
     constructor(@Inject(NATURAL_DROPDOWN_DATA) data: NaturalDropDownData,
                 protected dropdownRef: NaturalDropdownRef,
                 private changeDetectorRef: ChangeDetectorRef) {
-        this.configuration = this.defaults;
-    }
+        this.configuration = {...this.defaults, ...data.configuration as TypeSelectConfiguration};
 
-    ngOnDestroy(): void {
-        if (this.subscription) {
-            this.subscription.unsubscribe();
-        }
-    }
-
-    public init(condition: FilterGroupConditionField | null, configuration: TypeSelectConfiguration | null): void {
-        this.configuration = {...this.defaults, ...configuration};
-
-        if (!this.isMultiple()) {
-            (this.list.selectedOptions as any)._multiple = false;
-        }
-
-        const wantedIds = (condition && condition.in) ? condition.in.values : [];
+        const wantedIds = (data.condition && data.condition.in) ? data.condition.in.values : [];
         if (Array.isArray(this.configuration.items)) {
             this.items = this.configuration.items;
             this.reloadSelection(wantedIds);
@@ -57,6 +43,18 @@ export class TypeSelectComponent implements DropdownComponent, OnDestroy {
                 // Without this, the dropdown would not show its content until user interact with the page (click or key press)
                 this.changeDetectorRef.markForCheck();
             });
+        }
+    }
+
+    ngOnInit(): void {
+        if (!this.isMultiple()) {
+            (this.list.selectedOptions as any)._multiple = false;
+        }
+    }
+
+    ngOnDestroy(): void {
+        if (this.subscription) {
+            this.subscription.unsubscribe();
         }
     }
 

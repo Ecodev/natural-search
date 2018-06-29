@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import {
     FormControl,
     FormGroup,
@@ -15,6 +15,7 @@ import { ErrorStateMatcher } from '@angular/material';
 import { DropdownComponent } from '../../types/DropdownComponent';
 import { FilterGroupConditionField } from '../../classes/graphql-doctrine.types';
 import { BehaviorSubject } from 'rxjs';
+import { NATURAL_DROPDOWN_DATA, NaturalDropDownData } from '../../dropdown-container/dropdown.service';
 
 export class InvalidWithValueStateMatcher implements ErrorStateMatcher {
     isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -86,12 +87,8 @@ export class TypeNumericRangeComponent implements DropdownComponent {
         toRequired: true,
     };
 
-    constructor() {
-        this.configuration = this.defaults;
-    }
-
-    public init(condition: FilterGroupConditionField | null, configuration: TypeRangeConfiguration | null): void {
-        this.configuration = {...this.defaults, ...configuration};
+    constructor(@Inject(NATURAL_DROPDOWN_DATA) data: NaturalDropDownData) {
+        this.configuration = {...this.defaults, ...data.configuration as TypeRangeConfiguration};
 
         this.form.valueChanges.subscribe(() => {
             this.renderedValue.next(this.getRenderedValue());
@@ -124,8 +121,8 @@ export class TypeNumericRangeComponent implements DropdownComponent {
             toGreaterThanFrom(), // From < To
         ]);
 
-        if (condition && condition.between) {
-            this.form.setValue({from: condition.between.from, to: condition.between.to});
+        if (data.condition && data.condition.between) {
+            this.form.setValue({from: data.condition.between.from, to: data.condition.between.to});
         }
     }
 
