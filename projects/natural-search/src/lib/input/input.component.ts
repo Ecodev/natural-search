@@ -14,7 +14,7 @@ import {
     ViewChild,
 } from '@angular/core';
 import { ErrorStateMatcher, MatRipple } from '@angular/material';
-import { FormControl, FormGroupDirective, NgForm, ValidatorFn } from '@angular/forms';
+import { FormControl, FormGroupDirective, NgForm, ValidatorFn, ValidationErrors } from '@angular/forms';
 import {
     DropdownConfiguration,
     FlagConfiguration,
@@ -33,12 +33,12 @@ import { FilterGroupConditionField } from '../classes/graphql-doctrine.types';
 // Required to check invalid fields when initializing natural-search
 export class AlwaysErrorStateMatcher implements ErrorStateMatcher {
     isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-        return control && control.invalid;
+        return !!control && control.invalid;
     }
 }
 
 function isComponentValid(component: DropdownComponent): ValidatorFn {
-    return (): { [key: string]: boolean } => {
+    return (): ValidationErrors | null => {
 
         if (!component.isValid()) {
             return {component: true};
@@ -57,9 +57,9 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input() placeholder = 'Rechercher';
     @Input() configurations: NaturalSearchConfiguration;
-    @Input() configuration: ItemConfiguration;
+    @Input() configuration: ItemConfiguration | null;
     @Input() searchFieldName = 'search';
-    @Input() selection: Selection;
+    @Input() selection: Selection | null;
     @Output() selectionChange = new EventEmitter<Selection>();
     @Output() cleared = new EventEmitter<NaturalInputComponent>();
 
@@ -67,7 +67,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
     @ViewChild('input') input: ElementRef;
 
     public formCtrl: FormControl = new FormControl();
-    private dropdownRef: NaturalDropdownRef;
+    private dropdownRef: NaturalDropdownRef | null;
 
     private dropdownComponentRef: ComponentRef<DropdownComponent>;
     public errorMatcher = new AlwaysErrorStateMatcher();
@@ -126,7 +126,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
                 this.formCtrl.setValue('');
 
             } else if (this.configuration || this.selection.field === this.searchFieldName) {
-                if (this.selection) {
+                if (this.selection && this.selection.condition.like) {
                     this.formCtrl.setValue(this.selection.condition.like.value);
                 }
 
@@ -170,12 +170,13 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         this.dropdownComponentRef = factory.create(injector);
 
         const dropdownComponent = this.dropdownComponentRef.instance;
-        dropdownComponent.init(this.selection.condition as FilterGroupConditionField, configuration.configuration);
+        const condition = this.selection ? this.selection.condition as FilterGroupConditionField : null;
+        dropdownComponent.init(condition, configuration.configuration);
 
         return dropdownComponent;
     }
 
-    public createInjectorTokens(data = null): WeakMap<any, any> {
+    public createInjectorTokens(data: any = null): WeakMap<any, any> {
 
         // Customize injector to allow data and dropdown reference injection in component
         const injectionTokens = new WeakMap();
@@ -294,10 +295,12 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     public setValue(result: DropdownResult) {
-        this.selectionChange.emit({
-            field: this.configuration.field,
-            condition: result.condition,
-        });
+        if (this.configuration) {
+            this.selectionChange.emit({
+                field: this.configuration.field,
+                condition: result.condition,
+            });
+        }
     }
 
 }

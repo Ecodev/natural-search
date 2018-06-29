@@ -12,7 +12,10 @@ import {
 import { getConfigurationFromSelection } from './utils';
 import { deepClone } from './utils';
 
-export function toGraphQLDoctrineFilter(configuration: NaturalSearchConfiguration, selections: NaturalSearchSelections): Filter {
+export function toGraphQLDoctrineFilter(
+    configuration: NaturalSearchConfiguration | null,
+    selections: NaturalSearchSelections | null,
+): Filter {
     selections = deepClone(selections);
 
     const filter: Filter = {};
@@ -103,7 +106,7 @@ function wrapWithFieldName(field: string, condition: FilterGroupConditionField):
     const result: FilterGroupCondition = {};
 
     // We assume a custom operator "search"
-    if (field === 'search') {
+    if (field === 'search' && condition.like) {
         return {custom: {search: {value: condition.like.value}}} as FilterGroupCondition;
     } else if (condition.between && field.match('-')) {
 
@@ -118,7 +121,7 @@ function wrapWithFieldName(field: string, condition: FilterGroupConditionField):
     return result;
 }
 
-function transformSelection(configuration: NaturalSearchConfiguration, selection: Selection): Selection {
+function transformSelection(configuration: NaturalSearchConfiguration | null, selection: Selection): Selection {
     const config = getConfigurationFromSelection(configuration, selection);
 
     return config && config.transform ? config.transform(selection) : selection;

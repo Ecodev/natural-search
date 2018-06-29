@@ -7,7 +7,7 @@ import { deepClone } from './utils';
  *
  * The string can be parsed back with `fromUrl()`
  */
-export function toUrl(selections: NaturalSearchSelections): string | null {
+export function toUrl(selections: NaturalSearchSelections | null): string | null {
     if (!selections || !selections.length) {
         return null;
     }
@@ -31,7 +31,7 @@ export function toUrl(selections: NaturalSearchSelections): string | null {
 /**
  * Parse a string, probably coming from URL, into a selection
  */
-export function fromUrl(selections: string): NaturalSearchSelections {
+export function fromUrl(selections: string | null): NaturalSearchSelections {
 
     if (!selections || !selections.length) {
         return [[]];

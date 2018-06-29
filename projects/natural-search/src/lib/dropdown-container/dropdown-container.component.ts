@@ -61,7 +61,7 @@ export class NaturalDropdownContainerComponent extends BasePortalOutlet implemen
     }
 
     public attachTemplatePortal<C>(portal: TemplatePortal<C>): EmbeddedViewRef<C> {
-        return;
+        return this.portalOutlet.attachTemplatePortal(portal);
     }
 
     public attachComponentPortal<T>(portal: ComponentPortal<T>): ComponentRef<T> {

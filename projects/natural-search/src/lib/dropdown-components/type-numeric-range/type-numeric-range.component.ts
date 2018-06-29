@@ -1,5 +1,14 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, FormGroupDirective, NgForm, ValidatorFn, Validators } from '@angular/forms';
+import {
+    FormControl,
+    FormGroup,
+    FormGroupDirective,
+    NgForm,
+    ValidatorFn,
+    Validators,
+    ValidationErrors,
+    AbstractControl,
+} from '@angular/forms';
 import { Selection } from '../../types/Values';
 import { TypeRangeConfiguration } from './TypeNumericRangeConfiguration';
 import { ErrorStateMatcher } from '@angular/material';
@@ -13,16 +22,25 @@ export class InvalidWithValueStateMatcher implements ErrorStateMatcher {
     }
 }
 
+function parseFromControl(control: FormControl, key: string): number {
+    const c = control.get(key);
+    if (!c) {
+        return NaN;
+    }
+
+    return parseFloat(c.value);
+}
+
 /**
  * At least one value set
  */
 function atLeastOneValue(): ValidatorFn {
-    return (control: FormControl): { [key: string]: boolean } => {
-        const from = parseFloat(control.get('from').value);
-        const to = parseFloat(control.get('to').value);
+    return (control: FormControl): ValidationErrors | null => {
+        const from = parseFromControl(control, 'from');
+        const to = parseFromControl(control, 'to');
 
         if (isNaN(from) && isNaN(to)) {
-            return {'required': true};
+            return {required: true};
         }
 
         return null;
@@ -33,12 +51,12 @@ function atLeastOneValue(): ValidatorFn {
  * From > To
  */
 function toGreaterThanFrom(): ValidatorFn {
-    return (control: FormControl): { [key: string]: boolean } => {
-        const from = parseFloat(control.get('from').value);
-        const to = parseFloat(control.get('to').value);
+    return (control: FormControl): ValidationErrors | null => {
+        const from = parseFromControl(control, 'from');
+        const to = parseFromControl(control, 'to');
 
         if (!isNaN(from) && !isNaN(to) && from >= to) {
-            return {'toGreaterThanFrom': true};
+            return {toGreaterThanFrom: true};
         }
 
         return null;
@@ -72,17 +90,21 @@ export class TypeNumericRangeComponent implements DropdownComponent {
         this.configuration = this.defaults;
     }
 
-    public init(condition: FilterGroupConditionField, configuration: TypeRangeConfiguration): void {
+    public init(condition: FilterGroupConditionField | null, configuration: TypeRangeConfiguration | null): void {
         this.configuration = {...this.defaults, ...configuration};
 
         this.form.valueChanges.subscribe(() => {
             this.renderedValue.next(this.getRenderedValue());
         });
 
-        const rangeValidators = [
-            Validators.min(this.configuration.min),
-            Validators.max(this.configuration.max),
-        ];
+        const rangeValidators: ValidatorFn[] = [];
+        if (this.configuration.min) {
+            rangeValidators.push(Validators.min(this.configuration.min));
+        }
+
+        if (this.configuration.max) {
+            rangeValidators.push(Validators.max(this.configuration.max));
+        }
 
         let fromValidators = rangeValidators;
         let toValidators = rangeValidators;
@@ -94,15 +116,15 @@ export class TypeNumericRangeComponent implements DropdownComponent {
             toValidators = [Validators.required].concat(toValidators);
         }
 
-        this.form.get('from').setValidators(fromValidators);
-        this.form.get('to').setValidators(toValidators);
+        this.getFrom().setValidators(fromValidators);
+        this.getTo().setValidators(toValidators);
 
         this.form.setValidators([
             atLeastOneValue(),
             toGreaterThanFrom(), // From < To
         ]);
 
-        if (condition) {
+        if (condition && condition.between) {
             this.form.setValue({from: condition.between.from, to: condition.between.to});
         }
     }
@@ -110,15 +132,28 @@ export class TypeNumericRangeComponent implements DropdownComponent {
     public getCondition(): FilterGroupConditionField {
         return {
             between: {
-                from: this.form.get('from').value,
-                to: this.form.get('to').value,
+                from: this.getFrom().value,
+                to: this.getTo().value,
             },
         };
     }
 
+    public getFrom(): AbstractControl {
+        return this.form.get('from') as AbstractControl;
+    }
+
+    public getTo(): AbstractControl {
+        return this.form.get('to') as AbstractControl;
+    }
+
     private getRenderedValue(): string {
-        const from = parseFloat(this.getCondition().between.from as string);
-        const to = parseFloat(this.getCondition().between.to as string);
+        const between = this.getCondition().between;
+        if (!between) {
+            return '';
+        }
+
+        const from = parseFloat(between.from as string);
+        const to = parseFloat(between.to as string);
 
         if (!isNaN(from) && !isNaN(to)) {
             return from + ' - ' + to;

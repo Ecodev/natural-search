@@ -32,7 +32,7 @@ export class NaturalGroupComponent implements OnInit, OnChanges {
         this.groupSelectionsChange.emit(values);
     }
 
-    public addInput(selection?: Selection): void {
+    public addInput(selection: Selection): void {
         this.newValueInput.clear();
         this.groupSelections = this.groupSelections.concat([selection]);
         this.groupSelectionsChange.emit(this.groupSelections);

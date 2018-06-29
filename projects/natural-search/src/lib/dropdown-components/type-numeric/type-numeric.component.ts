@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import { FormControl, FormGroupDirective, NgForm, Validators, ValidatorFn } from '@angular/forms';
 import { DropdownComponent } from '../../types/DropdownComponent';
 import { TypeNumericConfiguration } from './TypeNumericConfiguration';
 import { ErrorStateMatcher } from '@angular/material';
@@ -23,20 +23,25 @@ export class TypeNumericComponent implements DropdownComponent {
     public formCtrl: FormControl = new FormControl();
     public matcher = new InvalidWithValueStateMatcher();
 
-    public init(condition: FilterGroupConditionField, configuration: TypeNumericConfiguration): void {
+    public init(condition: FilterGroupConditionField | null, configuration: TypeNumericConfiguration | null): void {
         this.configuration = configuration || {};
 
         this.formCtrl.valueChanges.subscribe(value => {
             this.renderedValue.next(value === null ? '' : this.formCtrl.value + '');
         });
 
-        this.formCtrl.setValidators([
-            Validators.required,
-            Validators.max(this.configuration.max),
-            Validators.min(this.configuration.min),
-        ]);
+        const validators: ValidatorFn[] = [Validators.required];
+        if (this.configuration.min) {
+            validators.push(Validators.min(this.configuration.min));
+        }
 
-        if (condition) {
+        if (this.configuration.max) {
+            validators.push(Validators.max(this.configuration.max));
+        }
+
+        this.formCtrl.setValidators(validators);
+
+        if (condition && condition.equal) {
             this.formCtrl.setValue(condition.equal.value);
         }
     }

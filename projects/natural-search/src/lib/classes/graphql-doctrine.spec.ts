@@ -16,8 +16,10 @@ describe('toGraphQLDoctrineFilter', () => {
             display: 'Datation',
             field: 'datings.from-to',
             transform: (s: Selection): Selection => {
-                s.condition.between.from = yearToJulian(s.condition.between.from as number, false);
-                s.condition.between.to = yearToJulian(s.condition.between.to as number, true);
+                if (s.condition.between) {
+                    s.condition.between.from = yearToJulian(s.condition.between.from as number, false);
+                    s.condition.between.to = yearToJulian(s.condition.between.to as number, true);
+                }
 
                 return s;
             },
@@ -26,7 +28,9 @@ describe('toGraphQLDoctrineFilter', () => {
             display: 'Name',
             field: 'name',
             transform: (s: Selection): Selection => {
-                s.condition.like.value = '%' + s.condition.like.value + '%';
+                if (s.condition.like) {
+                    s.condition.like.value = '%' + s.condition.like.value + '%';
+                }
 
                 return s;
             },
@@ -98,7 +102,7 @@ describe('toGraphQLDoctrineFilter', () => {
         expect(toGraphQLDoctrineFilter(configuration, input)).toEqual(expected as any);
 
         // Original value must not have been touched
-        expect(input[0][0].condition.like.value).toEqual('foo');
+        expect((input as any)[0][0].condition.like.value).toEqual('foo');
     });
 
     it('should handle search with custom operator', () => {

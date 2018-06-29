@@ -10,10 +10,10 @@
                [max]="configuration.max"
                [step]="configuration.step">
         <mat-error>
-            <span *ngIf="form.hasError('toGreaterThanFrom')">{{ form.get('from').value }} > {{ form.get('to').value }}</span>
-            <span *ngIf="form.get('from').hasError('min') && !form.hasError('toGreaterThanFrom')">< {{configuration.min}}</span>
-            <span *ngIf="form.get('from').hasError('max') && !form.hasError('toGreaterThanFrom')">> {{configuration.max}}</span>
-            <span *ngIf="form.get('from').hasError('required')">*</span>
+            <span *ngIf="form.hasError('toGreaterThanFrom')">{{ getFrom().value }} > {{ getTo().value }}</span>
+            <span *ngIf="getFrom().hasError('min') && !form.hasError('toGreaterThanFrom')">< {{configuration.min}}</span>
+            <span *ngIf="getFrom().hasError('max') && !form.hasError('toGreaterThanFrom')">> {{configuration.max}}</span>
+            <span *ngIf="getFrom().hasError('required')">*</span>
         </mat-error>
     </mat-form-field>
 
@@ -27,9 +27,9 @@
                [max]="configuration.max"
                [step]="configuration.step">
         <mat-error>
-            <span *ngIf="form.get('to').hasError('min') && !form.hasError('toGreaterThanFrom')">< {{configuration.min}}</span>
-            <span *ngIf="form.get('to').hasError('max') && !form.hasError('toGreaterThanFrom')">> {{configuration.max}}</span>
-            <span *ngIf="form.get('to').hasError('required')">*</span>
+            <span *ngIf="getTo().hasError('min') && !form.hasError('toGreaterThanFrom')">< {{configuration.min}}</span>
+            <span *ngIf="getTo().hasError('max') && !form.hasError('toGreaterThanFrom')">> {{configuration.max}}</span>
+            <span *ngIf="getTo().hasError('required')">*</span>
         </mat-error>
     </mat-form-field>
 

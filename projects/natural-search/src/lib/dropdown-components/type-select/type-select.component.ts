@@ -38,7 +38,7 @@ export class TypeSelectComponent implements DropdownComponent, OnDestroy {
         }
     }
 
-    public init(condition: FilterGroupConditionField, configuration: TypeSelectConfiguration): void {
+    public init(condition: FilterGroupConditionField | null, configuration: TypeSelectConfiguration | null): void {
         this.configuration = {...this.defaults, ...configuration};
 
         if (!this.isMultiple()) {
@@ -70,7 +70,7 @@ export class TypeSelectComponent implements DropdownComponent, OnDestroy {
     }
 
     private isMultiple(): boolean {
-        return this.configuration.multiple;
+        return !!this.configuration.multiple;
     }
 
     public getId(item: TypeSelectItem): Scalar {
@@ -89,7 +89,7 @@ export class TypeSelectComponent implements DropdownComponent, OnDestroy {
         return item as Scalar;
     }
 
-    private getItemById(id: Scalar): TypeSelectItem {
+    private getItemById(id: Scalar): TypeSelectItem | undefined {
         return this.items.find(item => this.getId(item) === id);
     }
 
@@ -117,7 +117,12 @@ export class TypeSelectComponent implements DropdownComponent, OnDestroy {
             return '';
         }
 
-        return this.selected.map(id => this.getDisplay(this.getItemById(id))).join(', ');
+        return this.selected.map(id => {
+            const item = this.getItemById(id);
+            if (item) {
+                return this.getDisplay(item);
+            }
+        }).join(', ');
     }
 
     public isValid(): boolean {

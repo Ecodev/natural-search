@@ -54,7 +54,7 @@ describe('TypeNumericComponent', () => {
     });
 
     it('should get condition', () => {
-        const empty: FilterGroupConditionField = {
+        const empty: any = {
             equal: {value: null},
         };
 

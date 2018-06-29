@@ -47,7 +47,7 @@ describe('TypeNumericRangeComponent', () => {
     });
 
     it('should get condition', () => {
-        const empty: FilterGroupConditionField = {
+        const empty: any = {
             between: {from: null, to: null},
         };
 

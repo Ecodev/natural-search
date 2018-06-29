@@ -114,7 +114,7 @@ export class AppComponent implements OnInit {
         },
     ];
 
-    public config: NaturalSearchConfiguration = this.config1;
+    public config: NaturalSearchConfiguration | null = this.config1;
 
     public config2: NaturalSearchConfiguration = [
         {
@@ -202,7 +202,7 @@ export class AppComponent implements OnInit {
         return JSON.stringify(s);
     }
 
-    public toUrl(s): string {
+    public toUrl(s): string | null {
         return toUrl(s);
     }
 }

@@ -12,7 +12,7 @@ export interface DropdownComponent {
     /**
      * Set condition for component initialisation purposes
      */
-    init(condition: FilterGroupConditionField, configuration?: DropdownConfiguration['configuration']): void;
+    init(condition: FilterGroupConditionField | null, configuration: DropdownConfiguration['configuration'] | null): void;
 
     /**
      * Get condition, including rich object types

@@ -29,14 +29,14 @@ export class ConfigurationSelectorComponent implements DropdownComponent, OnInit
     /**
      * Set condition for component initialisation purposes
      */
-    public init(condition: FilterGroupConditionField, configuration?: ItemConfiguration): void {
+    public init(condition: FilterGroupConditionField | null, configuration?: ItemConfiguration | null): void {
     }
 
     /**
      * Get value, including rich object types
      */
     public getCondition(): FilterGroupConditionField {
-        return null;
+        return {};
     }
 
     /**
@@ -45,6 +45,7 @@ export class ConfigurationSelectorComponent implements DropdownComponent, OnInit
     public close(): void {
         if (this.selection) {
             this.dropdownRef.close({
+                condition: {},
                 configuration: this.selection,
             });
         }

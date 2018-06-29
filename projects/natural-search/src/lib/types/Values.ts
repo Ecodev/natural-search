@@ -27,6 +27,6 @@ export interface NaturalSearchSelections extends Array<GroupSelections> {
  * Used internally for dropdown
  */
 export interface DropdownResult {
-    condition?: FilterGroupConditionField;
+    condition: FilterGroupConditionField;
     configuration?: ItemConfiguration;
 }
