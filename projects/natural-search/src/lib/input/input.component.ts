@@ -22,7 +22,11 @@ import {
     NaturalSearchConfiguration,
 } from '../types/Configuration';
 import { ConfigurationSelectorComponent } from '../dropdown-components/configuration-selector/configuration-selector.component';
-import { NATURAL_DROPDOWN_DATA, NaturalDropdownService } from '../dropdown-container/dropdown.service';
+import {
+    NATURAL_DROPDOWN_DATA,
+    NaturalDropDownData,
+    NaturalDropdownService,
+} from '../dropdown-container/dropdown.service';
 import { DropdownResult, Selection } from '../types/Values';
 import { getConfigurationFromSelection } from '../classes/utils';
 import { NaturalDropdownRef } from '../dropdown-container/dropdown-ref';
@@ -165,21 +169,26 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
             this.dropdownComponentRef.destroy();
         }
 
-        const injector = new PortalInjector(this.injector, this.createInjectorTokens());
+        const condition = this.selection ? this.selection.condition as FilterGroupConditionField : null;
+        const data: NaturalDropDownData = {
+            condition: condition,
+            configuration: configuration.configuration,
+        };
+
+        const injector = new PortalInjector(this.injector, this.createInjectorTokens(data));
         const factory = this.componentFactoryResolver.resolveComponentFactory<DropdownComponent>(configuration.component);
         this.dropdownComponentRef = factory.create(injector);
 
         const dropdownComponent = this.dropdownComponentRef.instance;
-        const condition = this.selection ? this.selection.condition as FilterGroupConditionField : null;
-        dropdownComponent.init(condition, configuration.configuration);
+        dropdownComponent.init(data.condition, data.configuration);
 
         return dropdownComponent;
     }
 
-    public createInjectorTokens(data: any = null): WeakMap<any, any> {
+    private createInjectorTokens(data: NaturalDropDownData): WeakMap<any, NaturalDropdownRef | NaturalDropDownData | null> {
 
         // Customize injector to allow data and dropdown reference injection in component
-        const injectionTokens = new WeakMap();
+        const injectionTokens = new WeakMap<any, NaturalDropdownRef | NaturalDropDownData | null>();
         injectionTokens.set(NaturalDropdownRef, null);
         injectionTokens.set(NATURAL_DROPDOWN_DATA, data);
 
@@ -227,8 +236,11 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
             return;
         }
 
-        const data = {
-            configurations: this.configurations,
+        const data: NaturalDropDownData = {
+            condition: {},
+            configuration: {
+                configurations: this.configurations,
+            },
         };
 
         const injectorTokens = this.createInjectorTokens(data);
@@ -242,7 +254,6 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
                 } else if (result.condition) {
                     this.setValue(result);
                 }
-
             }
         });
 
@@ -254,9 +265,9 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
             return;
         }
 
-        const data = {
-            configuration: this.configuration,
-            value: this.selection ? this.selection.condition : null,
+        const data: NaturalDropDownData = {
+            condition: this.selection ? this.selection.condition : null,
+            configuration: (this.configuration as DropdownConfiguration).configuration,
         };
 
         const injectorTokens = this.createInjectorTokens(data);

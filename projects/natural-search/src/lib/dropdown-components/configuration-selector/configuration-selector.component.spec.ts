@@ -2,7 +2,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ConfigurationSelectorComponent } from './configuration-selector.component';
 import { MatFormFieldModule, MatListModule } from '@angular/material';
-import { NATURAL_DROPDOWN_DATA, NaturalDropdownService } from '../../dropdown-container/dropdown.service';
+import {
+    NATURAL_DROPDOWN_DATA,
+    NaturalDropDownData,
+    NaturalDropdownService,
+} from '../../dropdown-container/dropdown.service';
 import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -23,8 +27,13 @@ describe('ConfigurationSelectorComponent', () => {
                 NaturalDropdownService,
                 {
                     provide: NATURAL_DROPDOWN_DATA,
-                    useValue: {},
-                },
+                    useValue: <NaturalDropDownData>{
+                        condition: {},
+                        configuration: {
+                            configurations: [],
+                        },
+                    },
+                 },
                 {
                     provide: NaturalDropdownRef,
                     useValue: {},

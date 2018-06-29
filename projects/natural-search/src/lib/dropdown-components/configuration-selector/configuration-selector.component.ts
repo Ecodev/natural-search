@@ -1,16 +1,17 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { DropdownComponent } from '../../types/DropdownComponent';
 import { ItemConfiguration, NaturalSearchConfiguration } from '../../types/Configuration';
-import { NATURAL_DROPDOWN_DATA } from '../../dropdown-container/dropdown.service';
+import { NATURAL_DROPDOWN_DATA, NaturalDropDownData } from '../../dropdown-container/dropdown.service';
 import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
 import { FilterGroupConditionField } from '../../classes/graphql-doctrine.types';
 import { BehaviorSubject } from 'rxjs';
+import { ConfigurationSelectorConfiguration } from './ConfigurationSelectorConfiguration';
 
 @Component({
     templateUrl: './configuration-selector.component.html',
     styleUrls: ['./configuration-selector.component.scss'],
 })
-export class ConfigurationSelectorComponent implements DropdownComponent, OnInit {
+export class ConfigurationSelectorComponent implements DropdownComponent {
     // Never has a real value
     public renderedValue = new BehaviorSubject<string>('');
 
@@ -18,12 +19,9 @@ export class ConfigurationSelectorComponent implements DropdownComponent, OnInit
 
     public selection;
 
-    constructor(@Inject(NATURAL_DROPDOWN_DATA) public data: any,
+    constructor(@Inject(NATURAL_DROPDOWN_DATA) data: NaturalDropDownData,
                 protected dropdownRef: NaturalDropdownRef) {
-    }
-
-    ngOnInit(): void {
-        this.configurations = this.data.configurations;
+        this.configurations = (data.configuration as ConfigurationSelectorConfiguration).configurations;
     }
 
     /**

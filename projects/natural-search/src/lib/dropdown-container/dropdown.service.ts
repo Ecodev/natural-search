@@ -3,8 +3,15 @@ import { FlexibleConnectedPositionStrategy, Overlay, OverlayConfig } from '@angu
 import { ComponentPortal, PortalInjector } from '@angular/cdk/portal';
 import { NaturalDropdownContainerComponent } from './dropdown-container.component';
 import { NaturalDropdownRef } from './dropdown-ref';
+import { FilterGroupConditionField } from '../classes/graphql-doctrine.types';
+import { DropdownConfiguration } from '../types/Configuration';
 
-export const NATURAL_DROPDOWN_DATA = new InjectionToken<any>('NaturalDropdownData');
+export interface NaturalDropDownData {
+    condition: FilterGroupConditionField | null;
+    configuration: DropdownConfiguration['configuration'] | null;
+}
+
+export const NATURAL_DROPDOWN_DATA = new InjectionToken<NaturalDropDownData>('NaturalDropdownData');
 
 @Injectable()
 export class NaturalDropdownService {
@@ -12,7 +19,11 @@ export class NaturalDropdownService {
     constructor(private overlay: Overlay, private injector: Injector) {
     }
 
-    public open(component, connectedElement: ElementRef, customInjectorTokens: WeakMap<any, any>): NaturalDropdownRef {
+    public open(
+        component,
+        connectedElement: ElementRef,
+        customInjectorTokens: WeakMap<any, NaturalDropdownRef | NaturalDropDownData | null>,
+    ): NaturalDropdownRef {
 
         // Container
         const overlayRef = this.overlay.create(this.getOverlayConfig(connectedElement));
@@ -32,8 +43,8 @@ export class NaturalDropdownService {
         dropdownRef.componentInstance = contentRef.instance;
 
         // Init type component value,
-        const data = customInjectorTokens.get(NATURAL_DROPDOWN_DATA);
-        contentRef.instance.init(data.value, data.configuration ? data.configuration.configuration : null);
+        const data = customInjectorTokens.get(NATURAL_DROPDOWN_DATA) as NaturalDropDownData;
+        contentRef.instance.init(data.condition, data.configuration);
 
         // Start animation that shows menu
         dropdownContainer.startAnimation();

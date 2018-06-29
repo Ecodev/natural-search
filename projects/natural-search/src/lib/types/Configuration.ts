@@ -4,6 +4,7 @@ import { Selection } from './Values';
 import { TypeNumericConfiguration } from '../dropdown-components/type-numeric/TypeNumericConfiguration';
 import { TypeSelectConfiguration } from '../dropdown-components/type-select/TypeSelectConfiguration';
 import { TypeRangeConfiguration } from '../dropdown-components/type-numeric-range/TypeNumericRangeConfiguration';
+import { ConfigurationSelectorConfiguration } from '../dropdown-components/configuration-selector/ConfigurationSelectorConfiguration';
 
 export interface BasicConfiguration {
     /**
@@ -40,7 +41,12 @@ export interface DropdownConfiguration extends BasicConfiguration {
     /**
      * Anything that could be useful for the dropdown component
      */
-    configuration?: TypeSelectConfiguration | TypeNumericConfiguration | TypeRangeConfiguration | ItemConfiguration;
+    configuration?:
+        ConfigurationSelectorConfiguration |
+        TypeSelectConfiguration |
+        TypeNumericConfiguration |
+        TypeRangeConfiguration |
+        ItemConfiguration;
 }
 
 /**

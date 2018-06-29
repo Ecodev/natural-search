@@ -1,5 +1,5 @@
 import { Component, Inject, ViewChild, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { NATURAL_DROPDOWN_DATA } from '../../dropdown-container/dropdown.service';
+import { NATURAL_DROPDOWN_DATA, NaturalDropDownData } from '../../dropdown-container/dropdown.service';
 import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
 import { TypeSelectConfiguration, TypeSelectItem } from './TypeSelectConfiguration';
 import { DropdownComponent } from '../../types/DropdownComponent';
@@ -26,7 +26,7 @@ export class TypeSelectComponent implements DropdownComponent, OnDestroy {
 
     private dirty = false;
 
-    constructor(@Inject(NATURAL_DROPDOWN_DATA) public data: any,
+    constructor(@Inject(NATURAL_DROPDOWN_DATA) data: NaturalDropDownData,
                 protected dropdownRef: NaturalDropdownRef,
                 private changeDetectorRef: ChangeDetectorRef) {
         this.configuration = this.defaults;
