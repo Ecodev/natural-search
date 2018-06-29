@@ -185,7 +185,7 @@ export class AppComponent implements OnInit {
     constructor(public themeService: ThemeService, private overlayContainer: OverlayContainer) {
     }
 
-    public ngOnInit() {
+    public ngOnInit(): void {
         this.themeService.theme.subscribe(newTheme => {
             this.overlayContainer.getContainerElement().classList.remove('default');
             this.overlayContainer.getContainerElement().classList.remove('defaultDark');
@@ -194,7 +194,7 @@ export class AppComponent implements OnInit {
         });
     }
 
-    public updateFilter(selections: NaturalSearchSelections) {
+    public updateFilter(selections: NaturalSearchSelections): void {
         this.graphqlSelections = toGraphQLDoctrineFilter(this.config, selections);
     }
 

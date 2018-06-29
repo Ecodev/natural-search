@@ -19,13 +19,13 @@ export class NaturalGroupComponent implements OnInit, OnChanges {
     constructor() {
     }
 
-    ngOnInit() {
+    ngOnInit() : void{
     }
 
-    ngOnChanges(changes: SimpleChanges) {
+    ngOnChanges(changes: SimpleChanges) : void {
     }
 
-    public updateInput(selection: Selection, index: number) {
+    public updateInput(selection: Selection, index: number) : void {
         const values = this.groupSelections.slice(0);
         values[index] = selection;
         this.groupSelections = values;
@@ -38,7 +38,7 @@ export class NaturalGroupComponent implements OnInit, OnChanges {
         this.groupSelectionsChange.emit(this.groupSelections);
     }
 
-    public removeInput(index: number) {
+    public removeInput(index: number): void {
         const values = this.groupSelections.slice(0);
         values.splice(index, 1);
         this.groupSelections = values;

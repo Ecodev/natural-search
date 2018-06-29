@@ -22,7 +22,7 @@ export class ConfigurationSelectorComponent implements DropdownComponent, OnInit
                 protected dropdownRef: NaturalDropdownRef) {
     }
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.configurations = this.data.configurations;
     }
 

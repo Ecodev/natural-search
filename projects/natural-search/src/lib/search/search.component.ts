@@ -21,10 +21,10 @@ export class NaturalSearchComponent implements OnInit, OnChanges {
     constructor() {
     }
 
-    ngOnInit() {
+    ngOnInit(): void {
     }
 
-    ngOnChanges(changes: SimpleChanges) {
+    ngOnChanges(changes: SimpleChanges): void {
 
         if (!this.selections) {
             this.selections = [[]];
@@ -57,7 +57,7 @@ export class NaturalSearchComponent implements OnInit, OnChanges {
         this.selectionsChange.emit(groups);
     }
 
-    public clear() {
+    public clear(): void {
         this.selectionsChange.emit([[]]);
     }
 }

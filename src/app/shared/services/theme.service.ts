@@ -14,7 +14,7 @@ export class ThemeService {
         }
     }
 
-    public set(theme: string) {
+    public set(theme: string): void {
         if (this.darkActivated && theme.indexOf('Dark') === -1) {
             this.theme.next('defaultDark');
         } else {
@@ -22,12 +22,12 @@ export class ThemeService {
         }
     }
 
-    public setNightMode(val: boolean) {
+    public setNightMode(val: boolean): void {
         this.darkActivated = val;
         this.set(this.theme.getValue());
     }
 
-    public toggle() {
+    public toggle(): void {
         this.setNightMode(!this.darkActivated);
     }
 

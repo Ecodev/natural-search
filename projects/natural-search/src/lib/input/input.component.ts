@@ -81,10 +81,10 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
                 private componentFactoryResolver: ComponentFactoryResolver) {
     }
 
-    ngOnDestroy() {
+    ngOnDestroy(): void {
     }
 
-    ngOnInit() {
+    ngOnInit(): void {
 
         this.input.nativeElement.addEventListener('focus', () => {
             this.openDropdown();
@@ -104,7 +104,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         this.length = Math.max(this.minlength, Math.ceil(placeholderSize));
     }
 
-    ngOnChanges(changes: SimpleChanges) {
+    ngOnChanges(changes: SimpleChanges): void {
 
         if (!this.configurations && this.selection) {
             setTimeout(() => this.clear());
@@ -139,7 +139,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         }
     }
 
-    public search() {
+    public search(): void {
 
         if (!this.formCtrl.value) {
             return;
@@ -186,14 +186,14 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         return injectionTokens;
     }
 
-    public clear() {
+    public clear(): void {
         this.configuration = null;
         this.selection = null;
         this.formCtrl.setValue(null);
         this.cleared.emit(this);
     }
 
-    public launchRipple() {
+    public launchRipple(): void {
         const rippleRef = this.ripple.launch({
             persistent: true,
             centered: true,
@@ -202,7 +202,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         rippleRef.fadeOut();
     }
 
-    public openDropdown() {
+    public openDropdown(): void {
         if (this.dropdownRef) {
             // Prevent to open multiple dropdowns.
             // Happens as we open on "focus", and alt+tab re-activate focus on an element that already had
@@ -221,7 +221,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         }
     }
 
-    public openConfigurationsDropdown() {
+    public openConfigurationsDropdown(): void {
 
         if (!this.configurations || this.configurations && !this.configurations.length) {
             return;
@@ -278,7 +278,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         return !!(this.configuration && (this.configuration as FlagConfiguration).condition);
     }
 
-    public setConfiguration(config: ItemConfiguration) {
+    public setConfiguration(config: ItemConfiguration): void {
         this.configuration = config;
 
         if (this.isDropdown()) {
@@ -294,7 +294,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         }
     }
 
-    public setValue(result: DropdownResult) {
+    public setValue(result: DropdownResult): void {
         if (this.configuration) {
             this.selectionChange.emit({
                 field: this.configuration.field,

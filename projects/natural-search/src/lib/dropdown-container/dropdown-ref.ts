@@ -15,7 +15,7 @@ export class NaturalDropdownRef {
         });
     }
 
-    public close(result?: DropdownResult) {
+    public close(result?: DropdownResult): void {
         this.closed.next(result);
         this.closed.complete();
         this.dropdownContainer.close();

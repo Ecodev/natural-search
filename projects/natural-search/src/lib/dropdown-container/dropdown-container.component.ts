@@ -52,11 +52,11 @@ export class NaturalDropdownContainerComponent extends BasePortalOutlet implemen
         super();
     }
 
-    ngOnDestroy() {
+    ngOnDestroy(): void {
         this.closed.complete();
     }
 
-    public close() {
+    public close(): void {
         this.closed.next();
     }
 
@@ -72,11 +72,11 @@ export class NaturalDropdownContainerComponent extends BasePortalOutlet implemen
         return this.portalOutlet.attachComponentPortal(portal);
     }
 
-    public startAnimation() {
+    public startAnimation(): void {
         this.panelAnimationState = 'enter';
     }
 
-    public onAnimationDone(event: AnimationEvent) {
+    public onAnimationDone(event: AnimationEvent): void {
         if (event.toState === 'enter') {
             this.trapFocus();
         } else if (event.toState === 'exit') {
@@ -86,7 +86,7 @@ export class NaturalDropdownContainerComponent extends BasePortalOutlet implemen
         this.animationDone.next();
     }
 
-    private trapFocus() {
+    private trapFocus(): void {
         if (!this.focusTrap) {
             this.focusTrap = this.focusTrapFactory.create(this.elementRef.nativeElement);
         }
@@ -95,7 +95,7 @@ export class NaturalDropdownContainerComponent extends BasePortalOutlet implemen
     }
 
     /** Restores focus to the element that was focused before the dialog opened. */
-    private restoreFocus() {
+    private restoreFocus(): void {
         const toFocus = this.elementFocusedBeforeDialogWasOpened;
 
         // We need the extra check, because IE can set the `activeElement` to null in some cases.
