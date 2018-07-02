@@ -1,12 +1,11 @@
 import { Component, Inject } from '@angular/core';
-import { FormControl, FormGroupDirective, NgForm, Validators, ValidatorFn } from '@angular/forms';
+import { FormControl, FormGroupDirective, NgForm, ValidatorFn, Validators } from '@angular/forms';
 import { DropdownComponent } from '../../types/DropdownComponent';
 import { TypeNumericConfiguration } from './TypeNumericConfiguration';
 import { ErrorStateMatcher } from '@angular/material';
 import { FilterGroupConditionField } from '../../classes/graphql-doctrine.types';
 import { BehaviorSubject } from 'rxjs';
 import { NATURAL_DROPDOWN_DATA, NaturalDropDownData } from '../../dropdown-container/dropdown.service';
-import { ConfigurationSelectorConfiguration } from '../configuration-selector/ConfigurationSelectorConfiguration';
 import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
 
 export class InvalidWithValueStateMatcher implements ErrorStateMatcher {
@@ -25,7 +24,7 @@ export class TypeNumericComponent implements DropdownComponent {
     public formCtrl: FormControl = new FormControl();
     public matcher = new InvalidWithValueStateMatcher();
 
-    constructor(@Inject(NATURAL_DROPDOWN_DATA) data: NaturalDropDownData) {
+    constructor(@Inject(NATURAL_DROPDOWN_DATA) data: NaturalDropDownData, protected dropdownRef: NaturalDropdownRef) {
         this.configuration = data.configuration as TypeNumericConfiguration || {};
 
         this.formCtrl.valueChanges.subscribe(value => {
@@ -58,6 +57,14 @@ export class TypeNumericComponent implements DropdownComponent {
 
     public isDirty(): boolean {
         return this.formCtrl.dirty;
+    }
+
+    public close(): void {
+        if (this.isValid()) {
+            this.dropdownRef.close({condition: this.getCondition()});
+        } else {
+            this.dropdownRef.close(); // undefined value, discard changes / prevent to add a condition (on new fields
+        }
     }
 
 }

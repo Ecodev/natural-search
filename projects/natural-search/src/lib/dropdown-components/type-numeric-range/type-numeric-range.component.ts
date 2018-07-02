@@ -1,21 +1,21 @@
 import { Component, Inject } from '@angular/core';
 import {
+    AbstractControl,
     FormControl,
     FormGroup,
     FormGroupDirective,
     NgForm,
+    ValidationErrors,
     ValidatorFn,
     Validators,
-    ValidationErrors,
-    AbstractControl,
 } from '@angular/forms';
-import { Selection } from '../../types/Values';
 import { TypeRangeConfiguration } from './TypeNumericRangeConfiguration';
 import { ErrorStateMatcher } from '@angular/material';
 import { DropdownComponent } from '../../types/DropdownComponent';
 import { FilterGroupConditionField } from '../../classes/graphql-doctrine.types';
 import { BehaviorSubject } from 'rxjs';
 import { NATURAL_DROPDOWN_DATA, NaturalDropDownData } from '../../dropdown-container/dropdown.service';
+import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
 
 export class InvalidWithValueStateMatcher implements ErrorStateMatcher {
     isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -86,7 +86,7 @@ export class TypeNumericRangeComponent implements DropdownComponent {
         toRequired: true,
     };
 
-    constructor(@Inject(NATURAL_DROPDOWN_DATA) data: NaturalDropDownData) {
+    constructor(@Inject(NATURAL_DROPDOWN_DATA) data: NaturalDropDownData, protected dropdownRef: NaturalDropdownRef) {
         this.configuration = {...this.defaults, ...data.configuration as TypeRangeConfiguration};
 
         this.form.valueChanges.subscribe(() => {
@@ -168,6 +168,14 @@ export class TypeNumericRangeComponent implements DropdownComponent {
 
     public isDirty(): boolean {
         return this.form.dirty;
+    }
+
+    public close(): void {
+        if (this.isValid()) {
+            this.dropdownRef.close({condition: this.getCondition()});
+        } else {
+            this.dropdownRef.close(); // undefined value, discard changes / prevent to add a condition (on new fields
+        }
     }
 
 }
