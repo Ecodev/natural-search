@@ -76,11 +76,11 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
     private dropdownComponentRef: ComponentRef<DropdownComponent>;
     public errorMatcher = new AlwaysErrorStateMatcher();
 
-    public minlength = 5;
-    public length = this.minlength;
+    private readonly minLength = 5;
+    public length = this.minLength;
 
     constructor(private element: ElementRef,
-                private dropdown: NaturalDropdownService,
+                private dropdownService: NaturalDropdownService,
                 private injector: Injector,
                 private componentFactoryResolver: ComponentFactoryResolver) {
     }
@@ -105,7 +105,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         });
 
         const placeholderSize = (this.configuration ? this.configuration.display.length : this.placeholder.length) * 0.66;
-        this.length = Math.max(this.minlength, Math.ceil(placeholderSize));
+        this.length = Math.max(this.minLength, Math.ceil(placeholderSize));
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -176,6 +176,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         };
 
         const injector = new PortalInjector(this.injector, this.createInjectorTokens(data));
+        console.log('createComponent via factory', data);
         const factory = this.componentFactoryResolver.resolveComponentFactory<DropdownComponent>(configuration.component);
         this.dropdownComponentRef = factory.create(injector);
 
@@ -199,7 +200,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         this.cleared.emit(this);
     }
 
-    public launchRipple(): void {
+    private launchRipple(): void {
         const rippleRef = this.ripple.launch({
             persistent: true,
             centered: true,
@@ -220,14 +221,14 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
 
         // If there is no configuration and no string typed, show panel to select the configuration
         if (!this.configuration && !this.formCtrl.value) {
-            this.openConfigurationsDropdown();
+            this.openConfigurationSelectorDropdown();
         } else {
             // If a configuration is selected, open specific component dropdown
             this.openTypeDropdown();
         }
     }
 
-    public openConfigurationsDropdown(): void {
+    private openConfigurationSelectorDropdown(): void {
 
         if (!this.configurations || this.configurations && !this.configurations.length) {
             return;
@@ -241,8 +242,8 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         };
 
         const injectorTokens = this.createInjectorTokens(data);
-
-        this.dropdownRef = this.dropdown.open(ConfigurationSelectorComponent, this.element, injectorTokens);
+        console.log('openConfigurationSelectorDropdown via service', data);
+        this.dropdownRef = this.dropdownService.open(ConfigurationSelectorComponent, this.element, injectorTokens);
         this.dropdownRef.closed.subscribe((result: DropdownResult) => {
             this.dropdownRef = null;
             if (result !== undefined) {
@@ -256,7 +257,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
 
     }
 
-    public openTypeDropdown(): void {
+    private openTypeDropdown(): void {
 
         if (!this.isDropdown()) {
             return;
@@ -268,8 +269,9 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         };
 
         const injectorTokens = this.createInjectorTokens(data);
+        console.log('openTypeDropdown via service', data);
         const component = (this.configuration as DropdownConfiguration).component;
-        this.dropdownRef = this.dropdown.open(component, this.element, injectorTokens);
+        this.dropdownRef = this.dropdownService.open(component, this.element, injectorTokens);
         this.dropdownRef.closed.subscribe((result: DropdownResult) => {
             this.dropdownRef = null;
             if (result !== undefined) {
@@ -286,7 +288,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         return !!(this.configuration && (this.configuration as FlagConfiguration).condition);
     }
 
-    public setConfiguration(config: ItemConfiguration): void {
+    private setConfiguration(config: ItemConfiguration): void {
         this.configuration = config;
 
         if (this.isDropdown()) {
@@ -302,7 +304,7 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         }
     }
 
-    public setValue(result: DropdownResult): void {
+    private setValue(result: DropdownResult): void {
         if (this.configuration) {
             this.selectionChange.emit({
                 field: this.configuration.field,

@@ -70,7 +70,6 @@ function toGreaterThanFrom(): ValidatorFn {
 export class TypeNumericRangeComponent implements DropdownComponent {
 
     public renderedValue = new BehaviorSubject<string>('');
-    public value: Selection['condition'];
     public configuration: TypeRangeConfiguration;
     public matcher = new InvalidWithValueStateMatcher();
 

@@ -14,7 +14,7 @@ export class TypeSelectComponent implements DropdownComponent, OnInit, OnDestroy
 
     public renderedValue = new BehaviorSubject<string>('');
     @ViewChild(MatSelectionList) list: MatSelectionList;
-    public configuration: TypeSelectConfiguration;
+    private configuration: TypeSelectConfiguration;
     public selected: Scalar[] = [];
     public items: TypeSelectItem[] = [];
     private readonly subscription: Subscription;

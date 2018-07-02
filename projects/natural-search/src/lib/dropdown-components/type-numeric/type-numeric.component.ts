@@ -21,7 +21,6 @@ export class InvalidWithValueStateMatcher implements ErrorStateMatcher {
 export class TypeNumericComponent implements DropdownComponent {
 
     public renderedValue = new BehaviorSubject<string>('');
-    public condition: FilterGroupConditionField;
     public configuration: TypeNumericConfiguration = {};
     public formCtrl: FormControl = new FormControl();
     public matcher = new InvalidWithValueStateMatcher();
