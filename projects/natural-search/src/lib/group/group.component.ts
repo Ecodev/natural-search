@@ -13,8 +13,13 @@ export class NaturalGroupComponent implements OnInit, OnChanges {
     @ViewChild('newValueInput') newValueInput: NaturalInputComponent;
 
     @Input() configurations: NaturalSearchConfiguration;
-    @Input() groupSelections: GroupSelections;
-    @Output() groupSelectionsChange = new EventEmitter<GroupSelections>();
+    @Output() groupSelectionChange = new EventEmitter<GroupSelections>();
+
+    @Input() set groupSelections(selection: GroupSelections) {
+        this.innerGroupSelections = selection.slice();
+    }
+
+    public innerGroupSelections: GroupSelections = [];
 
     constructor() {
     }
@@ -26,23 +31,19 @@ export class NaturalGroupComponent implements OnInit, OnChanges {
     }
 
     public updateInput(selection: Selection, index: number): void {
-        const values = this.groupSelections.slice(0);
-        values[index] = selection;
-        this.groupSelections = values;
-        this.groupSelectionsChange.emit(values);
+        this.innerGroupSelections[index] = selection;
+        this.groupSelectionChange.emit(this.innerGroupSelections);
     }
 
     public addInput(selection: Selection): void {
         this.newValueInput.clear();
-        this.groupSelections = this.groupSelections.concat([selection]);
-        this.groupSelectionsChange.emit(this.groupSelections);
+        this.innerGroupSelections.push(selection);
+        this.groupSelectionChange.emit(this.innerGroupSelections);
     }
 
     public removeInput(index: number): void {
-        const values = this.groupSelections.slice(0);
-        values.splice(index, 1);
-        this.groupSelections = values;
-        this.groupSelectionsChange.emit(values);
+        this.innerGroupSelections.splice(index, 1);
+        this.groupSelectionChange.emit(this.innerGroupSelections);
     }
 
 }

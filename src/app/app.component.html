@@ -20,8 +20,7 @@
 
             <natural-search [configurations]="config"
                             [(selections)]="selections"
-                            (selectionsChange)="updateFilter($event)"
-                            [multipleGroups]="true"
+                            (selectionChange)="updateFilter($event)"
                             [multipleGroups]="true"
             ></natural-search>
 

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChildren } from '@angular/core';
 import { NaturalInputComponent } from '../input/input.component';
 import { NaturalSearchConfiguration } from '../types/Configuration';
-import { GroupSelections, NaturalSearchSelections } from '../types/Values';
+import { NaturalSearchSelections } from '../types/Values';
 
 @Component({
     selector: 'natural-search',
@@ -14,9 +14,14 @@ export class NaturalSearchComponent implements OnInit, OnChanges {
 
     @Input() configurations: NaturalSearchConfiguration;
     @Input() multipleGroups: false;
-    @Input() selections: NaturalSearchSelections;
 
-    @Output() selectionsChange = new EventEmitter<NaturalSearchSelections>();
+    @Input() set selections(selections: NaturalSearchSelections) {
+        this.innerSelections = selections ? selections.slice() : [[]];
+    }
+
+    @Output() selectionChange = new EventEmitter<NaturalSearchSelections>();
+
+    public innerSelections: NaturalSearchSelections = [[]];
 
     constructor() {
     }
@@ -25,39 +30,26 @@ export class NaturalSearchComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-
-        if (!this.selections) {
-            this.selections = [[]];
-        }
-
         if (!this.configurations) {
             this.configurations = [];
         }
-
     }
 
-    public setGroupSelection(groupSelections: GroupSelections, index: number): void {
-        const groups = this.selections.slice(0);
-        groups[index] = groupSelections;
-        this.selections = groups;
-        this.selectionsChange.emit(groups);
+    public setGroupSelection(): void {
+        this.selectionChange.emit(this.innerSelections);
     }
 
     public addGroup(): void {
-        const groups = this.selections.slice(0);
-        groups.push([]);
-        this.selections = groups;
-        this.selectionsChange.emit(this.selections);
+        this.innerSelections.push([]);
+        this.selectionChange.emit(this.innerSelections);
     }
 
     public removeGroup(index: number): void {
-        const groups = this.selections.slice(0);
-        groups.splice(index, 1);
-        this.selections = groups;
-        this.selectionsChange.emit(groups);
+        this.innerSelections.splice(index, 1);
+        this.selectionChange.emit(this.innerSelections);
     }
 
     public clear(): void {
-        this.selectionsChange.emit([[]]);
+        this.selectionChange.emit([[]]);
     }
 }

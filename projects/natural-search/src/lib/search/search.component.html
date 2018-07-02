@@ -1,13 +1,13 @@
 <div class="natural-search">
     <div class="groupsWrapper">
-        <div class="groupWrapper" *ngFor="let groupSelections of selections; let i = index; let last = last">
+        <div class="groupWrapper" *ngFor="let groupSelections of innerSelections; let i = index; let last = last">
 
             <natural-group [groupSelections]="groupSelections"
                            [configurations]="configurations"
-                           (groupSelectionsChange)="setGroupSelection($event, i)"
+                           (groupSelectionChange)="setGroupSelection($event, i)"
             ></natural-group>
 
-            <button mat-icon-button *ngIf="selections.length > 1" (click)="removeGroup(i)">
+            <button mat-icon-button *ngIf="innerSelections.length > 1" (click)="removeGroup(i)">
                 <mat-icon>remove</mat-icon>
             </button>
 

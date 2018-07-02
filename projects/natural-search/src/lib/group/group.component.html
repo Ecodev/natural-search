@@ -1,4 +1,4 @@
-<natural-input *ngFor="let selection of groupSelections; let i = index"
+<natural-input *ngFor="let selection of innerGroupSelections; let i = index"
                [configurations]="configurations"
                [selection]="selection"
                (selectionChange)="updateInput($event, i)"
