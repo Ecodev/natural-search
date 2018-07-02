@@ -66,6 +66,8 @@ function toGreaterThanFrom(): ValidatorFn {
 
 @Component({
     templateUrl: './type-numeric-range.component.html',
+    styleUrls: ['./type-numeric-range.component.scss'],
+
 })
 export class TypeNumericRangeComponent implements DropdownComponent {
 

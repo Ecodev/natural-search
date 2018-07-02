@@ -16,6 +16,8 @@ export class InvalidWithValueStateMatcher implements ErrorStateMatcher {
 
 @Component({
     templateUrl: './type-numeric.component.html',
+    styleUrls: ['./type-numeric.component.scss'],
+
 })
 export class TypeNumericComponent implements DropdownComponent {
 
