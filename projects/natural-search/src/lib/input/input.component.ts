@@ -176,7 +176,6 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         };
 
         const injector = new PortalInjector(this.injector, this.createInjectorTokens(data));
-        console.log('createComponent via factory', data);
         const factory = this.componentFactoryResolver.resolveComponentFactory<DropdownComponent>(configuration.component);
         this.dropdownComponentRef = factory.create(injector);
 
@@ -242,7 +241,6 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         };
 
         const injectorTokens = this.createInjectorTokens(data);
-        console.log('openConfigurationSelectorDropdown via service', data);
         this.dropdownRef = this.dropdownService.open(ConfigurationSelectorComponent, this.element, injectorTokens);
         this.dropdownRef.closed.subscribe((result: DropdownResult) => {
             this.dropdownRef = null;
@@ -269,7 +267,6 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
         };
 
         const injectorTokens = this.createInjectorTokens(data);
-        console.log('openTypeDropdown via service', data);
         const component = (this.configuration as DropdownConfiguration).component;
         this.dropdownRef = this.dropdownService.open(component, this.element, injectorTokens);
         this.dropdownRef.closed.subscribe((result: DropdownResult) => {
