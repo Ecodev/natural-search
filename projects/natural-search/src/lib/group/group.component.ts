@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { NaturalSearchConfiguration } from '../types/Configuration';
 import { GroupSelections, Selection } from '../types/Values';
 import { NaturalInputComponent } from '../input/input.component';
+import { deepClone } from '../classes/utils';
 
 @Component({
     selector: 'natural-group',
@@ -13,13 +14,13 @@ export class NaturalGroupComponent implements OnInit, OnChanges {
     @ViewChild('newValueInput') newValueInput: NaturalInputComponent;
 
     @Input() configurations: NaturalSearchConfiguration;
-    @Output() groupSelectionChange = new EventEmitter<GroupSelections>();
+    @Output() selectionChange = new EventEmitter<GroupSelections>();
 
-    @Input() set groupSelections(selection: GroupSelections) {
-        this.innerGroupSelections = selection.slice();
+    @Input() set selections(selection: GroupSelections) {
+        this.innerSelections = deepClone(selection);
     }
 
-    public innerGroupSelections: GroupSelections = [];
+    public innerSelections: GroupSelections = [];
 
     constructor() {
     }
@@ -31,19 +32,19 @@ export class NaturalGroupComponent implements OnInit, OnChanges {
     }
 
     public updateInput(selection: Selection, index: number): void {
-        this.innerGroupSelections[index] = selection;
-        this.groupSelectionChange.emit(this.innerGroupSelections);
+        this.innerSelections[index] = selection;
+        this.selectionChange.emit(this.innerSelections);
     }
 
     public addInput(selection: Selection): void {
         this.newValueInput.clear();
-        this.innerGroupSelections.push(selection);
-        this.groupSelectionChange.emit(this.innerGroupSelections);
+        this.innerSelections.push(selection);
+        this.selectionChange.emit(this.innerSelections);
     }
 
     public removeInput(index: number): void {
-        this.innerGroupSelections.splice(index, 1);
-        this.groupSelectionChange.emit(this.innerGroupSelections);
+        this.innerSelections.splice(index, 1);
+        this.selectionChange.emit(this.innerSelections);
     }
 
 }

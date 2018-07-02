@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { NaturalInputComponent } from '../input/input.component';
 import { NaturalSearchConfiguration } from '../types/Configuration';
 import { NaturalSearchSelections } from '../types/Values';
+import { deepClone } from '../classes/utils';
 
 @Component({
     selector: 'natural-search',
@@ -16,7 +17,7 @@ export class NaturalSearchComponent implements OnInit, OnChanges {
     @Input() multipleGroups: false;
 
     @Input() set selections(selections: NaturalSearchSelections) {
-        this.innerSelections = selections ? selections.slice() : [[]];
+        this.innerSelections = selections ? deepClone(selections) : [[]];
     }
 
     @Output() selectionChange = new EventEmitter<NaturalSearchSelections>();
@@ -35,7 +36,11 @@ export class NaturalSearchComponent implements OnInit, OnChanges {
         }
     }
 
-    public setGroupSelection(): void {
+    public updateGroup(groupSelections, groupIndex): void {
+        for (let i = 0; i < groupSelections.length; i++) {
+            this.innerSelections[groupIndex][i] = groupSelections[i];
+        }
+        this.innerSelections[groupIndex].length = groupSelections.length;
         this.selectionChange.emit(this.innerSelections);
     }
 

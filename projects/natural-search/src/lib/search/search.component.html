@@ -2,9 +2,9 @@
     <div class="groupsWrapper">
         <div class="groupWrapper" *ngFor="let groupSelections of innerSelections; let i = index; let last = last">
 
-            <natural-group [groupSelections]="groupSelections"
+            <natural-group [selections]="groupSelections"
                            [configurations]="configurations"
-                           (groupSelectionChange)="setGroupSelection($event, i)"
+                           (selectionChange)="updateGroup($event, i)"
             ></natural-group>
 
             <button mat-icon-button *ngIf="innerSelections.length > 1" (click)="removeGroup(i)">
