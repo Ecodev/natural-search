@@ -24,7 +24,6 @@ describe('ConfigurationSelectorComponent', () => {
                 MatFormFieldModule,
             ],
             providers: [
-                NaturalDropdownService,
                 {
                     provide: NATURAL_DROPDOWN_DATA,
                     useValue: <NaturalDropDownData>{

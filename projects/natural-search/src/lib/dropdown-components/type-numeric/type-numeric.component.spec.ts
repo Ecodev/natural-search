@@ -47,10 +47,9 @@ describe('TypeNumericComponent', () => {
                 MatInputModule,
             ],
             providers: [
-                NaturalDropdownService,
                 {
                     provide: NATURAL_DROPDOWN_DATA,
-                    useValue: {},
+                    useValue: data,
                 },
                 {
                     provide: NaturalDropdownRef,

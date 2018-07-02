@@ -39,9 +39,6 @@ describe('AppComponent', () => {
                 MatDialogModule,
                 MatFormFieldModule,
             ],
-            providers: [
-                ThemeService,
-            ],
         }).compileComponents();
     }));
 

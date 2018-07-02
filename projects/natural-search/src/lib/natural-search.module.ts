@@ -19,7 +19,6 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { NaturalDropdownContainerComponent } from './dropdown-container/dropdown-container.component';
 import { TypeNumericComponent } from './dropdown-components/type-numeric/type-numeric.component';
 import { ConfigurationSelectorComponent } from './dropdown-components/configuration-selector/configuration-selector.component';
-import { NaturalDropdownService } from './dropdown-container/dropdown.service';
 import { TypeSelectComponent } from './dropdown-components/type-select/type-select.component';
 import { NaturalGroupComponent } from './group/group.component';
 import { TypeNumericRangeComponent } from './dropdown-components/type-numeric-range/type-numeric-range.component';
@@ -57,9 +56,6 @@ export { TypeSelectComponent };
         NaturalSearchComponent,
         TypeNumericComponent,
         TypeSelectComponent,
-    ],
-    providers: [
-        NaturalDropdownService,
     ],
     imports: [
         CommonModule,

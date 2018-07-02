@@ -39,9 +39,6 @@ describe('NaturalSearchComponent', () => {
                 ConfigurationSelectorComponent,
                 TypeSelectComponent,
             ],
-            providers: [
-                NaturalDropdownService,
-            ],
             imports: [
                 CommonModule,
                 FormsModule,

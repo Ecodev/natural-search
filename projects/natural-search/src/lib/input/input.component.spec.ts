@@ -20,9 +20,6 @@ describe('NaturalInputComponent', () => {
                 MatIconModule,
                 OverlayModule,
             ],
-            providers: [
-                NaturalDropdownService,
-            ],
         }).compileComponents();
     }));
 

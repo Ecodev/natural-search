@@ -15,7 +15,6 @@ import {
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { ThemeService } from './shared/services/theme.service';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
@@ -38,9 +37,6 @@ import { FormsModule } from '@angular/forms';
         FlexLayoutModule,
         MatDialogModule,
         MatFormFieldModule,
-    ],
-    providers: [
-        ThemeService,
     ],
     bootstrap: [
         AppComponent,

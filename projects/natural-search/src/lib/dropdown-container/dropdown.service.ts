@@ -13,7 +13,9 @@ export interface NaturalDropDownData {
 
 export const NATURAL_DROPDOWN_DATA = new InjectionToken<NaturalDropDownData>('NaturalDropdownData');
 
-@Injectable()
+@Injectable({
+    providedIn: 'root',
+})
 export class NaturalDropdownService {
 
     constructor(private overlay: Overlay, private injector: Injector) {

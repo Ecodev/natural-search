@@ -5,7 +5,6 @@ import { OverlayModule } from '@angular/cdk/overlay';
 describe('DropdownService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
-            providers: [NaturalDropdownService],
             imports: [OverlayModule],
         });
     });

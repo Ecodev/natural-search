@@ -25,9 +25,6 @@ describe('GroupComponent', () => {
                 MatIconModule,
                 OverlayModule,
             ],
-            providers: [
-                NaturalDropdownService,
-            ],
         }).compileComponents();
     }));
 
