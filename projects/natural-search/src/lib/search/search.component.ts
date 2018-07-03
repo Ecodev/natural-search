@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChildren } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChildren } from '@angular/core';
 import { NaturalInputComponent } from '../input/input.component';
 import { NaturalSearchConfiguration } from '../types/Configuration';
 import { NaturalSearchSelections } from '../types/Values';
@@ -9,7 +9,7 @@ import { deepClone } from '../classes/utils';
     templateUrl: './search.component.html',
     styleUrls: ['./search.component.scss'],
 })
-export class NaturalSearchComponent implements OnInit, OnChanges {
+export class NaturalSearchComponent implements OnChanges {
 
     @ViewChildren(NaturalInputComponent) inputs: NaturalInputComponent[];
 
@@ -23,12 +23,6 @@ export class NaturalSearchComponent implements OnInit, OnChanges {
     @Output() selectionChange = new EventEmitter<NaturalSearchSelections>();
 
     public innerSelections: NaturalSearchSelections = [[]];
-
-    constructor() {
-    }
-
-    ngOnInit(): void {
-    }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (!this.configurations) {

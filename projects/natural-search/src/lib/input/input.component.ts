@@ -7,7 +7,6 @@ import {
     Injector,
     Input,
     OnChanges,
-    OnDestroy,
     OnInit,
     Output,
     SimpleChanges,
@@ -57,7 +56,7 @@ function isComponentValid(component: DropdownComponent): ValidatorFn {
     templateUrl: './input.component.html',
     styleUrls: ['./input.component.scss'],
 })
-export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
+export class NaturalInputComponent implements OnInit, OnChanges {
 
     @Input() placeholder = 'Rechercher';
     @Input() configurations: NaturalSearchConfiguration;
@@ -83,9 +82,6 @@ export class NaturalInputComponent implements OnInit, OnChanges, OnDestroy {
                 private dropdownService: NaturalDropdownService,
                 private injector: Injector,
                 private componentFactoryResolver: ComponentFactoryResolver) {
-    }
-
-    ngOnDestroy(): void {
     }
 
     ngOnInit(): void {

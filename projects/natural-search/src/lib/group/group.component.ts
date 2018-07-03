@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { NaturalSearchConfiguration } from '../types/Configuration';
 import { GroupSelections, Selection } from '../types/Values';
 import { NaturalInputComponent } from '../input/input.component';
@@ -9,7 +9,7 @@ import { deepClone } from '../classes/utils';
     templateUrl: './group.component.html',
     styleUrls: ['./group.component.scss'],
 })
-export class NaturalGroupComponent implements OnInit, OnChanges {
+export class NaturalGroupComponent {
 
     @ViewChild('newValueInput') newValueInput: NaturalInputComponent;
 
@@ -21,15 +21,6 @@ export class NaturalGroupComponent implements OnInit, OnChanges {
     }
 
     public innerSelections: GroupSelections = [];
-
-    constructor() {
-    }
-
-    ngOnInit(): void {
-    }
-
-    ngOnChanges(changes: SimpleChanges): void {
-    }
 
     public updateInput(selection: Selection, index: number): void {
         this.innerSelections[index] = selection;
