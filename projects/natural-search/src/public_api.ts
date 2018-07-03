@@ -1,7 +1,8 @@
 /*
  * Public API Surface of natural-search
  */
-export { Filter } from './lib/classes/graphql-doctrine.types';
+export { NaturalDropDownData } from './lib/dropdown-container/dropdown.service';
+export { FilterGroupConditionField, Filter } from './lib/classes/graphql-doctrine.types';
 export { DropdownComponent } from './lib/types/DropdownComponent';
 export { ItemConfiguration, NaturalSearchConfiguration } from './lib/types/Configuration';
 export { NaturalSearchSelections, Selection } from './lib/types/Values';
