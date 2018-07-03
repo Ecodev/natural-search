@@ -9,10 +9,10 @@ import {
     ValidatorFn,
     Validators,
 } from '@angular/forms';
-import { TypeRangeConfiguration } from './TypeNumericRangeConfiguration';
+import { TypeNumericRangeConfiguration } from './TypeNumericRangeConfiguration';
 import { ErrorStateMatcher } from '@angular/material';
 import { DropdownComponent } from '../../types/DropdownComponent';
-import { FilterGroupConditionField } from '../../classes/graphql-doctrine.types';
+import { FilterGroupConditionField, Scalar } from '../../classes/graphql-doctrine.types';
 import { BehaviorSubject } from 'rxjs';
 import { NATURAL_DROPDOWN_DATA, NaturalDropDownData } from '../../dropdown-container/dropdown.service';
 import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
@@ -49,7 +49,7 @@ function atLeastOneValue(): ValidatorFn {
 }
 
 /**
- * From > To
+ * From >= To
  */
 function toGreaterThanFrom(): ValidatorFn {
     return (control: FormControl): ValidationErrors | null => {
@@ -72,7 +72,7 @@ function toGreaterThanFrom(): ValidatorFn {
 export class TypeNumericRangeComponent implements DropdownComponent {
 
     public renderedValue = new BehaviorSubject<string>('');
-    public configuration: TypeRangeConfiguration;
+    public configuration: TypeNumericRangeConfiguration;
     public matcher = new InvalidWithValueStateMatcher();
 
     public form: FormGroup = new FormGroup({
@@ -80,16 +80,16 @@ export class TypeNumericRangeComponent implements DropdownComponent {
         to: new FormControl(),
     });
 
-    private readonly defaults: TypeRangeConfiguration = {
+    private readonly defaults: TypeNumericRangeConfiguration = {
         min: null,
         max: null,
         step: null,
-        fromRequired: true,
-        toRequired: true,
+        fromRequired: false,
+        toRequired: false,
     };
 
     constructor(@Inject(NATURAL_DROPDOWN_DATA) data: NaturalDropDownData, protected dropdownRef: NaturalDropdownRef) {
-        this.configuration = {...this.defaults, ...data.configuration as TypeRangeConfiguration};
+        this.configuration = {...this.defaults, ...data.configuration as TypeNumericRangeConfiguration};
 
         this.form.valueChanges.subscribe(() => {
             this.renderedValue.next(this.getRenderedValue());
@@ -122,18 +122,48 @@ export class TypeNumericRangeComponent implements DropdownComponent {
             toGreaterThanFrom(), // From < To
         ]);
 
+        this.reloadCondition(data.condition);
+
         if (data.condition && data.condition.between) {
             this.form.setValue({from: data.condition.between.from, to: data.condition.between.to});
         }
     }
 
-    public getCondition(): FilterGroupConditionField {
-        return {
-            between: {
-                from: this.getFrom().value,
-                to: this.getTo().value,
-            },
+    private reloadCondition(condition: FilterGroupConditionField | null): void {
+        if (!condition) {
+            return;
+        }
+
+        const value = {
+            from: <Scalar | null> null,
+            to: <Scalar | null> null,
         };
+
+        if (condition.between) {
+            value.from = condition.between.from;
+            value.to = condition.between.to;
+        } else if (condition.greaterOrEqual) {
+            value.from = condition.greaterOrEqual.value;
+        } else if (condition.lessOrEqual) {
+            value.to = condition.lessOrEqual.value;
+        }
+
+        this.form.setValue(value);
+    }
+
+    public getCondition(): FilterGroupConditionField {
+        const from = this.getFrom().value;
+        const to = this.getTo().value;
+
+        if (from && to) {
+            return {between: {from, to}};
+        } else if (from) {
+            return {greaterOrEqual: {value: from}};
+        } else if (to) {
+            return {lessOrEqual: {value: to}};
+        } else {
+            return {};
+        }
     }
 
     public getFrom(): AbstractControl {
@@ -145,20 +175,15 @@ export class TypeNumericRangeComponent implements DropdownComponent {
     }
 
     private getRenderedValue(): string {
-        const between = this.getCondition().between;
-        if (!between) {
-            return '';
-        }
-
-        const from = parseFloat(between.from as string);
-        const to = parseFloat(between.to as string);
+        const from = parseFloat(this.getFrom().value as string);
+        const to = parseFloat(this.getTo().value as string);
 
         if (!isNaN(from) && !isNaN(to)) {
             return from + ' - ' + to;
         } else if (!isNaN(from)) {
-            return '> ' + from;
+            return '≥ ' + from;
         } else if (!isNaN(to)) {
-            return '<' + to;
+            return '≤ ' + to;
         } else {
             return '';
         }

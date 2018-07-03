@@ -8,10 +8,12 @@ import {
     TypeNumericComponent,
     TypeNumericRangeComponent,
     TypeSelectComponent,
+    TypeDateRangeComponent,
+    toGraphQLDoctrineFilter,
+    toUrl,
+
 } from '@ecodev/natural-search';
 import { Filter } from '../../projects/natural-search/src/lib/classes/graphql-doctrine.types';
-import { toGraphQLDoctrineFilter } from '../../projects/natural-search/src/lib/classes/graphql-doctrine';
-import { toUrl } from '../../projects/natural-search/src/lib/classes/url';
 import { timer } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -25,18 +27,23 @@ export class AppComponent implements OnInit {
 
     public config1: NaturalSearchConfiguration = [
         {
-            display: 'Artist',
-            field: 'artist.name',
+            display: 'Date range',
+            field: 'date',
+            component: TypeDateRangeComponent,
         },
         {
-            display: 'Range',
-            field: 'range',
-            component: TypeNumericRangeComponent,
+            display: 'Artist',
+            field: 'artist.name',
         },
         {
             display: 'Number',
             field: 'number',
             component: TypeNumericComponent,
+        },
+        {
+            display: 'Numeric range',
+            field: 'range',
+            component: TypeNumericRangeComponent,
         },
         {
             display: 'Select single',

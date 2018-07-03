@@ -3,8 +3,9 @@ import { Type } from '@angular/core';
 import { Selection } from './Values';
 import { TypeNumericConfiguration } from '../dropdown-components/type-numeric/TypeNumericConfiguration';
 import { TypeSelectConfiguration } from '../dropdown-components/type-select/TypeSelectConfiguration';
-import { TypeRangeConfiguration } from '../dropdown-components/type-numeric-range/TypeNumericRangeConfiguration';
+import { TypeNumericRangeConfiguration } from '../dropdown-components/type-numeric-range/TypeNumericRangeConfiguration';
 import { ConfigurationSelectorConfiguration } from '../dropdown-components/configuration-selector/ConfigurationSelectorConfiguration';
+import { TypeDateRangeConfiguration } from '../dropdown-components/type-date-range/TypeDateRangeConfiguration';
 
 export interface BasicConfiguration {
     /**
@@ -45,7 +46,8 @@ export interface DropdownConfiguration extends BasicConfiguration {
         ConfigurationSelectorConfiguration |
         TypeSelectConfiguration |
         TypeNumericConfiguration |
-        TypeRangeConfiguration |
+        TypeNumericRangeConfiguration |
+        TypeDateRangeConfiguration |
         ItemConfiguration;
 }
 

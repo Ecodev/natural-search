@@ -1,58 +1,56 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TypeNumericRangeComponent } from './type-numeric-range.component';
-import { MatFormFieldModule, MatInputModule } from '@angular/material';
+import { TypeDateRangeComponent } from './type-date-range.component';
+import { MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule } from '@angular/material';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FilterGroupConditionField } from '../../classes/graphql-doctrine.types';
-import { TypeNumericRangeConfiguration } from './TypeNumericRangeConfiguration';
+import { TypeDateRangeConfiguration } from './TypeDateRangeConfiguration';
 import {
     NATURAL_DROPDOWN_DATA,
     NaturalDropDownData,
 } from '../../dropdown-container/dropdown.service';
-import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
+import { MAT_DATE_LOCALE } from '@angular/material';
 
-describe('TypeNumericRangeComponent', () => {
-    let component: TypeNumericRangeComponent;
-    let fixture: ComponentFixture<TypeNumericRangeComponent>;
-    let dialogCloseSpy: jasmine.Spy;
+describe('TypeDateRangeComponent', () => {
+    let component: TypeDateRangeComponent;
+    let fixture: ComponentFixture<TypeDateRangeComponent>;
     const data: NaturalDropDownData = {
         condition: null,
         configuration: null,
     };
 
     const condition: FilterGroupConditionField = {
-        between: {from: 12, to: 18},
+        between: {from: '2012-01-01', to: '2018-01-01'},
     };
 
     const conditionOnlyFrom: FilterGroupConditionField = {
-        greaterOrEqual: {value: 12},
+        greaterOrEqual: {value: '2012-01-01'},
     };
 
     const conditionOnlyTo: FilterGroupConditionField = {
-        lessOrEqual: {value: 18},
+        lessOrEqual: {value: '2018-01-01'},
     };
 
-    const config: TypeNumericRangeConfiguration = {};
+    const config: TypeDateRangeConfiguration<Date> = {};
 
-    const configWithRules: TypeNumericRangeConfiguration = {
-        min: 1,
-        max: 10,
+    const configWithRules: TypeDateRangeConfiguration<Date> = {
+        min: new Date('2001-01-01'),
+        max: new Date('2010-01-01'),
         fromRequired: true,
     };
 
     beforeEach(async(() => {
-        const dialogRef = {close: () => true};
-        dialogCloseSpy = spyOn(dialogRef, 'close');
-
         TestBed.configureTestingModule({
-            declarations: [TypeNumericRangeComponent],
+            declarations: [TypeDateRangeComponent],
             imports: [
                 NoopAnimationsModule,
                 FormsModule,
                 ReactiveFormsModule,
                 MatFormFieldModule,
                 MatInputModule,
+                MatDatepickerModule,
+                MatNativeDateModule,
             ],
             providers: [
                 {
@@ -60,18 +58,18 @@ describe('TypeNumericRangeComponent', () => {
                     useValue: data,
                 },
                 {
-                    provide: NaturalDropdownRef,
-                    useValue: dialogRef,
+                    provide: MAT_DATE_LOCALE,
+                    useValue: 'fr',
                 },
             ],
         }).compileComponents();
     }));
 
-    function createComponent(c: FilterGroupConditionField | null, configuration: TypeNumericRangeConfiguration | null) {
+    function createComponent(c: FilterGroupConditionField | null, configuration: TypeDateRangeConfiguration<Date> | null) {
         data.condition = c;
         data.configuration = configuration;
         TestBed.overrideProvider(NATURAL_DROPDOWN_DATA, {useValue: data});
-        fixture = TestBed.createComponent<TypeNumericRangeComponent>(TypeNumericRangeComponent);
+        fixture = TestBed.createComponent<TypeDateRangeComponent>(TypeDateRangeComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     }
@@ -82,7 +80,7 @@ describe('TypeNumericRangeComponent', () => {
     });
 
     it('should get condition', () => {
-        const empty: any = {};
+        const empty: FilterGroupConditionField = {};
 
         createComponent(null, null);
         expect(component.getCondition()).toEqual(empty);
@@ -105,16 +103,16 @@ describe('TypeNumericRangeComponent', () => {
         expect(component.renderedValue.value).toBe('');
 
         createComponent(condition, config);
-        expect(component.renderedValue.value).toBe('12 - 18');
+        expect(component.renderedValue.value).toBe('01/01/2012 - 01/01/2018');
 
         createComponent(condition, configWithRules);
-        expect(component.renderedValue.value).toBe('12 - 18');
+        expect(component.renderedValue.value).toBe('01/01/2012 - 01/01/2018');
 
         createComponent(conditionOnlyFrom, configWithRules);
-        expect(component.renderedValue.value).toBe('≥ 12');
+        expect(component.renderedValue.value).toBe('≥ 01/01/2012');
 
         createComponent(conditionOnlyTo, configWithRules);
-        expect(component.renderedValue.value).toBe('≤ 18');
+        expect(component.renderedValue.value).toBe('≤ 01/01/2018');
     });
 
     it('should validate according to rules', () => {
@@ -126,11 +124,5 @@ describe('TypeNumericRangeComponent', () => {
 
         createComponent(condition, configWithRules);
         expect(component.isValid()).toBe(false);
-    });
-
-    it('should close', () => {
-        createComponent(null, null);
-        component.close();
-        expect(dialogCloseSpy).toHaveBeenCalled();
     });
 });

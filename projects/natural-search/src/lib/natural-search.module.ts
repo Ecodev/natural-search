@@ -11,6 +11,7 @@ import {
     MatListModule,
     MatMenuModule,
     MatRippleModule,
+    MatDatepickerModule,
 } from '@angular/material';
 import { NaturalSearchComponent } from './search/search.component';
 import { NaturalInputComponent } from './input/input.component';
@@ -22,6 +23,7 @@ import { ConfigurationSelectorComponent } from './dropdown-components/configurat
 import { TypeSelectComponent } from './dropdown-components/type-select/type-select.component';
 import { NaturalGroupComponent } from './group/group.component';
 import { TypeNumericRangeComponent } from './dropdown-components/type-numeric-range/type-numeric-range.component';
+import { TypeDateRangeComponent } from './dropdown-components/type-date-range/type-date-range.component';
 
 export * from './types/Configuration';
 export * from './types/DropdownComponent';
@@ -32,6 +34,7 @@ export * from './dropdown-components/type-numeric-range/type-numeric-range.compo
 
 export { TypeNumericComponent };
 export { TypeSelectComponent };
+export { TypeDateRangeComponent };
 
 @NgModule({
     declarations: [
@@ -43,6 +46,7 @@ export { TypeSelectComponent };
         ConfigurationSelectorComponent,
         TypeSelectComponent,
         TypeNumericRangeComponent,
+        TypeDateRangeComponent,
     ],
     entryComponents: [
         NaturalDropdownContainerComponent,
@@ -50,6 +54,7 @@ export { TypeSelectComponent };
         TypeNumericComponent,
         TypeSelectComponent,
         TypeNumericRangeComponent,
+        TypeDateRangeComponent,
     ],
     exports: [
         NaturalDropdownContainerComponent,
@@ -72,6 +77,7 @@ export { TypeSelectComponent };
         OverlayModule,
         MatDialogModule,
         MatListModule,
+        MatDatepickerModule,
     ],
 })
 export class NaturalSearchModule {
