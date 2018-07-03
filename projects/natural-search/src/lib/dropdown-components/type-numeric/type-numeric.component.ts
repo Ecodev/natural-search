@@ -5,7 +5,7 @@ import { TypeNumericConfiguration } from './TypeNumericConfiguration';
 import { ErrorStateMatcher } from '@angular/material';
 import { FilterGroupConditionField } from '../../classes/graphql-doctrine.types';
 import { BehaviorSubject } from 'rxjs';
-import { NATURAL_DROPDOWN_DATA, NaturalDropDownData } from '../../dropdown-container/dropdown.service';
+import { NATURAL_DROPDOWN_DATA, NaturalDropdownData } from '../../dropdown-container/dropdown.service';
 import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
 
 export class InvalidWithValueStateMatcher implements ErrorStateMatcher {
@@ -26,7 +26,7 @@ export class TypeNumericComponent implements DropdownComponent {
     public formCtrl: FormControl = new FormControl();
     public matcher = new InvalidWithValueStateMatcher();
 
-    constructor(@Inject(NATURAL_DROPDOWN_DATA) data: NaturalDropDownData, protected dropdownRef: NaturalDropdownRef) {
+    constructor(@Inject(NATURAL_DROPDOWN_DATA) data: NaturalDropdownData, protected dropdownRef: NaturalDropdownRef) {
         this.configuration = data.configuration as TypeNumericConfiguration || {};
 
         this.formCtrl.valueChanges.subscribe(value => {

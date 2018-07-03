@@ -8,7 +8,7 @@ import { FilterGroupConditionField } from '../../classes/graphql-doctrine.types'
 import { TypeNumericRangeConfiguration } from './TypeNumericRangeConfiguration';
 import {
     NATURAL_DROPDOWN_DATA,
-    NaturalDropDownData,
+    NaturalDropdownData,
 } from '../../dropdown-container/dropdown.service';
 import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
 
@@ -16,7 +16,7 @@ describe('TypeNumericRangeComponent', () => {
     let component: TypeNumericRangeComponent;
     let fixture: ComponentFixture<TypeNumericRangeComponent>;
     let dialogCloseSpy: jasmine.Spy;
-    const data: NaturalDropDownData = {
+    const data: NaturalDropdownData = {
         condition: null,
         configuration: null,
     };

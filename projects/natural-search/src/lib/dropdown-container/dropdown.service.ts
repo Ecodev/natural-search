@@ -6,12 +6,12 @@ import { NaturalDropdownRef } from './dropdown-ref';
 import { FilterGroupConditionField } from '../classes/graphql-doctrine.types';
 import { DropdownConfiguration } from '../types/Configuration';
 
-export interface NaturalDropDownData {
+export interface NaturalDropdownData {
     condition: FilterGroupConditionField | null;
     configuration: DropdownConfiguration['configuration'] | null;
 }
 
-export const NATURAL_DROPDOWN_DATA = new InjectionToken<NaturalDropDownData>('NaturalDropdownData');
+export const NATURAL_DROPDOWN_DATA = new InjectionToken<NaturalDropdownData>('NaturalDropdownData');
 
 @Injectable({
     providedIn: 'root',
@@ -24,7 +24,7 @@ export class NaturalDropdownService {
     public open(
         component,
         connectedElement: ElementRef,
-        customInjectorTokens: WeakMap<any, NaturalDropdownRef | NaturalDropDownData | null>,
+        customInjectorTokens: WeakMap<any, NaturalDropdownRef | NaturalDropdownData | null>,
     ): NaturalDropdownRef {
 
         // Container

@@ -23,7 +23,7 @@ import {
 import { ConfigurationSelectorComponent } from '../dropdown-components/configuration-selector/configuration-selector.component';
 import {
     NATURAL_DROPDOWN_DATA,
-    NaturalDropDownData,
+    NaturalDropdownData,
     NaturalDropdownService,
 } from '../dropdown-container/dropdown.service';
 import { DropdownResult, Selection } from '../types/Values';
@@ -166,7 +166,7 @@ export class NaturalInputComponent implements OnInit, OnChanges {
         }
 
         const condition = this.selection ? this.selection.condition as FilterGroupConditionField : null;
-        const data: NaturalDropDownData = {
+        const data: NaturalDropdownData = {
             condition: condition,
             configuration: configuration.configuration,
         };
@@ -178,10 +178,10 @@ export class NaturalInputComponent implements OnInit, OnChanges {
         return this.dropdownComponentRef.instance;
     }
 
-    private createInjectorTokens(data: NaturalDropDownData): WeakMap<any, NaturalDropdownRef | NaturalDropDownData | null> {
+    private createInjectorTokens(data: NaturalDropdownData): WeakMap<any, NaturalDropdownRef | NaturalDropdownData | null> {
 
         // Customize injector to allow data and dropdown reference injection in component
-        const injectionTokens = new WeakMap<any, NaturalDropdownRef | NaturalDropDownData | null>();
+        const injectionTokens = new WeakMap<any, NaturalDropdownRef | NaturalDropdownData | null>();
         injectionTokens.set(NaturalDropdownRef, null);
         injectionTokens.set(NATURAL_DROPDOWN_DATA, data);
 
@@ -229,7 +229,7 @@ export class NaturalInputComponent implements OnInit, OnChanges {
             return;
         }
 
-        const data: NaturalDropDownData = {
+        const data: NaturalDropdownData = {
             condition: {},
             configuration: {
                 configurations: this.configurations,
@@ -257,7 +257,7 @@ export class NaturalInputComponent implements OnInit, OnChanges {
             return;
         }
 
-        const data: NaturalDropDownData = {
+        const data: NaturalDropdownData = {
             condition: this.selection ? this.selection.condition : null,
             configuration: (this.configuration as DropdownConfiguration).configuration,
         };

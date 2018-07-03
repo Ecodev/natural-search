@@ -8,14 +8,14 @@ import { FilterGroupConditionField } from '../../classes/graphql-doctrine.types'
 import { TypeDateRangeConfiguration } from './TypeDateRangeConfiguration';
 import {
     NATURAL_DROPDOWN_DATA,
-    NaturalDropDownData,
+    NaturalDropdownData,
 } from '../../dropdown-container/dropdown.service';
 import { MAT_DATE_LOCALE } from '@angular/material';
 
 describe('TypeDateRangeComponent', () => {
     let component: TypeDateRangeComponent;
     let fixture: ComponentFixture<TypeDateRangeComponent>;
-    const data: NaturalDropDownData = {
+    const data: NaturalDropdownData = {
         condition: null,
         configuration: null,
     };

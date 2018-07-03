@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TypeSelectComponent } from './type-select.component';
 import {
     NATURAL_DROPDOWN_DATA,
-    NaturalDropDownData,
+    NaturalDropdownData,
     NaturalDropdownService,
 } from '../../dropdown-container/dropdown.service';
 import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
@@ -19,7 +19,7 @@ describe('TypeSelectComponent', () => {
     let component: TypeSelectComponent;
     let fixture: ComponentFixture<TypeSelectComponent>;
     let dialogCloseSpy: jasmine.Spy;
-    const data: NaturalDropDownData = {
+    const data: NaturalDropdownData = {
         condition: null,
         configuration: null,
     };

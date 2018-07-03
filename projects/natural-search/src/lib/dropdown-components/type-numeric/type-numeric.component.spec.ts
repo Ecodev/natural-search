@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TypeNumericComponent } from './type-numeric.component';
 import {
     NATURAL_DROPDOWN_DATA,
-    NaturalDropDownData,
+    NaturalDropdownData,
 } from '../../dropdown-container/dropdown.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule, MatInputModule } from '@angular/material';
@@ -16,7 +16,7 @@ describe('TypeNumericComponent', () => {
     let component: TypeNumericComponent;
     let fixture: ComponentFixture<TypeNumericComponent>;
     let dialogCloseSpy: jasmine.Spy;
-    const data: NaturalDropDownData = {
+    const data: NaturalDropdownData = {
         condition: null,
         configuration: null,
     };

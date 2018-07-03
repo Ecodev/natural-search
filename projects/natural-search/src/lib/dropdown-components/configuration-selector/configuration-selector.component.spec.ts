@@ -4,7 +4,7 @@ import { ConfigurationSelectorComponent } from './configuration-selector.compone
 import { MatFormFieldModule, MatListModule } from '@angular/material';
 import {
     NATURAL_DROPDOWN_DATA,
-    NaturalDropDownData,
+    NaturalDropdownData,
     NaturalDropdownService,
 } from '../../dropdown-container/dropdown.service';
 import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
@@ -26,7 +26,7 @@ describe('ConfigurationSelectorComponent', () => {
             providers: [
                 {
                     provide: NATURAL_DROPDOWN_DATA,
-                    useValue: <NaturalDropDownData>{
+                    useValue: <NaturalDropdownData>{
                         condition: {},
                         configuration: {
                             configurations: [],

@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { DropdownComponent } from '../../types/DropdownComponent';
 import { ItemConfiguration, NaturalSearchConfiguration } from '../../types/Configuration';
-import { NATURAL_DROPDOWN_DATA, NaturalDropDownData } from '../../dropdown-container/dropdown.service';
+import { NATURAL_DROPDOWN_DATA, NaturalDropdownData } from '../../dropdown-container/dropdown.service';
 import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
 import { FilterGroupConditionField } from '../../classes/graphql-doctrine.types';
 import { BehaviorSubject } from 'rxjs';
@@ -19,7 +19,7 @@ export class ConfigurationSelectorComponent implements DropdownComponent {
 
     public selection;
 
-    constructor(@Inject(NATURAL_DROPDOWN_DATA) data: NaturalDropDownData,
+    constructor(@Inject(NATURAL_DROPDOWN_DATA) data: NaturalDropdownData,
                 protected dropdownRef: NaturalDropdownRef) {
         this.configurations = (data.configuration as ConfigurationSelectorConfiguration).configurations;
     }

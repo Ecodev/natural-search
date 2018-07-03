@@ -14,7 +14,7 @@ import { ErrorStateMatcher, DateAdapter, MAT_DATE_FORMATS, MatDateFormats } from
 import { DropdownComponent } from '../../types/DropdownComponent';
 import { FilterGroupConditionField } from '../../classes/graphql-doctrine.types';
 import { BehaviorSubject } from 'rxjs';
-import { NATURAL_DROPDOWN_DATA, NaturalDropDownData } from '../../dropdown-container/dropdown.service';
+import { NATURAL_DROPDOWN_DATA, NaturalDropdownData } from '../../dropdown-container/dropdown.service';
 
 export class InvalidWithValueStateMatcher implements ErrorStateMatcher {
     isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -111,7 +111,7 @@ export class TypeDateRangeComponent<D = any> implements DropdownComponent {
     };
 
     constructor(
-        @Inject(NATURAL_DROPDOWN_DATA) data: NaturalDropDownData,
+        @Inject(NATURAL_DROPDOWN_DATA) data: NaturalDropdownData,
         private dateAdapter: DateAdapter<D>,
         @Inject(MAT_DATE_FORMATS) private dateFormats: MatDateFormats,
     ) {

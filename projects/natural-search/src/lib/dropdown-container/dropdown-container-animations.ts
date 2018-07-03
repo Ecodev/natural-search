@@ -15,7 +15,7 @@ import {
  * Animation duration and timing values are based on:
  * https://material.io/guidelines/components/menus.html#menus-usage
  */
-export const naturalDropDownAnimations: {
+export const naturalDropdownAnimations: {
     readonly transformMenu: AnimationTriggerMetadata;
     readonly fadeInItems: AnimationTriggerMetadata;
 } = {

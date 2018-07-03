@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { BasePortalOutlet, CdkPortalOutlet, ComponentPortal } from '@angular/cdk/portal';
 import { TemplatePortal } from '@angular/cdk/portal/typings/portal';
-import { naturalDropDownAnimations } from './dropdown-container-animations';
+import { naturalDropdownAnimations } from './dropdown-container-animations';
 import { Subject } from 'rxjs';
 import { FocusTrap, FocusTrapFactory } from '@angular/cdk/a11y';
 import { AnimationEvent } from '@angular/animations';
@@ -27,8 +27,8 @@ export function throwMatDialogContentAlreadyAttachedError() {
     encapsulation: ViewEncapsulation.None,
     preserveWhitespaces: false,
     animations: [
-        naturalDropDownAnimations.transformMenu,
-        naturalDropDownAnimations.fadeInItems,
+        naturalDropdownAnimations.transformMenu,
+        naturalDropdownAnimations.fadeInItems,
     ],
 })
 export class NaturalDropdownContainerComponent extends BasePortalOutlet implements OnDestroy {
