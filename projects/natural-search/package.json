@@ -1,6 +1,6 @@
 {
     "name": "@ecodev/natural-search",
-    "version": "0.0.18",
+    "version": "0.0.19",
     "license": "MIT",
     "repository": "github:Ecodev/natural-search",
     "peerDependencies": {
