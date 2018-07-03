@@ -4,13 +4,12 @@ import { TypeNumericComponent } from './type-numeric.component';
 import {
     NATURAL_DROPDOWN_DATA,
     NaturalDropDownData,
-    NaturalDropdownService,
 } from '../../dropdown-container/dropdown.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule, MatInputModule } from '@angular/material';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { FilterGroupConditionField } from '../../classes/graphql-doctrine.types';
-import { TypeNumericConfiguration } from '@ecodev/natural-search';
+import { TypeNumericConfiguration } from './TypeNumericConfiguration';
 import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
 
 describe('TypeNumericComponent', () => {
