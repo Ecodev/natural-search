@@ -22,6 +22,7 @@ import { TypeSelectComponent } from '../dropdown-components/type-select/type-sel
 import { NaturalDropdownContainerComponent } from '../dropdown-container/dropdown-container.component';
 import { NaturalInputComponent } from '../input/input.component';
 import { ConfigurationSelectorComponent } from '../dropdown-components/configuration-selector/configuration-selector.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('NaturalSearchComponent', () => {
     let component: NaturalSearchComponent;
@@ -56,6 +57,7 @@ describe('NaturalSearchComponent', () => {
                 OverlayModule,
                 MatDialogModule,
                 MatListModule,
+                NoopAnimationsModule,
             ],
         }).compileComponents();
     }));

@@ -10,10 +10,12 @@ import {
     NATURAL_DROPDOWN_DATA,
     NaturalDropDownData,
 } from '../../dropdown-container/dropdown.service';
+import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
 
 describe('TypeNumericRangeComponent', () => {
     let component: TypeNumericRangeComponent;
     let fixture: ComponentFixture<TypeNumericRangeComponent>;
+    let dialogCloseSpy: jasmine.Spy;
     const data: NaturalDropDownData = {
         condition: null,
         configuration: null,
@@ -32,6 +34,9 @@ describe('TypeNumericRangeComponent', () => {
     };
 
     beforeEach(async(() => {
+        const dialogRef = {close: () => true};
+        dialogCloseSpy = spyOn(dialogRef, 'close');
+
         TestBed.configureTestingModule({
             declarations: [TypeNumericRangeComponent],
             imports: [
@@ -45,6 +50,10 @@ describe('TypeNumericRangeComponent', () => {
                 {
                     provide: NATURAL_DROPDOWN_DATA,
                     useValue: data,
+                },
+                {
+                    provide: NaturalDropdownRef,
+                    useValue: dialogRef,
                 },
             ],
         }).compileComponents();
@@ -103,5 +112,11 @@ describe('TypeNumericRangeComponent', () => {
 
         createComponent(condition, configWithRules);
         expect(component.isValid()).toBe(false);
+    });
+
+    it('should close', () => {
+        createComponent(null, null);
+        component.close();
+        expect(dialogCloseSpy).toHaveBeenCalled();
     });
 });

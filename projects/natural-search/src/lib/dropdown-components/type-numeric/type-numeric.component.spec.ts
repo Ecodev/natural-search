@@ -11,10 +11,12 @@ import { MatFormFieldModule, MatInputModule } from '@angular/material';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { FilterGroupConditionField } from '../../classes/graphql-doctrine.types';
 import { TypeNumericConfiguration } from '@ecodev/natural-search';
+import { NaturalDropdownRef } from '../../dropdown-container/dropdown-ref';
 
 describe('TypeNumericComponent', () => {
     let component: TypeNumericComponent;
     let fixture: ComponentFixture<TypeNumericComponent>;
+    let dialogCloseSpy: jasmine.Spy;
     const data: NaturalDropDownData = {
         condition: null,
         configuration: null,
@@ -32,6 +34,9 @@ describe('TypeNumericComponent', () => {
     };
 
     beforeEach(async(() => {
+        const dialogRef = {close: () => true};
+        dialogCloseSpy = spyOn(dialogRef, 'close');
+
         TestBed.configureTestingModule({
             declarations: [TypeNumericComponent],
             imports: [
@@ -46,6 +51,10 @@ describe('TypeNumericComponent', () => {
                 {
                     provide: NATURAL_DROPDOWN_DATA,
                     useValue: {},
+                },
+                {
+                    provide: NaturalDropdownRef,
+                    useValue: dialogRef,
                 },
             ],
         }).compileComponents();
@@ -104,5 +113,11 @@ describe('TypeNumericComponent', () => {
 
         createComponent(condition, configWithRules);
         expect(component.isValid()).toBe(false);
+    });
+
+    it('should close', () => {
+        createComponent(null, null);
+        component.close();
+        expect(dialogCloseSpy).toHaveBeenCalled();
     });
 });
