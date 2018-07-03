@@ -25,17 +25,6 @@ import { NaturalGroupComponent } from './group/group.component';
 import { TypeNumericRangeComponent } from './dropdown-components/type-numeric-range/type-numeric-range.component';
 import { TypeDateRangeComponent } from './dropdown-components/type-date-range/type-date-range.component';
 
-export * from './types/Configuration';
-export * from './types/DropdownComponent';
-export * from './types/Values';
-export * from './dropdown-components/type-numeric/TypeNumericConfiguration';
-export * from './dropdown-components/type-select/TypeSelectConfiguration';
-export * from './dropdown-components/type-numeric-range/type-numeric-range.component';
-
-export { TypeNumericComponent };
-export { TypeSelectComponent };
-export { TypeDateRangeComponent };
-
 @NgModule({
     declarations: [
         NaturalSearchComponent,

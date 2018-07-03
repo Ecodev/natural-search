@@ -13,7 +13,7 @@ import {
     toUrl,
 
 } from '@ecodev/natural-search';
-import { Filter } from '../../projects/natural-search/src/lib/classes/graphql-doctrine.types';
+import { Filter } from '@ecodev/natural-search';
 import { timer } from 'rxjs';
 import { map } from 'rxjs/operators';
 
