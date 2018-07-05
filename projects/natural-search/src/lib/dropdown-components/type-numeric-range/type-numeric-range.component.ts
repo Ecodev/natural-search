@@ -56,7 +56,7 @@ function toGreaterThanFrom(): ValidatorFn {
         const from = parseFromControl(control, 'from');
         const to = parseFromControl(control, 'to');
 
-        if (!isNaN(from) && !isNaN(to) && from >= to) {
+        if (!isNaN(from) && !isNaN(to) && from > to) {
             return {toGreaterThanFrom: true};
         }
 
