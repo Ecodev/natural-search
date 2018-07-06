@@ -14,7 +14,7 @@ describe('toGraphQLDoctrineFilter', () => {
     const configuration: NaturalSearchConfiguration = [
         {
             display: 'Datation',
-            field: 'datings.from-to',
+            field: 'datings.julianDay',
             transform: (s: Selection): Selection => {
                 if (s.condition.between) {
                     s.condition.between.from = yearToJulian(s.condition.between.from as number, false);
@@ -161,7 +161,7 @@ describe('toGraphQLDoctrineFilter', () => {
         expect(toGraphQLDoctrineFilter(configuration, input)).toEqual(expected as any);
     });
 
-    it('should use `between` on single field', () => {
+    it('should use `between` without transform', () => {
         const input: NaturalSearchSelections = [
             [
                 {
@@ -187,38 +187,11 @@ describe('toGraphQLDoctrineFilter', () => {
         expect(toGraphQLDoctrineFilter(configuration, input)).toEqual(expected as any);
     });
 
-    it('should use `between` on two fields', () => {
+    it('should use `between` with transform', () => {
         const input: NaturalSearchSelections = [
             [
                 {
-                    field: 'field1-field2',
-                    condition: {
-                        between: {
-                            from: 1900,
-                            to: 2000,
-                        },
-                    },
-                },
-            ],
-        ];
-
-        const expected: Filter = {
-            groups: [{
-                conditions: [{
-                    field1: {greaterOrEqual: {value: 1900}},
-                    field2: {lessOrEqual: {value: 2000}},
-                }],
-            }],
-        };
-
-        expect(toGraphQLDoctrineFilter(configuration, input)).toEqual(expected as any);
-    });
-
-    it('should use `between` on two fields and transform', () => {
-        const input: NaturalSearchSelections = [
-            [
-                {
-                    field: 'datings.from-to',
+                    field: 'datings.julianDay',
                     condition: {
                         between: {
                             from: 1900,
@@ -235,8 +208,7 @@ describe('toGraphQLDoctrineFilter', () => {
                     joins: {
                         datings: {
                             conditions: [{
-                                from: {greaterOrEqual: {value: 2415020}},
-                                to: {lessOrEqual: {value: 2451909}},
+                                julianDay: {between: {from: 2415020, to: 2451909}},
                             }],
                         },
                     },

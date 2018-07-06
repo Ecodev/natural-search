@@ -108,12 +108,6 @@ function wrapWithFieldName(field: string, condition: FilterGroupConditionField):
     // We assume a custom operator "search"
     if (field === 'search' && condition.like) {
         return {custom: {search: {value: condition.like.value}}} as FilterGroupCondition;
-    } else if (condition.between && field.match('-')) {
-
-        // split the "between" on two different fields to be able to filter intersecting ranges
-        const [field1, field2] = field.split('-');
-        result[field1] = {greaterOrEqual: {value: condition.between.from}};
-        result[field2] = {lessOrEqual: {value: condition.between.to}};
     } else {
         result[field] = condition;
     }
