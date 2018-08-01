@@ -37,4 +37,4 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
-lib/material-background-foreground.scss
+material-helper.scss

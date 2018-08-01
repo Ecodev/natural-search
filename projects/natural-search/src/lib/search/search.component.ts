@@ -49,6 +49,7 @@ export class NaturalSearchComponent implements OnChanges {
     }
 
     public clear(): void {
+        this.innerSelections = [[]];
         this.selectionChange.emit([[]]);
     }
 }
