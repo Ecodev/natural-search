@@ -11,7 +11,7 @@ import {
     MatListModule,
     MatMenuModule,
     MatRippleModule,
-    MatDatepickerModule,
+    MatDatepickerModule, MAT_FORM_FIELD_DEFAULT_OPTIONS,
 } from '@angular/material';
 import { NaturalSearchComponent } from './search/search.component';
 import { NaturalInputComponent } from './input/input.component';
@@ -67,6 +67,14 @@ import { TypeDateRangeComponent } from './dropdown-components/type-date-range/ty
         MatDialogModule,
         MatListModule,
         MatDatepickerModule,
+    ],
+    providers: [
+        {
+            provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+            useValue: {
+                appearance: 'fill',
+            },
+        },
     ],
 })
 export class NaturalSearchModule {
