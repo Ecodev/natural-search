@@ -29,5 +29,12 @@
                 height: 40px;
             }
         }
+
+        .endOfRowButton {
+            height: 53px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
     }
 }
