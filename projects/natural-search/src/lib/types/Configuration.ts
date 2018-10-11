@@ -25,6 +25,12 @@ export interface BasicConfiguration {
     field: string;
 
     /**
+     * Alias used as identifier for configuration in case many configs use the same field name
+     * Issue #16
+     */
+    name?: string;
+
+    /**
      * A function to transform the selection before it is applied onto the filter.
      *
      * This would typically be useful to do unit conversion so the GUI has some user

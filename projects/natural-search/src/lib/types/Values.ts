@@ -6,6 +6,7 @@ import { FilterGroupConditionField } from '../classes/graphql-doctrine.types';
  */
 export interface Selection {
     field: string;
+    name?: string;
     condition: FilterGroupConditionField;
 }
 

@@ -3,17 +3,16 @@ import { ThemeService } from './shared/services/theme.service';
 import { OverlayContainer } from '@angular/cdk/overlay';
 
 import {
+    Filter,
     NaturalSearchConfiguration,
     NaturalSearchSelections,
+    toGraphQLDoctrineFilter,
+    toUrl,
+    TypeDateRangeComponent,
     TypeNumericComponent,
     TypeNumericRangeComponent,
     TypeSelectComponent,
-    TypeDateRangeComponent,
-    toGraphQLDoctrineFilter,
-    toUrl,
-
 } from '@ecodev/natural-search';
-import { Filter } from '@ecodev/natural-search';
 import { timer } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -39,6 +38,17 @@ export class AppComponent implements OnInit {
             display: 'Number',
             field: 'number',
             component: TypeNumericComponent,
+        },
+        {
+            display: 'Same field number',
+            field: 'sameField',
+            name: 'sameFieldNumber',
+            component: TypeNumericComponent,
+        },
+        {
+            display: 'Same field string',
+            field: 'sameField',
+            name: 'sameFieldString',
         },
         {
             display: 'Numeric range',
@@ -142,6 +152,7 @@ export class AppComponent implements OnInit {
     ];
 
     public graphqlSelections: Filter;
+    public selectionsDone: NaturalSearchSelections;
     public selections: NaturalSearchSelections = [
         [
             {
@@ -184,6 +195,13 @@ export class AppComponent implements OnInit {
                 field: 'search',
                 condition: {
                     like: {value: 'searched'},
+                },
+            },
+            {
+                field: 'sameField',
+                name: 'sameFieldNumber',
+                condition: {
+                    equal: {value: 123},
                 },
             },
         ],

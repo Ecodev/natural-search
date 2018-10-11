@@ -8,7 +8,10 @@ export function getConfigurationFromSelection(configuration: NaturalSearchConfig
         return null;
     }
 
-    return configuration.find(v => v.field === selection.field) || null;
+    // return config if found by alias, or if found by field name or null if not found
+    return configuration.find(c => c.name != null && c.name === selection.name) ||
+           configuration.find(v => v.field === selection.field) ||
+           null;
 }
 
 export function deepClone(obj: any): any {

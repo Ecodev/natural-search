@@ -13,19 +13,10 @@ import {
     ViewChild,
 } from '@angular/core';
 import { ErrorStateMatcher, MatRipple } from '@angular/material';
-import { FormControl, FormGroupDirective, NgForm, ValidatorFn, ValidationErrors } from '@angular/forms';
-import {
-    DropdownConfiguration,
-    FlagConfiguration,
-    ItemConfiguration,
-    NaturalSearchConfiguration,
-} from '../types/Configuration';
+import { FormControl, FormGroupDirective, NgForm, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { DropdownConfiguration, FlagConfiguration, ItemConfiguration, NaturalSearchConfiguration } from '../types/Configuration';
 import { ConfigurationSelectorComponent } from '../dropdown-components/configuration-selector/configuration-selector.component';
-import {
-    NATURAL_DROPDOWN_DATA,
-    NaturalDropdownData,
-    NaturalDropdownService,
-} from '../dropdown-container/dropdown.service';
+import { NATURAL_DROPDOWN_DATA, NaturalDropdownData, NaturalDropdownService } from '../dropdown-container/dropdown.service';
 import { DropdownResult, Selection } from '../types/Values';
 import { getConfigurationFromSelection } from '../classes/utils';
 import { NaturalDropdownRef } from '../dropdown-container/dropdown-ref';
@@ -150,10 +141,7 @@ export class NaturalInputComponent implements OnInit, OnChanges {
         }
 
         if (this.formCtrl.valid && this.formCtrl.dirty) {
-            this.selectionChange.emit({
-                field: this.configuration ? this.configuration.field : this.searchFieldName,
-                condition: {like: {value: this.formCtrl.value}},
-            });
+            this.selectionChange.emit(this.getSelection({like: {value: this.formCtrl.value}}));
         }
 
     }
@@ -299,11 +287,22 @@ export class NaturalInputComponent implements OnInit, OnChanges {
 
     private setValue(result: DropdownResult): void {
         if (this.configuration) {
-            this.selectionChange.emit({
-                field: this.configuration.field,
-                condition: result.condition,
-            });
+            this.selectionChange.emit(this.getSelection(result.condition));
         }
+    }
+
+    private getSelection(condition: Selection['condition']) {
+
+        const selection: Selection = {
+            field: this.configuration ? this.configuration.field : this.searchFieldName,
+            condition: condition,
+        };
+
+        if (this.configuration && this.configuration.name) {
+            selection.name = this.configuration.name;
+        }
+
+        return selection;
     }
 
 }
