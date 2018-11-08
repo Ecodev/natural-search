@@ -78,6 +78,124 @@ export class AppComponent implements OnInit {
             },
         },
         {
+            display: 'Overflow menu',
+            field: 'overflow',
+            component: TypeSelectComponent,
+            configuration: {
+                items: [
+                    {
+                        id: 1,
+                        name: 'Option A',
+                    },
+                    {
+                        id: 2,
+                        name: 'Option B',
+                    },
+                    {
+                        id: 3,
+                        name: 'Option C',
+                    },
+                    {
+                        id: 1,
+                        name: 'Option A',
+                    },
+                    {
+                        id: 2,
+                        name: 'Option B',
+                    },
+                    {
+                        id: 3,
+                        name: 'Option C',
+                    },
+                    {
+                        id: 1,
+                        name: 'Option A',
+                    },
+                    {
+                        id: 2,
+                        name: 'Option B',
+                    },
+                    {
+                        id: 3,
+                        name: 'Option C',
+                    },
+                    {
+                        id: 1,
+                        name: 'Option A',
+                    },
+                    {
+                        id: 2,
+                        name: 'Option B',
+                    },
+                    {
+                        id: 3,
+                        name: 'Option C',
+                    },
+                    {
+                        id: 1,
+                        name: 'Option A',
+                    },
+                    {
+                        id: 2,
+                        name: 'Option B',
+                    },
+                    {
+                        id: 3,
+                        name: 'Option C',
+                    },
+                    {
+                        id: 1,
+                        name: 'Option A',
+                    },
+                    {
+                        id: 2,
+                        name: 'Option B',
+                    },
+                    {
+                        id: 3,
+                        name: 'Option C',
+                    },
+                    {
+                        id: 1,
+                        name: 'Option A',
+                    },
+                    {
+                        id: 2,
+                        name: 'Option B',
+                    },
+                    {
+                        id: 3,
+                        name: 'Option C',
+                    },
+                    {
+                        id: 1,
+                        name: 'Option A',
+                    },
+                    {
+                        id: 2,
+                        name: 'Option B',
+                    },
+                    {
+                        id: 3,
+                        name: 'Option C',
+                    },
+                    {
+                        id: 1,
+                        name: 'Option A',
+                    },
+                    {
+                        id: 2,
+                        name: 'One before last option',
+                    },
+                    {
+                        id: 3,
+                        name: 'Last option',
+                    },
+                ],
+                multiple: false,
+            },
+        },
+        {
             display: 'Select multiple',
             field: 'multiple',
             component: TypeSelectComponent,
@@ -163,6 +281,12 @@ export class AppComponent implements OnInit {
             },
             {
                 field: 'single',
+                condition: {
+                    in: {values: [2]},
+                },
+            },
+            {
+                field: 'overflow',
                 condition: {
                     in: {values: [2]},
                 },
