@@ -79,6 +79,7 @@ export class NaturalDropdownService {
         return this.overlay.position()
             .flexibleConnectedTo(element)
             .withFlexibleDimensions(true)
+            .withViewportMargin(30)
             .withPush(false)
             .withPositions([
                 {
