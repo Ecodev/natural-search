@@ -1,5 +1,6 @@
 import { async, TestBed } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule } from '@angular/forms';
 import {
     MatButtonModule,
@@ -15,7 +16,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NaturalSearchModule } from '@ecodev/natural-search';
 import { AppComponent } from './app.component';
-import { ThemeService } from './shared/services/theme.service';
 
 describe('AppComponent', () => {
     beforeEach(async(() => {
@@ -38,6 +38,7 @@ describe('AppComponent', () => {
                 FlexLayoutModule,
                 MatDialogModule,
                 MatFormFieldModule,
+                RouterTestingModule,
             ],
         }).compileComponents();
     }));
