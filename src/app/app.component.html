@@ -22,7 +22,9 @@
                             [selections]="selections"
                             (selectionChange)="updateFilter($event); selectionsDone = $event"
                             [multipleGroups]="true"
-            ></natural-search>
+            >
+                <button mat-raised-button color="primary">extern.</button>
+            </natural-search>
 
             <div fxLayout="row" fxLayoutGap="20px">
                 <button mat-raised-button color="primary" (click)="config = config1">Config 1</button>
