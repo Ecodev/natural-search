@@ -1,9 +1,11 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { ThemeService } from './shared/services/theme.service';
 import { OverlayContainer } from '@angular/cdk/overlay';
+import { ActivatedRoute } from '@angular/router';
 
 import {
     Filter,
+    fromUrl,
     NaturalSearchConfiguration,
     NaturalSearchSelections,
     toGraphQLDoctrineFilter,
@@ -331,7 +333,9 @@ export class AppComponent implements OnInit {
         ],
     ];
 
-    constructor(public themeService: ThemeService, private overlayContainer: OverlayContainer) {
+    constructor(public themeService: ThemeService,
+                private overlayContainer: OverlayContainer,
+                private route: ActivatedRoute) {
     }
 
     public ngOnInit(): void {
@@ -341,6 +345,20 @@ export class AppComponent implements OnInit {
             this.overlayContainer.getContainerElement().classList.add(newTheme);
             this.theme = newTheme;
         });
+
+        this.route.queryParams.subscribe(params => {
+
+            const param = params['natural-search'];
+            console.log('init from url', param);
+
+            if (param) {
+                const q = JSON.parse(param);
+                const selections = fromUrl(param);
+
+                this.selections = selections;
+            }
+        });
+
     }
 
     public updateFilter(selections: NaturalSearchSelections): void {
