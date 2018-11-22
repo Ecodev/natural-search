@@ -1,7 +1,7 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { ThemeService } from './shared/services/theme.service';
 import { OverlayContainer } from '@angular/cdk/overlay';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import {
     Filter,
@@ -335,6 +335,7 @@ export class AppComponent implements OnInit {
 
     constructor(public themeService: ThemeService,
                 private overlayContainer: OverlayContainer,
+                private router: Router,
                 private route: ActivatedRoute) {
     }
 
@@ -346,16 +347,12 @@ export class AppComponent implements OnInit {
             this.theme = newTheme;
         });
 
-        this.route.queryParams.subscribe(params => {
-
-            const param = params['natural-search'];
-            console.log('init from url', param);
-
+        // Load search from URL exactly one time
+        const subscription = this.route.queryParams.subscribe(params => {
+            const param = params['search'];
             if (param) {
-                const q = JSON.parse(param);
-                const selections = fromUrl(param);
-
-                this.selections = selections;
+                this.selections = fromUrl(param);
+                subscription.unsubscribe();
             }
         });
 
@@ -363,13 +360,19 @@ export class AppComponent implements OnInit {
 
     public updateFilter(selections: NaturalSearchSelections): void {
         this.graphqlSelections = toGraphQLDoctrineFilter(this.config, selections);
+
+        const params = {search: toUrl(selections)};
+        this.router.navigate(['.'], {
+            relativeTo: this.route,
+            queryParams: params,
+        });
     }
 
     public stringify(s): string {
         return JSON.stringify(s);
     }
 
-    public toUrl(s): string | null {
-        return toUrl(s);
+    public toUrl(selections: NaturalSearchSelections): string | null {
+        return toUrl(selections);
     }
 }

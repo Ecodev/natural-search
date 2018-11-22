@@ -37,7 +37,8 @@
                 <pre class="debug" fxFlex style="overflow:auto"><strong>Selections input: </strong>{{ selections | json }}</pre>
                 <pre class="debug" fxFlex style="overflow:auto"><strong>Selections output: </strong>{{ selectionsDone | json }}</pre>
                 <pre class="debug" fxFlex style="overflow:auto"><strong>GraphQL selections: </strong>{{ graphqlSelections | json }}</pre>
-<!--                <pre class="debug" fxFlex><strong>JSON serialized length: </strong>
+            </div>
+            <pre class="debug" fxFlex><strong>JSON serialized length: </strong>
 
 Selections:
     {{ stringify(selections)?.length }}
@@ -50,8 +51,7 @@ GraphQL selections:
 Compressed selections:
     {{ toUrl(selections)?.length }}
     {{ toUrl(selections) }}
-                </pre>-->
-            </div>
+                </pre>
         </div>
     </mat-sidenav-container>
 </div>
