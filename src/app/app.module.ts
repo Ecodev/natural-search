@@ -22,7 +22,6 @@ import { FormsModule } from '@angular/forms';
     declarations: [
         AppComponent,
     ],
-    entryComponents: [],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
@@ -34,7 +33,6 @@ import { FormsModule } from '@angular/forms';
         MatSidenavModule,
         MatListModule,
         MatIconModule,
-        BrowserAnimationsModule,
         FlexLayoutModule,
         MatDialogModule,
         MatFormFieldModule,
