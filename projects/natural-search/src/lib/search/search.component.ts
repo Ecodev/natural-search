@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChildren } from '@angular/core';
+import { deepClone } from '../classes/utils';
 import { NaturalInputComponent } from '../input/input.component';
 import { NaturalSearchConfiguration } from '../types/Configuration';
 import { NaturalSearchSelections } from '../types/Values';
-import { deepClone } from '../classes/utils';
 
 @Component({
     selector: 'natural-search',
@@ -13,6 +13,7 @@ export class NaturalSearchComponent implements OnChanges {
 
     @ViewChildren(NaturalInputComponent) inputs: NaturalInputComponent[];
 
+    @Input() placeholder = 'Rechercher';
     @Input() configurations: NaturalSearchConfiguration;
     @Input() multipleGroups: false;
 
