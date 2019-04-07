@@ -13,6 +13,7 @@ export class NaturalGroupComponent {
 
     @ViewChild('newValueInput') newValueInput: NaturalInputComponent;
 
+    @Input() placeholder;
     @Input() configurations: NaturalSearchConfiguration;
     @Output() selectionChange = new EventEmitter<GroupSelections>();
 
