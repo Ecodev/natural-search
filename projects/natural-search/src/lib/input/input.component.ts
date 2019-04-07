@@ -1,3 +1,4 @@
+import { PortalInjector } from '@angular/cdk/portal';
 import {
     Component,
     ComponentFactoryResolver,
@@ -12,17 +13,16 @@ import {
     SimpleChanges,
     ViewChild,
 } from '@angular/core';
-import { ErrorStateMatcher, MatRipple } from '@angular/material';
 import { FormControl, FormGroupDirective, NgForm, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { DropdownConfiguration, FlagConfiguration, ItemConfiguration, NaturalSearchConfiguration } from '../types/Configuration';
-import { ConfigurationSelectorComponent } from '../dropdown-components/configuration-selector/configuration-selector.component';
-import { NATURAL_DROPDOWN_DATA, NaturalDropdownData, NaturalDropdownService } from '../dropdown-container/dropdown.service';
-import { DropdownResult, Selection } from '../types/Values';
-import { getConfigurationFromSelection } from '../classes/utils';
-import { NaturalDropdownRef } from '../dropdown-container/dropdown-ref';
-import { PortalInjector } from '@angular/cdk/portal';
-import { DropdownComponent } from '../types/DropdownComponent';
+import { ErrorStateMatcher, MatRipple } from '@angular/material';
 import { FilterGroupConditionField } from '../classes/graphql-doctrine.types';
+import { getConfigurationFromSelection } from '../classes/utils';
+import { ConfigurationSelectorComponent } from '../dropdown-components/configuration-selector/configuration-selector.component';
+import { NaturalDropdownRef } from '../dropdown-container/dropdown-ref';
+import { NATURAL_DROPDOWN_DATA, NaturalDropdownData, NaturalDropdownService } from '../dropdown-container/dropdown.service';
+import { DropdownConfiguration, FlagConfiguration, ItemConfiguration, NaturalSearchConfiguration } from '../types/Configuration';
+import { DropdownComponent } from '../types/DropdownComponent';
+import { DropdownResult, Selection } from '../types/Values';
 
 // Required to check invalid fields when initializing natural-search
 export class AlwaysErrorStateMatcher implements ErrorStateMatcher {
@@ -49,7 +49,7 @@ function isComponentValid(component: DropdownComponent): ValidatorFn {
 })
 export class NaturalInputComponent implements OnInit, OnChanges {
 
-    @Input() placeholder = 'Rechercher';
+    @Input() placeholder;
     @Input() configurations: NaturalSearchConfiguration;
     @Input() configuration: ItemConfiguration | null;
     @Input() searchFieldName = 'search';
@@ -90,6 +90,10 @@ export class NaturalInputComponent implements OnInit, OnChanges {
                 this.dropdownRef.close();
             }
         });
+
+        if (!this.placeholder) {
+            this.placeholder = 'Search';
+        }
 
         const placeholderSize = (this.configuration ? this.configuration.display.length : this.placeholder.length) * 0.66;
         this.length = Math.max(this.minLength, Math.ceil(placeholderSize));
