@@ -1,3 +1,7 @@
+# DEPRECATED
+
+This project is deprecated and no longer maintained. The component Natural Search now lives in https://github.com/Ecodev/natural.
+
 # Natural Search
 
 [![Build Status](https://travis-ci.org/Ecodev/natural-search.svg?branch=master)](https://travis-ci.org/Ecodev/natural-search)
